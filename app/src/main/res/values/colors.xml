@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FCC200</color>
+    <color name="colorPrimary2">#3F51B5</color>
+    <color name="colorPrimaryDark">#D4AF37</color>
+    <color name="colorPrimaryDark2">#303F9F</color>
+    <color name="colorAccent">#777777</color>
+    <color name="colorAccent2">#555555</color>
+    <color name="SuccessColor">#009788</color>
+    <color name="WarningColor">#ffc10a</color>
+    <color name="DangerColor">#f44236</color>
+    <color name="Black">#000000</color>
+    <color name="Grey">#657187</color>
+    <color name="LightGrey">#f3f3f3</color>
+    <color name="White">#ffffff</color>
+
+</resources>

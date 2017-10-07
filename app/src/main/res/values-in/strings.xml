@@ -1,0 +1,150 @@
+<resources>
+    <string name="app_name">Vendor Huang Truck</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--LANGUAGE-->
+    <string name="nodata">Tidak Ada Data</string>
+
+    <!--LOGIN-->
+    <string name="login">MASUK</string>
+    <string name="login_username">Nama Pengguna</string>
+    <string name="login_password">Kata Sandi</string>
+    <string name="login_forgot">Lupa Kata Sandi ?</string>
+
+    <!--DASHBOARD-->
+    <string name="dashboard">Beranda</string>
+    <string name="dashboard_onprogress">Sudah Ditugaskan</string>
+    <string name="dashboard_pending">Menunggu Konfirmasi</string>
+
+    <!--SETTINGS-->
+    <string name="settings">Pengaturan</string>
+    <string name="settings_bahasa">Bahasa</string>
+    <string name="settings_save">Simpan</string>
+    <string name="settings_interval">Interval Update</string>
+
+    <!--LOG OUT-->
+    <string name="Logout">Keluar</string>
+
+    <!--HELP N SUPPORT-->
+    <string name="hns">Bantuan</string>
+    <string name="hns_l1">Dukungan administrator ada di sini untuk membantu.</string>
+    <string name="hns_l2">Anda bisa menghubungi administrator dengan menekan tombol di bawah ini.</string>
+    <string name="hns_call">Telepon Admin</string>
+
+    <!--HISTORY PESANAN-->
+    <string name="order_history">History Pesanan</string>
+    <string name="order_history_active">Aktif</string>
+    <string name="order_history_onprogress">Dalam Pengerjaan</string>
+    <string name="order_history_completed">Selesai</string>
+
+    <!--DETAIL PESANAN-->
+    <string name="dp">Detail Pesanan</string>
+    <string name="dp_infobarang">Info Barang</string>
+    <string name="dp_volume">Volume</string>
+    <string name="dp_netweight">Berat Bersih</string>
+    <string name="dp_quantitiy">Kuantitas</string>
+    <string name="dp_rutelaut">Info Rute Laut</string>
+    <string name="dp_desclaut">Perjalanan ini menggunakan rute laut!</string>
+    <string name="dp_veselname">Nama Vesel</string>
+    <string name="dp_precariage">Pra Kereta</string>
+    <string name="dp_maincariage">Kereta Utama</string>
+    <string name="dp_inforoute">Info Rute</string>
+    <string name="dp_biaya">Biaya</string>
+    <string name="dp_leadtime">Waktu</string>
+    <string name="dp_eta">Perkiraan Waktu Kedatangan</string>
+    <string name="dp_etd">Perkiraan Waktu Berangkat</string>
+    <string name="dp_totalleadtime">Total Waktu</string>
+    <string name="dp_totalbiaya">Total Biaya</string>
+    <string name="dp_pesanberita">Apakah anda ingin menerima pesanan ini?</string>
+    <string name="dp_drivername">Nama Driver</string>
+    <string name="dp_trucknumber">Nomor Truk</string>
+    <string name="dp_trucktype">Type Truk</string>
+    <string name="dp_update">Update</string>
+
+    <!--POP UP-->
+    <string name="popup_announcement">Konfirmasi</string>
+    <string name="popup_announcement2">Apakah anda ingin menerima pekerjaan ini?</string>
+    <string name="popup_announcement3">Apakah anda ingin mengubah status pekerjaan ini?</string>
+    <string name="popup_yes">Ya</string>
+    <string name="popup_no">Tidak</string>
+
+    <!--ORDER REJECTED-->
+    <string name="order_rejected">Tolak Pesanan</string>
+    <string name="order_rejected_input">Masukkan Kata Disini</string>
+
+    <!--CHECKPONT-->
+    <string name="checkpoint">Checkpoin</string>
+    <string name="checkpoint_status">Status</string>
+    <string name="checkpoint_notes">Catatan</string>
+    <string name="checkpoint_picture">Gambar</string>
+
+    <!--HISTORY CHECKPOINT-->
+    <string name="history_cp">Riwayat Checkpoin</string>
+    <string name="history_cp_completed">Selesai</string>
+    <string name="history_cp_onprogress">Dalam Pengerjaan</string>
+    <string name="history_cp_loading">Dalam Proses</string>
+
+    <!--ORDER ACCEPTED-->
+    <string name="order_accepted">Barang Diterima</string>
+
+    <!--ORDER HAS BEEN DELIVERED-->
+    <string name="ohbd">Pesanan Telah Sampai</string>
+
+    <!--SIGNATURE-->
+    <string name="signature">Tanda Tangan</string>
+
+    <!--CAMERA-->
+    <string name="camera">Kamera</string>
+    <string name="camera_desc">HASIL FOTO</string>
+    <string name="camera_takeit">Ambil Ulang</string>
+
+    <!--VIEW PROFILE-->
+    <string name="view_profile">Lihat Profil</string>
+    <string name="view_profile_nodriver">No. Supir</string>
+    <string name="view_profile_name">Nama</string>
+    <string name="view_profile_phone">Telpon</string>
+    <string name="view_profile_address">Alamat</string>
+
+    <!--VIEW DRIVER-->
+    <string name="view_driver">Lihat Supir</string>
+
+    <!--NAVIGATION-->
+    <string name="nlt">Navigasi Lokasi Tujuan</string>
+
+    <!--DESTINATIOM-->
+    <string name="destination_location">Lokasi Tujuan</string>
+
+    <!--ADMINISTRATOR-->
+    <string name="administrator">Administrator</string>
+
+    <!--HEADER-->
+    <string name="track_order_list">Jejak List Pesanan</string>
+    <string name="tracking_history">Jejak Riwayat</string>
+
+    <!--VIEW ORDER-->
+    <string name="view_order">Lihat Pesanan</string>
+
+    <!--OTHER-->
+    <string name="nla">Lokasi Tidak Tersedia</string>
+    <string name="problem">Kendala</string>
+    <string name="maps">Peta</string>
+    <string name="reason">Alasan tidak boleh kosong</string>
+    <string name="update_status">Ubah Status</string>
+    <string name="alasantolak">Tuliskan alasan anda</string>
+    <string name="send">Kirim</string>
+    <string name="alasantidakbolehkosong">Alasan tidak boleh kosong</string>
+
+    <!--TITLE BAR-->
+    <string name="updatecekpoint">Perbarui Cekpoin</string>
+    <string name="updateqr">Perbarui Kontainer</string>
+    <string name="history">Riwayat</string>
+    <string name="admin">Kontak Admin</string>
+
+</resources>

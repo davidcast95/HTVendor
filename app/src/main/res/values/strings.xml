@@ -1,0 +1,150 @@
+<resources>
+    <string name="app_name">Vendor Huang Truck</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--LANGUAGE-->
+    <string name="nodata">Tidak Ada Data</string>
+
+    <!--LOGIN-->
+    <string name="login">LOG IN</string>
+    <string name="login_username">Username</string>
+    <string name="login_password">Password</string>
+    <string name="login_forgot">Forgot Password ?</string>
+
+    <!--DASHBOARD-->
+    <string name="dashboard">Dashboard</string>
+    <string name="dashboard_onprogress">On-Progress</string>
+    <string name="dashboard_pending">Pending</string>
+
+    <!--SETTINGS-->
+    <string name="settings">Settings</string>
+    <string name="settings_bahasa">Language</string>
+    <string name="settings_save">Save</string>
+    <string name="settings_interval">Background Update GPS</string>
+
+    <!--LOG OUT-->
+    <string name="Logout">Logout</string>
+
+    <!--HELP N SUPPORT-->
+    <string name="hns">Help and Support</string>
+    <string name="hns_l1">Administrator support is here to help.</string>
+    <string name="hns_l2">You can call administrator by tapping button below.</string>
+    <string name="hns_call">Call Admin</string>
+
+    <!--HISTORY ORDER-->
+    <string name="order_history">History Order</string>
+    <string name="order_history_active">Active</string>
+    <string name="order_history_onprogress">On-Progress</string>
+    <string name="order_history_completed">Completed</string>
+
+    <!--DETAIL ORDER-->
+    <string name="dp">Detail Order</string>
+    <string name="dp_infobarang">Package Info</string>
+    <string name="dp_volume">Volume</string>
+    <string name="dp_netweight">Net Weight</string>
+    <string name="dp_quantitiy">Quantity</string>
+    <string name="dp_rutelaut">Sea Route Info</string>
+    <string name="dp_desclaut">This trip uses the sea route!</string>
+    <string name="dp_veselname">Vessel Name</string>
+    <string name="dp_precariage">Pra Carriage</string>
+    <string name="dp_maincariage">Main Carriage</string>
+    <string name="dp_inforoute">Route Info</string>
+    <string name="dp_biaya">Cost</string>
+    <string name="dp_leadtime">Lead Time</string>
+    <string name="dp_eta">Estimate Time Arrival</string>
+    <string name="dp_etd">Estimate Time Departure</string>
+    <string name="dp_totalleadtime">Total Lead Time</string>
+    <string name="dp_totalbiaya">Total Cost</string>
+    <string name="dp_pesanberita">Would you like to receive this order ?</string>
+    <string name="dp_drivername">Driver Name</string>
+    <string name="dp_trucknumber">Truck Number</string>
+    <string name="dp_trucktype">Truck Type</string>
+    <string name="dp_update">Update</string>
+
+    <!--POP UP-->
+    <string name="popup_announcement">Confirmation</string>
+    <string name="popup_announcement2">Are you sure accept this job?</string>
+    <string name="popup_announcement3">Are you sure want to update state this job?</string>
+    <string name="popup_yes">Yes</string>
+    <string name="popup_no">No</string>
+
+    <!--ORDER REJECTED-->
+    <string name="order_rejected">Order Rejected</string>
+    <string name="order_rejected_input">Input Your Text Here</string>
+
+    <!--CHECKPONT-->
+    <string name="checkpoint">Checkpoint</string>
+    <string name="checkpoint_status">Status</string>
+    <string name="checkpoint_notes">Notes</string>
+    <string name="checkpoint_picture">Pictures</string>
+
+    <!--HISTORY CHECKPOINT-->
+    <string name="history_cp">Riwayat Checkpoin</string>
+    <string name="history_cp_completed">Completed</string>
+    <string name="history_cp_onprogress">On-Progress</string>
+    <string name="history_cp_loading">Loading</string>
+
+    <!--ORDER ACCEPTED-->
+    <string name="order_accepted">Order Accepted</string>
+
+    <!--ORDER HAS BEEN DELIVERED-->
+    <string name="ohbd">Order Has Been Delivered</string>
+
+    <!--SIGNATURE-->
+    <string name="signature">Signature</string>
+
+    <!--CAMERA-->
+    <string name="camera">Camera</string>
+    <string name="camera_desc">Pictures</string>
+    <string name="camera_takeit">Take it Again</string>
+
+    <!--VIEW PROFILE-->
+    <string name="view_profile">View Profile</string>
+    <string name="view_profile_nodriver">Driver Number</string>
+    <string name="view_profile_name">Name</string>
+    <string name="view_profile_phone">Phone</string>
+    <string name="view_profile_address">Addess</string>
+
+    <!--VIEW DRIVER-->
+    <string name="view_driver">View Driver</string>
+
+    <!--NAVIGATION-->
+    <string name="nlt">Navigation of Destination Location</string>
+
+    <!--DESTINATION-->
+    <string name="destination_location">Destination Location</string>
+
+    <!--ADMINISTRATOR-->
+    <string name="administrator">Administrator</string>
+
+    <!--HEADER-->
+    <string name="track_order_list">Track Order List</string>
+    <string name="tracking_history">Tracking History</string>
+
+    <!--VIEW ORDER-->
+    <string name="view_order">View Order</string>
+
+    <!--OTHER-->
+    <string name="nla">No Location Available</string>
+    <string name="problem">Problem</string>
+    <string name="maps">Maps</string>
+    <string name="reason">Reason can not be empty</string>
+    <string name="update_status">Update Status</string>
+    <string name="alasantolak">Write down your reason below</string>
+    <string name="send">Send</string>
+    <string name="alasantidakbolehkosong">Reason cannot be empty</string>
+
+    <!--TITLE BAR-->
+    <string name="updatecekpoint">Update Checkpoint</string>
+    <string name="updateqr">Update Container</string>
+    <string name="history">History</string>
+    <string name="admin">Message Admin</string>
+
+</resources>

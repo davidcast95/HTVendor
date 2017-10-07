@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.logisticsmarketplace.android.vendor">
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL" />
+
+    <!--
+         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but you must specify either coarse or fine
+         location permissions for the 'MyLocation' functionality.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Profile.ChangePassword"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.SplashScreen"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Login"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.TrackHistory"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Driver.RegisterDriver"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Driver.RegisterDriver"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Driver.RegisterDriver" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.TrackOrderList"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.CheckPoint"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Maps.TrackOrderMaps"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.TrackHistory"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.TrackHistory" />
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBXt5KLS1ov_tyd2oHb_Y4b6GxxVoUyehg" />
+
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.QRCode"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Pending.DetailOrderPending"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Pending.DetailOrderPending" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Pending.DetailOrderPending"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.MainActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Pending.TolakPesanan"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Pending.DetailOrderPending"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Pending.DetailOrderPending" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.Problem"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Chat.Chat"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+        </activity>
+        <activity
+            android:name="com.logisticsmarketplace.android.vendor.Lihat_Driver.DetailDriver"
+            android:parentActivityName="com.logisticsmarketplace.android.vendor.Lihat_Driver.RegisterDriver"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.logisticsmarketplace.android.vendor.Lihat_Driver.RegisterDriver" />
+        </activity>
+    </application>
+
+</manifest>
