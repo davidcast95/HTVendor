@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.logisticsmarketplace.android.vendor.Lihat_Profile.MyProfile">
+    tools:context="com.logisticsmarketplace.android.driver.Lihat_Profile.MyProfile">
 
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
@@ -37,7 +37,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="textEnd"
-                    android:text="Administrator"
+                    android:text=""
                     android:id="@+id/name"/>
             </LinearLayout>
             <LinearLayout
@@ -76,7 +76,24 @@
                     android:text="-"
                     android:id="@+id/email"/>
             </LinearLayout>
-
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textColor="@color/Black"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="textEnd"
+                    android:text="-"
+                    android:id="@+id/address"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
