@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.logisticsmarketplace.android.vendor.Bantuan.Bantuan">
+    tools:context="com.huang.android.logistic.Bantuan.Bantuan">
 
     <ImageView
         android:layout_marginTop="10dp"

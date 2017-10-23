@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.logisticsmarketplace.android.vendor.MainActivity">
+    tools:context="com.huang.android.logistic.MainActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
