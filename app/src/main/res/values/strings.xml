@@ -147,4 +147,6 @@
     <string name="history">History</string>
     <string name="admin">Message Admin</string>
 
+    <string name="version">Version 1.1 build 1</string>
+
 </resources>
