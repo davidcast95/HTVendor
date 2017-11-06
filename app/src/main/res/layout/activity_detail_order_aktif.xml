@@ -79,6 +79,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
+                                android:layout_gravity="center"
                                 android:layout_width="3dp"
                                 android:layout_height="12dp"
                                 android:layout_marginLeft="7dp"
@@ -385,15 +386,35 @@
                                 <TextView
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="Cargo Info"/>
+                                    android:text="Cargo Details"
+                                    android:layout_marginBottom="6dp"/>
                                 <TextView
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="info"
+                                    android:text="-"
                                     android:inputType="textMultiLine"
-                                    android:height="100dp"
                                     android:textSize="14dp"
                                     android:id="@+id/cargo_info"/>
+                            </LinearLayout>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginLeft="7dp"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Notes"
+                                    android:layout_marginBottom="6dp"/>
+                                <TextView
+                                    android:layout_marginBottom="60dp"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:text="-"
+                                    android:inputType="textMultiLine"
+                                    android:textSize="14dp"
+                                    android:id="@+id/cargo_notes"/>
                             </LinearLayout>
 
                         </LinearLayout>
