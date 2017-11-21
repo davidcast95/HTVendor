@@ -61,7 +61,7 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
         tabHost.setup();
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-        String language = prefs.getString("language","Bahasa Indonesia");
+        String language = prefs.getString("language","English");
         String[] tabs = new String[3];
         if(language.contentEquals("English")){
             tabs[0]="Pending";
@@ -145,7 +145,7 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
                 if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
                     pending = response.body().jobOrders.size();
                     SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-                    String language = prefs.getString("language","Bahasa Indonesia");
+                    String language = prefs.getString("language","English");
                     TextView label = (TextView)tabHost.getTabWidget().getChildTabViewAt(0).findViewById(android.R.id.title);
                     if(language.contentEquals("English")) {
                         label.setText("Pending (" + pending + ")");
@@ -173,7 +173,7 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
                 if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
                     onprogress = response.body().jobOrders.size();
                     SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-                    String language = prefs.getString("language","Bahasa Indonesia");
+                    String language = prefs.getString("language","English");
                     TextView label = (TextView)tabHost.getTabWidget().getChildTabViewAt(1).findViewById(android.R.id.title);
                     if(language.contentEquals("English")) {
                         label.setText("On Progress (" + onprogress + ")");
@@ -201,7 +201,7 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
                 if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
                     done = response.body().jobOrders.size();
                     SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-                    String language = prefs.getString("language","Bahasa Indonesia");
+                    String language = prefs.getString("language","English");
                     TextView label = (TextView)tabHost.getTabWidget().getChildTabViewAt(2).findViewById(android.R.id.title);
                     if(language.contentEquals("English")) {
                         label.setText("Complete (" + done + ")");

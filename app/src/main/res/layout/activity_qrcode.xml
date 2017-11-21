@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.huang.android.logistic_vendor.QRCode">
+    tools:context="com.huang.android.logistic.QRCode">
     <SurfaceView
         android:id="@+id/camerapreview"
         android:layout_width="match_parent"

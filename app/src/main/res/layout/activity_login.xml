@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/login_background"
-    tools:context="com.huang.android.logistic_vendor.Login">
+    tools:context="com.huang.android.logistic.Login">
     <ProgressBar
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -34,7 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/login"
-                android:textColor="@color/White"/>
+                android:textColor="@color/Black"/>
             <View
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="20dp"
@@ -47,20 +47,20 @@
             android:layout_height="wrap_content"
             android:hint="@string/login_username"
             android:id="@+id/username"
-            android:text="cardigoenterprise@gmail.com"
+            android:text=""
             android:singleLine="true"
             android:layout_gravity="center"
-            android:textColor="@color/White"
-            android:textColorHint="@color/White"/>
+            android:textColor="@color/Black"
+            android:textColorHint="@color/Grey"/>
         <EditText
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:hint="@string/login_password"
             android:id="@+id/password"
-            android:text="asd123"
+            android:text=""
             android:layout_gravity="center"
-            android:textColor="@color/White"
-            android:textColorHint="@color/White"
+            android:textColor="@color/Black"
+            android:textColorHint="@color/Grey"
             android:inputType="textPassword"/>
         <ImageButton
             android:layout_width="150dp"

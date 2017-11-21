@@ -68,10 +68,16 @@ public class JobOrderData {
     @SerializedName("strict")
     public int strict;
     @SerializedName("truck_type")
-    public String truck_type;
+    public String truck_type = "-";
     @SerializedName("truck")
-    public String truck;
+    public String truck = "-";
+    @SerializedName("truck_lambung")
+    public String truck_lambung = "-";
     @SerializedName("driver")
-    public String driver;
+    public String driver = "-";
+    @SerializedName("driver_nama")
+    public String driver_name = "-";
+    @SerializedName("driver_phone")
+    public String driver_phone = "-";
 
 }

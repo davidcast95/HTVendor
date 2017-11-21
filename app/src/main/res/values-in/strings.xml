@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Vendor Huang Truck</string>
+    <string name="app_name">Digitruck Vendor</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -22,6 +22,7 @@
     <string name="dashboard">Beranda</string>
     <string name="dashboard_onprogress">Sudah Ditugaskan</string>
     <string name="dashboard_pending">Menunggu Konfirmasi</string>
+    <string name="dashboard_active_jo">Pekerjaan Aktif</string>
 
     <!--SETTINGS-->
     <string name="settings">Pengaturan</string>
@@ -46,6 +47,29 @@
 
     <!--DETAIL PESANAN-->
     <string name="dp">Detail Pesanan</string>
+    <string name="dpa">Detail Pesanan Aktif</string>
+    <string name="dpd">Detail Pesanan Selesai</string>
+
+    <string name="dp_vendorinfo">Informasi Penyedia Jasa</string>
+    <string name="dp_vendorname">Nama Penyedia Jasa</string>
+    <string name="dp_vendorcpname">Nama CP Penyedia Jasa</string>
+    <string name="dp_vendorcpphone">Telp CP Penyedia Jasa</string>
+
+    <string name="dp_principleinfo">Informasi Pengguna Jasa</string>
+    <string name="dp_principlename">Pengguna Jasa Name</string>
+    <string name="dp_principlecpname">Pengguna Jasa CP Name</string>
+    <string name="dp_principlecpphone">Pengguna Jasa CP Phone</string>
+
+    <string name="dp_cargoinfo">Informasi Muatan</string>
+    <string name="dp_estpick">Estimasi Tanggal Pengambilan</string>
+    <string name="dp_estdelivered">Estimasi Tanggal Diterima</string>
+    <string name="dp_estvolume">Estimasi Volume</string>
+    <string name="dp_hullno">No Lambung</string>
+    <string name="dp_cargotruck">Truk</string>
+    <string name="dp_cargotrucktype">Tipe Truck</string>
+    <string name="dp_cargodetails">Detail Muatan</string>
+    <string name="dp_cargonote">Catatan</string>
+
     <string name="dp_infobarang">Info Barang</string>
     <string name="dp_volume">Volume</string>
     <string name="dp_netweight">Berat Bersih</string>
@@ -64,9 +88,10 @@
     <string name="dp_totalbiaya">Total Biaya</string>
     <string name="dp_pesanberita">Apakah anda ingin menerima pesanan ini?</string>
     <string name="dp_drivername">Nama Driver</string>
+    <string name="dp_driverphone">Telepon Driver</string>
     <string name="dp_trucknumber">Nomor Truk</string>
     <string name="dp_trucktype">Type Truk</string>
-    <string name="dp_update">Update</string>
+    <string name="dp_update">Perbaharui</string>
 
     <!--POP UP-->
     <string name="popup_announcement">Konfirmasi</string>
@@ -140,6 +165,9 @@
     <string name="alasantolak">Tuliskan alasan anda</string>
     <string name="send">Kirim</string>
     <string name="alasantidakbolehkosong">Alasan tidak boleh kosong</string>
+    <string name="addphoto">Ambil Foto</string>
+    <string name="confirm">Konfirmasi</string>
+    <string name="confirmdeletfoto">Apakah anda yakin untuk menghapus foto ini?</string>
 
     <!--TITLE BAR-->
     <string name="updatecekpoint">Perbarui Cekpoin</string>
@@ -147,5 +175,7 @@
     <string name="history">Riwayat</string>
     <string name="admin">Kontak Admin</string>
 
-    <string name="version">Versi 1.1 build 1</string>
+    <!--VESION-->
+    <string name="version">Versi 1.1.2 build 3</string>
+
 </resources>

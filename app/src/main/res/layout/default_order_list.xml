@@ -14,13 +14,21 @@
         android:orientation="vertical"
         android:id="@+id/linear">
         <TextView
+            android:id="@+id/principle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18dp"
+            android:text="Principle"
+            android:textStyle="bold"
+            android:layout_marginLeft="10dp"/>
+        <TextView
             android:id="@+id/ref_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="16dp"
             android:text="ref id"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginLeft="18dp"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,6 +51,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="22dp"
                         android:text="joid"
                         android:textStyle="bold"
                         android:id="@+id/joid"/>
@@ -68,6 +77,7 @@
                         android:layout_width="10dp"
                         android:layout_height="10dp"
                         android:layout_marginLeft="7dp"
+                        android:visibility="invisible"
                         android:src="@drawable/location_a"/>
                 </LinearLayout>
                 <LinearLayout

@@ -36,11 +36,13 @@ public class JobOrderAdapter extends ArrayAdapter<JobOrderData> {
             view=inflater.inflate(R.layout.default_order_list,parent,false);
         }
 
+        TextView principle = (TextView)view.findViewById(R.id.principle);
         TextView joid = (TextView)view.findViewById(R.id.joid);
         TextView origin = (TextView) view.findViewById(R.id.origin);
         TextView destination = (TextView)view.findViewById(R.id.destination);
         TextView ref = (TextView)view.findViewById(R.id.ref_id);
 
+        principle.setText(list.get(position).principle);
         ref.setText("Ref No : " + list.get(position).ref);
         joid.setText(list.get(position).joid);
         JobOrderData jobOrder = list.get(position);

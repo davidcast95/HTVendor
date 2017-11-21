@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.huang.android.logistic_vendor.Lihat_Pesanan.TrackOrderList">
+    tools:context="com.huang.android.logistic.Lihat_Pesanan.TrackOrderList">
 
     <ProgressBar
         android:layout_width="50dp"

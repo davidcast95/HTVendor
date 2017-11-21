@@ -42,7 +42,7 @@ public class ChooseTruckAdapter extends ArrayAdapter<Truck> {
 
         Truck productList = list.get(position);
 //        ID.setText(list.get(position).id);
-        plat.setText(list.get(position).nopol);
+        plat.setText(list.get(position).nopol + " (" +list.get(position).lambung+ ")");
         tipe.setText(list.get(position).type);
 
 

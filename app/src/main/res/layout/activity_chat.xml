@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/chat_layout"
     android:background="@drawable/background_chat"
-    tools:context="com.huang.android.logistic_vendor.Chat.Chat">
+    tools:context="com.huang.android.logistic.Chat.Chat">
 
     <LinearLayout
         android:layout_width="match_parent"

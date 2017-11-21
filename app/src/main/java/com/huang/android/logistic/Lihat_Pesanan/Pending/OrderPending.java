@@ -28,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
+
 public class OrderPending extends Fragment {
     View v;
     OrderPendingAdapter onOrderPendingAdapter;
@@ -73,13 +75,13 @@ public class OrderPending extends Fragment {
             Intent goDetail = new Intent(getActivity().getApplicationContext(),DetailOrderPending.class);
             goDetail.putExtra("index", position);
             goDetail.putExtra("from","View Order");
-            startActivity(goDetail);
+            startActivityForResult(goDetail, 100);
         }
     };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
             refreshItems();
         }
     }

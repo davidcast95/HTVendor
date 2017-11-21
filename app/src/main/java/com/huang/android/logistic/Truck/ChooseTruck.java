@@ -39,7 +39,8 @@ public class ChooseTruck extends AppCompatActivity {
     SwipeRefreshLayout mSwipeRefreshLayout;
     ChooseTruckAdapter chooseTruckAdapter;
     GridView gridView;
-    String driver, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp;
+    String driver, driver_name, driver_phone, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp;
+    int strict;
     List<Truck> trucks;
     Truck chosenTruck;
     TextView expectedTruck;
@@ -56,7 +57,6 @@ public class ChooseTruck extends AppCompatActivity {
         gridView.setVisibility(View.INVISIBLE);
         loading=(ProgressBar)findViewById(R.id.loading);
         mSwipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
-        getTruck();
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,21 +67,26 @@ public class ChooseTruck extends AppCompatActivity {
         Intent intent = getIntent();
         joid = intent.getStringExtra("joid");
         driver = intent.getStringExtra("driver");
+        driver_name = intent.getStringExtra("driver_name");
+        driver_phone = intent.getStringExtra("driver_phone");
         from = getIntent().getStringExtra("from");
 
         expected_truck = getIntent().getStringExtra("expected_truck");
-        expectedTruck.setText("Expected Truck Type : " + expected_truck);
+        strict = getIntent().getIntExtra("strict",0);
+        expectedTruck.setText("Expected Truck Type : " + expected_truck + " ("+ (strict == 1 ? "strict" : "optional") +")");
         status = getIntent().getStringExtra("status");
         nama_vendor_cp = getIntent().getStringExtra("nama_vendor_cp");
         telp_vendor_cp = getIntent().getStringExtra("telp_vendor_cp");
 
-
         TextView nama=(TextView)findViewById(R.id.namasopir);
-        nama.setText(driver);
+        nama.setText(driver_name);
     }
 
-
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getTruck();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -102,7 +107,8 @@ public class ChooseTruck extends AppCompatActivity {
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(this);
-        Call<TruckResponse> truckResponseCall = api.getTruck("[[\"Truck\",\"vendor\",\"=\",\""+vendorName+"\"]]");
+        String strictFilter = (strict == 1) ? ",[\"Truck\",\"type\",\"=\",\""+expected_truck+"\"]" : "";
+        Call<TruckResponse> truckResponseCall = api.getTruck("[[\"Truck\",\"status\",\"=\",\"Operate\"],[\"Truck\",\"vendor\",\"=\",\""+vendorName+"\"]"+strictFilter+"]");
         truckResponseCall.enqueue(new Callback<TruckResponse>() {
             @Override
             public void onResponse(Call<TruckResponse> call, Response<TruckResponse> response) {
@@ -130,7 +136,7 @@ public class ChooseTruck extends AppCompatActivity {
         TextView dummy =(TextView)findViewById(R.id.dummy);
         dummy.setText("Driver : ");
         String m1= dummy.getText().toString();
-        String m2= driver;
+        String m2= driver_name;
         dummy.setText("Truck : ");
         String m3= dummy.getText().toString();
         String m4 = trucks.get(idi).nopol;
@@ -192,9 +198,12 @@ public class ChooseTruck extends AppCompatActivity {
         Date today = new Date();
         statusJSON.put("accept_date",Utility.utility.dateToFormatDatabase(today));
         statusJSON.put("driver",driver);
+        statusJSON.put("driver_nama",driver_name);
+        statusJSON.put("driver_phone",driver_phone);
         statusJSON.put("truck",chosenTruck.name);
         statusJSON.put("truck_type",chosenTruck.type);
         statusJSON.put("truck_volume",chosenTruck.volume);
+        statusJSON.put("truck_lambung",chosenTruck.lambung);
 
         String a = new Gson().toJson(statusJSON);
         Call<JSONObject> callUpdateJO = api.updateJobOrder(joid, statusJSON);

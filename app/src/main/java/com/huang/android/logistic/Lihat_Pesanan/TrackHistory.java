@@ -9,10 +9,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder;
+import com.huang.android.logistic.Lihat_Pesanan.Done.DetailOrderDone;
+import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateData;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrackHistory extends AppCompatActivity {
 
@@ -21,6 +27,10 @@ public class TrackHistory extends AppCompatActivity {
     TrackHistoryAdapter trackHistoryAdapter;
     ProgressBar loading;
     LinearLayout layout;
+    TextView nodata;
+
+    List<JobOrderUpdateData> jobOrderUpdateDataList = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,12 @@ public class TrackHistory extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setTitle(R.string.tracking_history);
         setContentView(R.layout.activity_track_history);
+
+        nodata = (TextView) findViewById(R.id.no_data);
+        nodata.setVisibility(View.GONE);
+        loading=(ProgressBar)findViewById(R.id.loading);
+        lv=(ListView) findViewById(R.id.historylist);
+        layout=(LinearLayout)findViewById(R.id.layout);
 
         Intent intent = getIntent();
         joid = intent.getStringExtra("joid");
@@ -47,9 +63,21 @@ public class TrackHistory extends AppCompatActivity {
         lv=(ListView) findViewById(R.id.historylist);
         layout=(LinearLayout)findViewById(R.id.layout);
         loading.setVisibility(View.GONE);
+        from = getIntent().getStringExtra("from");
 
-        trackHistoryAdapter = new TrackHistoryAdapter(getApplicationContext(),R.layout.activity_track_history_list, DetailActiveOrder.jobOrderUpdates);
-        lv.setAdapter(trackHistoryAdapter);
+        if (from.equals("OrderActive")) {
+            jobOrderUpdateDataList = DetailActiveOrder.jobOrderUpdates;
+        } else if (from.equals("OrderDone")) {
+            jobOrderUpdateDataList = DetailOrderDone.jobOrderUpdates;
+        }
+
+        if (jobOrderUpdateDataList.size() > 0) {
+            trackHistoryAdapter = new TrackHistoryAdapter(getApplicationContext(), R.layout.activity_track_history_list, jobOrderUpdateDataList);
+            lv.setAdapter(trackHistoryAdapter);
+        } else {
+            nodata.setVisibility(View.VISIBLE);
+            lv.setVisibility(View.GONE);
+        }
         layout.setVisibility(View.VISIBLE);
         loading.setVisibility(View.INVISIBLE);
 

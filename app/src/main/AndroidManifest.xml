@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.huang.android.logistic_vendor">
+    package="com.huang.android.logistic">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -24,22 +24,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.huang.android.logistic_vendor.MainActivity"
+            android:name="com.huang.android.logistic.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Profile.ChangePassword"
-            android:parentActivityName="com.huang.android.logistic_vendor.MainActivity"
+            android:name="com.huang.android.logistic.Lihat_Profile.ChangePassword"
+            android:parentActivityName="com.huang.android.logistic.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.MainActivity" />
+                android:value="com.huang.android.logistic.MainActivity" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.SplashScreen"
+            android:name="com.huang.android.logistic.SplashScreen"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
@@ -50,83 +50,83 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Login"
+            android:name="com.huang.android.logistic.Login"
             android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.TrackHistory"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.TrackHistory"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Driver.RegisterDriver"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Driver.RegisterDriver"
+            android:name="com.huang.android.logistic.Lihat_Driver.RegisterDriver"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Driver.RegisterDriver"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Driver.RegisterDriver" />
+                android:value="com.huang.android.logistic.Lihat_Driver.RegisterDriver" />
         </activity>
         <activity
-            android:name=".Lihat_Driver.ChooseDriver"
-            android:parentActivityName=".Lihat_Pesanan.Pending.DetailOrderPending"
+            android:name="com.huang.android.logistic.Lihat_Driver.ChooseDriver"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Lihat_Pesanan.Pending.DetailOrderPending" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending" />
             >
         </activity>
         <activity
-            android:name=".Truck.ChooseTruck"
-            android:parentActivityName=".Lihat_Driver.ChooseDriver"
+            android:name="com.huang.android.logistic.Truck.ChooseTruck"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Driver.ChooseDriver"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Lihat_Driver.ChooseDriver" />
+                android:value="com.huang.android.logistic.Lihat_Driver.ChooseDriver" />
             >
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder"
-            android:parentActivityName="com.huang.android.logistic_vendor.MainActivity"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:parentActivityName="com.huang.android.logistic.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.MainActivity" />
+                android:value="com.huang.android.logistic.MainActivity" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.TrackOrderList"
-            android:parentActivityName="com.huang.android.logistic_vendor.MainActivity"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.TrackOrderList"
+            android:parentActivityName="com.huang.android.logistic.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.MainActivity" />
+                android:value="com.huang.android.logistic.MainActivity" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.CheckPoint"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.CheckPoint"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Maps.TrackOrderMaps"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.TrackHistory"
+            android:name="com.huang.android.logistic.Maps.TrackOrderMaps"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.TrackHistory"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.TrackHistory" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.TrackHistory" />
         </activity>
 
         <meta-data
@@ -134,58 +134,67 @@
             android:value="AIzaSyBXt5KLS1ov_tyd2oHb_Y4b6GxxVoUyehg" />
 
         <activity
-            android:name="com.huang.android.logistic_vendor.QRCode"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.Pending.DetailOrderPending"
+            android:name="com.huang.android.logistic.QRCode"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.Pending.DetailOrderPending" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.Pending.DetailOrderPending"
-            android:parentActivityName="com.huang.android.logistic_vendor.MainActivity"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending"
+            android:parentActivityName="com.huang.android.logistic.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.MainActivity" />
+                android:value="com.huang.android.logistic.MainActivity" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.Pending.TolakPesanan"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.Pending.DetailOrderPending"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.Done.DetailOrderDone"
+            android:parentActivityName="com.huang.android.logistic.MainActivity"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.Pending.DetailOrderPending" />
+                android:value="com.huang.android.logistic.MainActivity" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.Problem"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.Pending.TolakPesanan"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Pending.DetailOrderPending" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Chat.Chat"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder"
+            android:name="com.huang.android.logistic.Lihat_Pesanan.Active.Problem"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Pesanan.Active.DetailActiveOrder" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder" />
         </activity>
         <activity
-            android:name="com.huang.android.logistic_vendor.Lihat_Driver.DetailDriver"
-            android:parentActivityName="com.huang.android.logistic_vendor.Lihat_Driver.RegisterDriver"
+            android:name="com.huang.android.logistic.Chat.Chat"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.huang.android.logistic_vendor.Lihat_Driver.RegisterDriver" />
+                android:value="com.huang.android.logistic.Lihat_Pesanan.Active.DetailActiveOrder" />
+        </activity>
+        <activity
+            android:name="com.huang.android.logistic.Lihat_Driver.DetailDriver"
+            android:parentActivityName="com.huang.android.logistic.Lihat_Driver.RegisterDriver"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.huang.android.logistic.Lihat_Driver.RegisterDriver" />
         </activity>
     </application>
 

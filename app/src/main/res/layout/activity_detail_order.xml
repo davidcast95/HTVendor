@@ -18,14 +18,22 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
             <TextView
+                android:layout_marginTop="12dp"
+                android:id="@+id/principle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18dp"
+                android:text="Principle"
+                android:textStyle="bold"
+                android:layout_marginLeft="10dp"/>
+            <TextView
                 android:id="@+id/ref_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Ref ID : "
+                android:textSize="16dp"
+                android:text="ref id"
                 android:textStyle="bold"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="20dp"
-                android:textSize="16dp"/>
+                android:layout_marginLeft="18dp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -63,7 +71,7 @@
                                     android:id="@+id/joid"
                                     android:textStyle="bold"
                                     android:layout_marginBottom="5dp"
-                                    android:layout_marginLeft="5dp"
+                                    android:layout_marginLeft="22dp"
                                     android:textSize="16dp"/>
                             </LinearLayout>
                             <LinearLayout
@@ -90,6 +98,7 @@
                                     android:layout_width="3dp"
                                     android:layout_height="12dp"
                                     android:layout_marginLeft="7dp"
+                                    android:visibility="invisible"
                                     android:layout_marginTop="2dp"
                                     android:src="@drawable/eclipse"/>
                             </LinearLayout>
@@ -348,6 +357,23 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
+                                    android:layout_marginBottom="4dp"
+                                    android:layout_marginLeft="8dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/dp_hullno"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="textEnd"
+                                        android:text=""
+                                        android:layout_marginRight="15dp"
+                                        android:id="@+id/truck_hull_no"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
                                     android:layout_marginLeft="8dp"
                                     android:layout_marginBottom="4dp">
                                     <TextView
@@ -365,7 +391,8 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginLeft="8dp">
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginBottom="4dp">
                                     <TextView
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
@@ -377,6 +404,39 @@
                                         android:text=""
                                         android:layout_marginRight="15dp"
                                         android:id="@+id/truck_type"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp"
+                                    android:layout_marginBottom="4dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/dp_drivername"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="textEnd"
+                                        android:text="-"
+                                        android:layout_marginRight="15dp"
+                                        android:id="@+id/driver_name"/>
+                                </LinearLayout>
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="8dp">
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/dp_driverphone"/>
+                                    <TextView
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:textAlignment="textEnd"
+                                        android:text="-"
+                                        android:layout_marginRight="15dp"
+                                        android:id="@+id/driver_phone"/>
                                 </LinearLayout>
                                 <LinearLayout
                                     android:layout_width="match_parent"

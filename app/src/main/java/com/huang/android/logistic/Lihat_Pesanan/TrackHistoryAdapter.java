@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.huang.android.logistic.Maps.TrackOrderMaps;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateData;
 import com.huang.android.logistic.R;
+import com.huang.android.logistic.Utility;
 
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class TrackHistoryAdapter extends ArrayAdapter<JobOrderUpdateData> {
         TextView notes = (TextView) view.findViewById(R.id.notes);
 
         JobOrderUpdateData productList = list.get(position);
-        Tanggal2.setText(list.get(position).time);
+        Tanggal2.setText(Utility.formatDateFromstring(Utility.dateDBLongFormat,Utility.LONG_DATE_TIME_FORMAT,list.get(position).time));
         state.setText(list.get(position).status);
         notes.setText(list.get(position).note);
         latitude= Double.parseDouble (list.get(position).latitude);
@@ -62,8 +63,9 @@ public class TrackHistoryAdapter extends ArrayAdapter<JobOrderUpdateData> {
             public void onClick(View view) {
                 if (latitude!= null || longitude!=null){
                     Intent maps = new Intent(getContext(), TrackOrderMaps.class);
-                    maps.putExtra("longitude", longitude );
-                    maps.putExtra("latitude", latitude );
+
+                    maps.putExtra("longitude", Double.valueOf(list.get(position).longitude ));
+                    maps.putExtra("latitude", Double.valueOf(list.get(position).latitude ));
                     Log.e("LAT",latitude+"");
                     Log.e("LONG",longitude+"");
                     maps.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

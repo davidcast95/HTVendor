@@ -31,4 +31,7 @@ public class Truck {
     @SerializedName("note")
     public String note;
 
+    @SerializedName("lambung")
+    public String lambung;
+
 }

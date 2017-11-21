@@ -44,6 +44,7 @@ public class DetailOrder extends AppCompatActivity {
 
     public static JobOrderData jobOrder;
     public static List<JobOrderUpdateData> jobOrderUpdates;
+    String from;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +64,7 @@ public class DetailOrder extends AppCompatActivity {
 
         Intent intent = getIntent();
         int index = intent.getIntExtra("index", 0);
-        String from = intent.getStringExtra("from");
+        from = intent.getStringExtra("from");
         if (from.equals("OrderActive")) {
             if (OrderActive.jobOrders.get(index) != null) {
                 jobOrder = OrderActive.jobOrders.get(index);
@@ -80,6 +81,7 @@ public class DetailOrder extends AppCompatActivity {
             }
         }
         if (jobOrder != null) {
+            TextView principle = (TextView)findViewById(R.id.principle);
             TextView ref = (TextView)findViewById(R.id.ref_id);
             TextView joid = (TextView) findViewById(R.id.joid);
             TextView origin = (TextView) findViewById(R.id.origin);
@@ -87,6 +89,7 @@ public class DetailOrder extends AppCompatActivity {
             TextView vendor_name = (TextView) findViewById(R.id.vendor_name);
             TextView vendor_cp_name = (TextView) findViewById(R.id.vendor_cp_name);
             TextView vendor_cp_phone = (TextView) findViewById(R.id.vendor_cp_phone);
+            TextView principle_name = (TextView) findViewById(R.id.principle_name);
             TextView principle_cp_name = (TextView) findViewById(R.id.principle_cp_name);
             TextView principle_cp_phone = (TextView) findViewById(R.id.principle_cp_phone);
             TextView cargoInfo = (TextView) findViewById(R.id.cargo_info);
@@ -95,8 +98,12 @@ public class DetailOrder extends AppCompatActivity {
             TextView volume = (TextView) findViewById(R.id.volume);
             TextView truck = (TextView) findViewById(R.id.truck);
             TextView truck_type = (TextView)findViewById(R.id.truck_type);
+            TextView truck_hull_no = (TextView)findViewById(R.id.truck_hull_no);
             TextView cargoNote = (TextView)findViewById(R.id.cargo_notes);
+            TextView driver_name = (TextView)findViewById(R.id.driver_name);
+            TextView driver_phone = (TextView)findViewById(R.id.driver_phone);
 
+            principle.setText(jobOrder.principle);
             if (jobOrder.ref == null) jobOrder.ref = "";
             ref.setText("Ref No : " + jobOrder.ref);
             joid.setText(jobOrder.joid);
@@ -106,6 +113,7 @@ public class DetailOrder extends AppCompatActivity {
             vendor_cp_name.setText(jobOrder.vendor_cp_name);
             vendor_cp_phone.setText(jobOrder.vendor_cp_phone);
             Utility.utility.setDialContactPhone(vendor_cp_phone, jobOrder.vendor_cp_phone, this);
+            principle_name.setText(jobOrder.principle);
             principle_cp_name.setText(jobOrder.principle_cp_name);
             principle_cp_phone.setText(jobOrder.principle_cp_phone);
             Utility.utility.setDialContactPhone(principle_cp_phone, jobOrder.principle_cp_phone, this);
@@ -116,7 +124,10 @@ public class DetailOrder extends AppCompatActivity {
             volume.setText(jobOrder.estimate_volume);
             truck.setText(jobOrder.truck);
             truck_type.setText(jobOrder.truck_type);
+            truck_hull_no.setText(jobOrder.truck_lambung);
             cargoNote.setText(jobOrder.notes);
+            driver_name.setText(jobOrder.driver_name);
+            driver_phone.setText(jobOrder.driver_phone);
         }
 
     }
@@ -142,6 +153,7 @@ public class DetailOrder extends AppCompatActivity {
                     intent.putExtra("joid", jobOrder.joid);
                     intent.putExtra("destination", Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"","")));
                     intent.putExtra("origin", Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"","")));
+                    intent.putExtra("from",from);
                     startActivity(intent);
                     break;
                 case R.id.action_cekpoint:
@@ -194,7 +206,7 @@ public class DetailOrder extends AppCompatActivity {
                     if (jobOrderUpdates.size() > 0) {
                         final JobOrderUpdateData lastJOStatus = jobOrderUpdates.get(0);
                         last_status.setVisibility(View.VISIBLE);
-                        statusTimeTV.setText(lastJOStatus.time);
+                        statusTimeTV.setText(Utility.formatDateFromstring(Utility.dateDBLongFormat,Utility.LONG_DATE_TIME_FORMAT, lastJOStatus.time));
                         statusTV.setText(lastJOStatus.status);
                         notesTV.setText(lastJOStatus.note);
                         ImageView button = (ImageView)findViewById(R.id.detail_active_last_map);
@@ -203,9 +215,10 @@ public class DetailOrder extends AppCompatActivity {
                             public void onClick(View view) {
                                 Double latitude = Double.valueOf(lastJOStatus.latitude), longitude = Double.valueOf(lastJOStatus.longitude);
                                 if (latitude!= null || longitude!=null){
-                                    Intent maps = new Intent(getApplicationContext(), TrackOrderMaps.class);
+                                    Intent maps = new Intent(DetailOrder.this, TrackOrderMaps.class);
                                     maps.putExtra("longitude", longitude );
                                     maps.putExtra("latitude", latitude );
+
                                     maps.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(maps);
                                 }

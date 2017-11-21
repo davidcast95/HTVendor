@@ -20,15 +20,17 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="B 1234 AAA"
+        android:text="B 1234 A (T18)"
         android:id="@+id/platnomer"
         android:textStyle="bold"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="@color/Grey"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Medium Truck"
         android:id="@+id/tipetruck"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="@color/Grey"/>
 </LinearLayout>
 </LinearLayout>

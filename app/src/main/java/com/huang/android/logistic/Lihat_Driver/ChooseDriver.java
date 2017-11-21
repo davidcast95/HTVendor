@@ -166,6 +166,8 @@ public class ChooseDriver extends AppCompatActivity {
         Intent intent = new Intent(getApplicationContext(),ChooseTruck.class);
         intent.putExtra("joid",joid);
         intent.putExtra("driver",choosenDriver.email);
+        intent.putExtra("driver_name",choosenDriver.nama);
+        intent.putExtra("driver_phone",choosenDriver.phone);
         intent.putExtra("from",from);
 
         intent.putExtra("expected_truck",expected_truck);

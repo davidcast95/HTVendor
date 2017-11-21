@@ -84,10 +84,12 @@ public class DetailOrderPending extends AppCompatActivity {
             }
         }
         if (jobOrder != null) {
+            TextView principle = (TextView)findViewById(R.id.principle);
             TextView ref = (TextView)findViewById(R.id.ref_id);
             TextView joid = (TextView) findViewById(R.id.joid);
             TextView origin = (TextView) findViewById(R.id.origin);
             TextView destination = (TextView) findViewById(R.id.destination);
+            TextView principle_name = (TextView) findViewById(R.id.principle_name);
             TextView principle_cp_name = (TextView) findViewById(R.id.principle_cp_name);
             TextView principle_cp_phone = (TextView) findViewById(R.id.principle_cp_phone);
             TextView cargoInfo = (TextView) findViewById(R.id.cargo_info);
@@ -97,12 +99,14 @@ public class DetailOrderPending extends AppCompatActivity {
             TextView truck_type = (TextView)findViewById(R.id.expected_truck_type);
             TextView cargoNote = (TextView)findViewById(R.id.cargo_notes);
 
+            principle.setText(jobOrder.principle);
             if (jobOrder.ref == null) jobOrder.ref = "";
             ref.setText("Ref No : " + jobOrder.ref);
             joid.setText(jobOrder.joid);
             origin.setText(Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"","")));
             destination.setText(Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"","")));
 
+            principle_name.setText(jobOrder.principle);
             principle_cp_name.setText(jobOrder.principle_cp_name);
             principle_cp_phone.setText(jobOrder.principle_cp_phone);
             Utility.utility.setDialContactPhone(principle_cp_phone, jobOrder.principle_cp_phone, this);
@@ -153,12 +157,20 @@ public class DetailOrderPending extends AppCompatActivity {
                 intent.putExtra("from",from);
                 intent.putExtra("expected_truck",jobOrder.suggest_truck_type);
                 intent.putExtra("status",JobOrderStatus.ON_PROGRESS);
-                intent.putExtra("nama_vendor_cp",jobOrder.vendor_cp_name);
-                intent.putExtra("telp_vendor_cp",jobOrder.vendor_cp);
+                intent.putExtra("nama_vendor_cp",nameCP);
+                intent.putExtra("telp_vendor_cp",phoneCP);
                 startActivityForResult(intent,100);
             }
 
 
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
         }
     }
 

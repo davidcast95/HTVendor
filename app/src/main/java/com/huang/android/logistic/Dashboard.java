@@ -128,18 +128,20 @@ public class Dashboard extends Fragment {
         callJO.enqueue(new Callback<JobOrderResponse>() {
             @Override
             public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
-                    JobOrderResponse jobOrderResponse = response.body();
-                    jobOrders = jobOrderResponse.jobOrders;
-                    if (jobOrders.size() == 0) noData.setVisibility(View.VISIBLE);
-                    else {
-                        PendingOrderAdapter pendingOrderAdapter = new PendingOrderAdapter(v.getContext(), R.layout.fragment_order_aktif_list, jobOrders);
-                        lv.setOnItemClickListener(onListClick);
-                        lv.setAdapter(pendingOrderAdapter);
-                        lv.setVisibility(View.VISIBLE);
+                if (getActivity().getApplicationContext() != null) {
+                    if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
+                        JobOrderResponse jobOrderResponse = response.body();
+                        jobOrders = jobOrderResponse.jobOrders;
+                        if (jobOrders.size() == 0) noData.setVisibility(View.VISIBLE);
+                        else {
+                            PendingOrderAdapter pendingOrderAdapter = new PendingOrderAdapter(v.getContext(), R.layout.fragment_order_aktif_list, jobOrders);
+                            lv.setOnItemClickListener(onListClick);
+                            lv.setAdapter(pendingOrderAdapter);
+                            lv.setVisibility(View.VISIBLE);
+                        }
+                        loading.setVisibility(View.GONE);
+                        onItemsLoadComplete();
                     }
-                    loading.setVisibility(View.GONE);
-                    onItemsLoadComplete();
                 }
 
             }
