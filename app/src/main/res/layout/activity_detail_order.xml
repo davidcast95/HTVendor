@@ -431,6 +431,8 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/dp_driverphone"/>
                                     <TextView
+                                        android:clickable="true"
+                                        android:textColor="@color/colorPrimary2"
                                         android:layout_width="match_parent"
                                         android:layout_height="wrap_content"
                                         android:textAlignment="textEnd"

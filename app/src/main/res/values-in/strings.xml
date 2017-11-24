@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Digitruck Vendor</string>
+    <string name="app_name">Digitruk Vendor</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -66,7 +66,7 @@
     <string name="dp_estvolume">Estimasi Volume</string>
     <string name="dp_hullno">No Lambung</string>
     <string name="dp_cargotruck">Truk</string>
-    <string name="dp_cargotrucktype">Tipe Truck</string>
+    <string name="dp_cargotrucktype">Tipe Truk</string>
     <string name="dp_cargodetails">Detail Muatan</string>
     <string name="dp_cargonote">Catatan</string>
 
@@ -176,6 +176,6 @@
     <string name="admin">Kontak Admin</string>
 
     <!--VESION-->
-    <string name="version">Versi 1.1.2 build 3</string>
+    <string name="version">Versi 1.1.2 build 5</string>
 
 </resources>

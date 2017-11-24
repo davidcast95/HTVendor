@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Digitruck Vendor</string>
+    <string name="app_name">Digitruk Vendor</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -176,6 +176,6 @@
     <string name="admin">Message Admin</string>
 
     <!--VESION-->
-    <string name="version">Version 1.1.2 build 3</string>
+    <string name="version">Version 1.1.2 build 5</string>
 
 </resources>

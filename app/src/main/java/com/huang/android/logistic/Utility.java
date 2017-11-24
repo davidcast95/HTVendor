@@ -227,7 +227,10 @@ public class Utility {
             }
         });
     }
+
     public String formatLocation(Location location) {
-        return location.warehouse + "("+ location.code +") - " + location.address + ", " + location.city;
+        if (location.code == null)
+            return  "<strong>" +location.warehouse + "</strong><br><big>" + location.address + ", " + location.city + "</big>";
+        return "<strong>" + location.warehouse + "</strong> ("+ location.code +")<br><big>" + location.address + ", " + location.city + "</big>";
     }
 }

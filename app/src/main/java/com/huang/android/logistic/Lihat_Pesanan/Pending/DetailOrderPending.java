@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -101,10 +102,10 @@ public class DetailOrderPending extends AppCompatActivity {
 
             principle.setText(jobOrder.principle);
             if (jobOrder.ref == null) jobOrder.ref = "";
-            ref.setText("Ref No : " + jobOrder.ref);
+            ref.setText("Ref No : " + jobOrder.ref.replace("\n",""));
             joid.setText(jobOrder.joid);
-            origin.setText(Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"","")));
-            destination.setText(Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"","")));
+            origin.setText(Html.fromHtml(Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"",""))));
+            destination.setText(Html.fromHtml(Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"",""))));
 
             principle_name.setText(jobOrder.principle);
             principle_cp_name.setText(jobOrder.principle_cp_name);

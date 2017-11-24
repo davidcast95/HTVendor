@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -105,10 +106,10 @@ public class DetailOrder extends AppCompatActivity {
 
             principle.setText(jobOrder.principle);
             if (jobOrder.ref == null) jobOrder.ref = "";
-            ref.setText("Ref No : " + jobOrder.ref);
+            ref.setText("Ref No : " + jobOrder.ref.replace("\n",""));
             joid.setText(jobOrder.joid);
-            origin.setText(Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"","")));
-            destination.setText(Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"","")));
+            origin.setText(Html.fromHtml(Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"",""))));
+            destination.setText(Html.fromHtml(Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"",""))));
             vendor_name.setText(jobOrder.vendor);
             vendor_cp_name.setText(jobOrder.vendor_cp_name);
             vendor_cp_phone.setText(jobOrder.vendor_cp_phone);
@@ -128,6 +129,7 @@ public class DetailOrder extends AppCompatActivity {
             cargoNote.setText(jobOrder.notes);
             driver_name.setText(jobOrder.driver_name);
             driver_phone.setText(jobOrder.driver_phone);
+            Utility.utility.setDialContactPhone(driver_phone, jobOrder.driver_phone, this);
         }
 
     }
