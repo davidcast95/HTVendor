@@ -3,6 +3,7 @@ package com.huang.android.logistic.Lihat_Pesanan;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -55,9 +56,9 @@ public class TrackHistory extends AppCompatActivity {
         TextView tanggal = (TextView)findViewById(R.id.tanggal1);
         tanggal.setText(date);
         TextView locationfrom = (TextView)findViewById(R.id.locationfrom);
-        locationfrom.setText(from);
+        locationfrom.setText(Html.fromHtml(from));
         TextView locationto = (TextView)findViewById(R.id.locationto);
-        locationto.setText(to);
+        locationto.setText(Html.fromHtml(to));
 
         loading=(ProgressBar)findViewById(R.id.loading);
         lv=(ListView) findViewById(R.id.historylist);

@@ -39,7 +39,7 @@
                         android:layout_marginTop="5dp">
                         <ImageView
                             android:layout_width="50dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="50dp"
                             android:layout_marginLeft="5dp"
                             android:src="@drawable/order_box"/>
 
@@ -69,6 +69,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <ImageView
+                                    android:layout_marginTop="4dp"
                                     android:layout_width="13dp"
                                     android:layout_height="18dp"
                                     android:layout_marginLeft="2dp"
@@ -92,6 +93,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content">
                                 <ImageView
+                                    android:layout_marginTop="4dp"
                                     android:layout_width="13dp"
                                     android:layout_height="18dp"
                                     android:layout_marginLeft="2dp"

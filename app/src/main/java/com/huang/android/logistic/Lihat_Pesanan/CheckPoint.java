@@ -6,8 +6,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -54,6 +57,9 @@ import com.huang.android.logistic.Utility;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -80,6 +86,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     CheckPointAdapter checkPointAdapter;
     List<String> categories = new ArrayList<String>();
     String joid, principle, vendor, driver;
+    Uri imageUri;
     List<Bitmap> bufferListImages;
 
     Button klik;
@@ -96,6 +103,8 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
+        StrictMode.setVmPolicy(builder.build());
         super.onCreate(savedInstanceState);
         setTitle(R.string.checkpoint);
         setContentView(R.layout.activity_check_point);
@@ -149,9 +158,40 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
             }
         } else {
             Intent camera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            startActivityForResult(camera,0);
+            imageUri = generateTimeStampPhotoFileUri();
+            camera.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+            startActivityForResult(camera,1);
         }
 
+    }
+
+    private Uri generateTimeStampPhotoFileUri() {
+
+        Uri photoFileUri = null;
+        File outputDir = getPhotoDirectory();
+        if (outputDir != null) {
+
+            File photoFile = new File(outputDir, System.currentTimeMillis()
+                    + ".jpg");
+            photoFileUri = Uri.fromFile(photoFile);
+        }
+        return photoFileUri;
+    }
+
+    private File getPhotoDirectory() {
+        File outputDir = null;
+        File photoDir = getCacheDir(); //Environment.getDataDirectory();
+        outputDir = new File(photoDir, getString(R.string.app_name));
+        if (!outputDir.exists())
+            if (!outputDir.mkdirs()) {
+                Toast.makeText(
+                        this,
+                        "Failed to create directory "
+                                + outputDir.getAbsolutePath(),
+                        Toast.LENGTH_SHORT).show();
+                outputDir = null;
+            }
+        return outputDir;
     }
 
     private AdapterView.OnItemClickListener onListClick = new AdapterView.OnItemClickListener(){
@@ -192,17 +232,28 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(data != null){
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
 //            image1.setImageBitmap(imageBitmap);
-            bufferListImages.add(imageBitmap);
+//            bufferListImages.add(imageBitmap);
+
 //            if(bufferListImages.size()==5){
 //                klik.setVisibility(View.INVISIBLE);
 //            }
 
-            checkPointAdapter = new CheckPointAdapter(getApplicationContext(),R.layout.activity_check_point_photo_list, bufferListImages);
-            gridView.setAdapter(checkPointAdapter);
-            gridView.setOnItemClickListener(onListClick);
+        }
+        if (requestCode == 1) {
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                bufferListImages.add(bitmap);
+                checkPointAdapter = new CheckPointAdapter(getApplicationContext(), R.layout.activity_check_point_photo_list, bufferListImages);
+                gridView.setAdapter(checkPointAdapter);
+                gridView.setOnItemClickListener(onListClick);
+            } catch (IOException eio) {
+
+            }
         }
     }
 
@@ -265,7 +316,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 
     public String convertImage(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
         Log.e("BASE 64",encoded);
