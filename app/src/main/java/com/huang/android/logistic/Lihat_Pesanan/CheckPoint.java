@@ -29,7 +29,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -80,7 +82,8 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 
     private Spinner spinner;
     private GoogleMap mMap;
-    ProgressBar loading;
+    RelativeLayout loading;
+    TextView loadingProcess;
     EditText notesEditText;
     GridView gridView;
     CheckPointAdapter checkPointAdapter;
@@ -90,6 +93,8 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     List<Bitmap> bufferListImages;
 
     Button klik;
+    Boolean isLoading = false;
+    String updateJOID = "";
 
     GoogleApiClient mGoogleApiClient;
     protected synchronized void buildGoogleApiClient() {
@@ -109,7 +114,8 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
         setTitle(R.string.checkpoint);
         setContentView(R.layout.activity_check_point);
 
-        loading=(ProgressBar)findViewById(R.id.loading);
+        loading=(RelativeLayout) findViewById(R.id.loading);
+        loadingProcess=(TextView) findViewById(R.id.loading_process);
         loading.setVisibility(View.GONE);
         gridView = (GridView) findViewById(R.id.photo);
 
@@ -168,7 +174,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     private Uri generateTimeStampPhotoFileUri() {
 
         Uri photoFileUri = null;
-        File outputDir = getPhotoDirectory();
+        File outputDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         if (outputDir != null) {
 
             File photoFile = new File(outputDir, System.currentTimeMillis()
@@ -268,55 +274,65 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     }
     //API
     void updateStatus() {
-        klik.setEnabled(false);
+        if (!updateJOID.equals("") && bufferListImages.size() > 0) {
+            uploadImage(updateJOID);
+        } else {
+            klik.setEnabled(false);
+            isLoading = true;
 
-        loading.setVisibility(View.VISIBLE);
-        klik.setEnabled(false);
-        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
-        API api = Utility.utility.getAPIWithCookie(cookieJar);
-        JobOrderUpdateData jobOrderUpdateData = new JobOrderUpdateData();
-        jobOrderUpdateData.joid = joid;
-        Date today = new Date();
-        jobOrderUpdateData.note = notesEditText.getText().toString();
-        jobOrderUpdateData.time = Utility.utility.dateToFormatDatabase(today);
-        jobOrderUpdateData.longitude = longi + "";
-        jobOrderUpdateData.latitude = lat + "";
-        jobOrderUpdateData.docstatus = 1;
-        jobOrderUpdateData.principle = principle;
-        jobOrderUpdateData.vendor = vendor;
-        String status = spinner.getSelectedItem().toString();
-        jobOrderUpdateData.status = status;
+            klik.setEnabled(false);
+            MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
+            API api = Utility.utility.getAPIWithCookie(cookieJar);
+            JobOrderUpdateData jobOrderUpdateData = new JobOrderUpdateData();
+            jobOrderUpdateData.joid = joid;
+            Date today = new Date();
+            jobOrderUpdateData.note = notesEditText.getText().toString();
+            jobOrderUpdateData.time = Utility.utility.dateToFormatDatabase(today);
+            jobOrderUpdateData.longitude = longi + "";
+            jobOrderUpdateData.latitude = lat + "";
+            jobOrderUpdateData.docstatus = 1;
+            jobOrderUpdateData.principle = principle;
+            jobOrderUpdateData.vendor = vendor;
+            String status = spinner.getSelectedItem().toString();
+            jobOrderUpdateData.status = status;
 
-        if (status.equals("6. Pekerjaan Selesai")) {
-            updateJOStatus();
-        }
-        String a = new Gson().toJson(jobOrderUpdateData);
-        Call<JobOrderUpdateCreation> callInsertUpdateJO = api.insertUpdateJO(jobOrderUpdateData);
-        callInsertUpdateJO.enqueue(new Callback<JobOrderUpdateCreation>() {
-            @Override
-            public void onResponse(Call<JobOrderUpdateCreation> call, Response<JobOrderUpdateCreation> response) {
-                loading.setVisibility(View.GONE);
-                klik.setEnabled(true);
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+            if (status.equals("6. Pekerjaan Selesai")) {
+                updateJOStatus();
+            }
 
-                    String updateJOID = response.body().data.id;
-                    uploadImage(updateJOID);
+            loadingProcess.setText("Update status " + status + " untuk JOID : " + joid);
+            loading.setVisibility(View.VISIBLE);
+            String a = new Gson().toJson(jobOrderUpdateData);
+            Call<JobOrderUpdateCreation> callInsertUpdateJO = api.insertUpdateJO(jobOrderUpdateData);
+            callInsertUpdateJO.enqueue(new Callback<JobOrderUpdateCreation>() {
+                @Override
+                public void onResponse(Call<JobOrderUpdateCreation> call, Response<JobOrderUpdateCreation> response) {
+                    loading.setVisibility(View.GONE);
+                    klik.setEnabled(true);
+                    if (Utility.utility.catchResponse(getApplicationContext(), response)) {
 
+                        updateJOID = response.body().data.id;
+                        if (bufferListImages.size() > 0)
+                            loadingProcess.setText("Uploading images...");
+                        uploadImage(updateJOID);
+
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<JobOrderUpdateCreation> call, Throwable t) {
-                loading.setVisibility(View.GONE);
-                klik.setEnabled(true);
-                Utility.utility.showConnectivityUnstable(getApplicationContext());
-            }
-        });
+                @Override
+                public void onFailure(Call<JobOrderUpdateCreation> call, Throwable t) {
+                    loading.setVisibility(View.GONE);
+                    isLoading = false;
+                    klik.setEnabled(true);
+                    Utility.utility.showConnectivityUnstable(getApplicationContext());
+                }
+            });
+        }
     }
 
     public String convertImage(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 0, byteArrayOutputStream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();
         String encoded = Base64.encodeToString(byteArray, Base64.DEFAULT);
         Log.e("BASE 64",encoded);
@@ -325,6 +341,9 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 
     void uploadImage(final String updateJOID) {
         if (bufferListImages.size() > 0) {
+            loading.setVisibility(View.VISIBLE);
+            loadingProcess.setText("Uploading images...");
+            isLoading = true;
             MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
             API api = Utility.utility.getAPIWithCookie(cookieJar);
             String base64 = convertImage(bufferListImages.get(0));
@@ -337,13 +356,16 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
                 public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                     bufferListImages.remove(0);
                     uploadImage(updateJOID);
+
                 }
 
                 @Override
                 public void onFailure(Call<ResponseBody> call, Throwable t) {
                     loading.setVisibility(View.GONE);
-                    setResult(RESULT_CANCELED);
-                    finish();
+                    isLoading = false;
+                    Utility.utility.showConnectivityUnstable(getApplicationContext());
+//                    setResult(RESULT_CANCELED);
+//                    finish();
 
                 }
             });
@@ -556,11 +578,13 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_yes:
-                dialog();
+                if (!isLoading)
+                    dialog();
                 break;
             case android.R.id.home:
                 // app icon in action bar clicked; goto parent activity.
-                this.finish();
+                if (!isLoading)
+                    this.finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
