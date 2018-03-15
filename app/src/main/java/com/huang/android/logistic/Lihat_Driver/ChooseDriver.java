@@ -21,11 +21,14 @@ import com.huang.android.logistic.Model.Driver.DriverResponse;
 import com.huang.android.logistic.Model.Driver.DriverStatus;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
+import com.huang.android.logistic.SearchActivity;
 import com.huang.android.logistic.Truck.ChooseTruck;
 import com.huang.android.logistic.Utility;
+import com.paging.listview.PagingListView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,16 +37,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChooseDriver extends AppCompatActivity {
+public class ChooseDriver extends AppCompatActivity implements PagingListView.Pagingable{
     ProgressBar loading;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ViewDriverAdapter viewDriverAdapter;
-    ListView lv;
+    PagingListView lv;
     TextView noData;
     String joid,from, expected_truck, status, nama_vendor_cp, telp_vendor_cp;
     int strict;
 
-    public static List<Driver> drivers;
+    public static List<Driver> drivers = new ArrayList<>();
+    int pager = 0, limit = 20;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,7 @@ public class ChooseDriver extends AppCompatActivity {
         strict = getIntent().getIntExtra("strict",0);
 
 
-        lv=(ListView)findViewById(R.id.layout);
+        lv=(PagingListView) findViewById(R.id.layout);
         noData = (TextView)findViewById(R.id.no_data);
         lv.setVisibility(View.INVISIBLE);
         noData.setVisibility(View.GONE);
@@ -74,12 +78,18 @@ public class ChooseDriver extends AppCompatActivity {
                 refreshItems();
             }
         });
+
+        viewDriverAdapter = new ViewDriverAdapter(this, R.layout.fragment_view_driver_list, drivers);
+        lv.setAdapter(viewDriverAdapter);
+        lv.setOnItemClickListener(onListClick);
+        lv.setHasMoreItems(false);
+        lv.setPagingableListener(this);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        getDriver();
+        getDriver("");
     }
 
     @Override
@@ -94,28 +104,28 @@ public class ChooseDriver extends AppCompatActivity {
     }
 
     //API
-    public void getDriver() {
+    public void getDriver(String keyword) {
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(this);
         final Activity thisActivity = this;
-        Call<DriverResponse> callDriver = api.getDriver("[[\"Driver\",\"vendor\",\"=\",\""+vendorName+"\"],[\"Driver\",\"status\",\"=\",\""+ DriverStatus.AVAILABLE+"\"]]");
+        Call<DriverResponse> callDriver = api.getDriver("[[\"Driver\",\"vendor\",\"=\",\"" + vendorName + "\"],[\"Driver\",\"nama\",\"like\",\"%"+keyword+"%\"],[\"Driver\",\"status\",\"=\",\""+ DriverStatus.AVAILABLE+"\"]]", "" + (pager++ * limit));
         callDriver.enqueue(new Callback<DriverResponse>() {
             @Override
             public void onResponse(Call<DriverResponse> call, Response<DriverResponse> response) {
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+                Log.e("get",call.request().url().toString());
+                if (Utility.utility.catchResponse(getApplicationContext(), response, "")) {
                     DriverResponse driverResponses = response.body();
-                    drivers = driverResponses.drivers;
+                    viewDriverAdapter.addAll(driverResponses.drivers);
                     if (drivers.size() == 0) noData.setVisibility(View.VISIBLE);
                     else {
-                        viewDriverAdapter = new ViewDriverAdapter(thisActivity, R.layout.fragment_view_driver_list, drivers);
-                        lv.setAdapter(viewDriverAdapter);
-                        lv.setOnItemClickListener(onListClick);
 
                         lv.setVisibility(View.VISIBLE);
                         noData.setVisibility(View.GONE);
                     }
 
+                    if (driverResponses.drivers.size() == 0) lv.onFinishLoading(false,null);
+                    else lv.onFinishLoading(true, driverResponses.drivers);
                     loading.setVisibility(View.INVISIBLE);
                     onItemsLoadComplete();
                 }
@@ -139,7 +149,9 @@ public class ChooseDriver extends AppCompatActivity {
     };
 
     void refreshItems() {
-        getDriver();
+        pager=0;
+        viewDriverAdapter.clear();
+        getDriver("");
     }
 
     void onItemsLoadComplete() {
@@ -177,4 +189,10 @@ public class ChooseDriver extends AppCompatActivity {
         intent.putExtra("strict",strict);
         startActivityForResult(intent, 300);
     }
+
+    @Override
+    public void onLoadMoreItems() {
+        getDriver("");
+    }
+
 }

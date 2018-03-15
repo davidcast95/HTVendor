@@ -152,7 +152,10 @@ public class MainActivity extends AppCompatActivity
                 SharedPreferences.Editor ed = mPrefs.edit();
                 ed.putString("cookieJar", "null");
                 ed.commit();
+                String vendor = Utility.utility.getLoggedName(this).replace(" ","_");
+                FirebaseMessaging.getInstance().unsubscribeFromTopic(vendor);
                 Intent mainIntent = new Intent(MainActivity.this,SplashScreen.class);
+                unregisterReceiver(broadcastReceiver);
                 startActivity(mainIntent);
                 finish();
                 break;

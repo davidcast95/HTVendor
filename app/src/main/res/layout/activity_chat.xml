@@ -1,109 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/chat_layout"
-    android:background="@drawable/background_chat"
-    tools:context="com.huang.android.logistic.Chat.Chat">
+    android:background="@color/dim"
+    tools:context=".MainActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <FrameLayout
-            android:id="@+id/outgoing_layout_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="80dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/balloon_outgoing_normal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_gravity="bottom|right"
-                android:paddingRight="5dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="60dp"
-                android:layout_marginRight="5dp">
-
-                <TextView
-                    android:id="@+id/textview_time2"
-                    android:layout_height="wrap_content"
-                    android:layout_width="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:text="11:15 PM"
-                    android:textSize="10dp"
-                    style="@style/chat_timings"/>
-
-                <ImageView
-                    android:id="@+id/user_reply_status"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
-                    android:layout_gravity="bottom"
-                    android:paddingBottom="3dp"
-                    android:src="@drawable/message_got_receipt_from_server"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/textview_message2"
-                style="@style/chat_text_message_style"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:autoLink="web"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"
-                android:paddingRight="10dp"
-                android:text="Ban Truck B 1234 AAA bocor, butuh waktu untuk mengganti. Kedatangan mungkin telat." />
-
-        </FrameLayout>
-        <FrameLayout
-            android:id="@+id/incoming_layout_bubble"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="80dp"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ListView
+            android:id="@+id/chat_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingTop="8dp"
+            android:clipToPadding="false"
+            android:divider="@drawable/chat_divider"
+            android:scrollbarStyle="outsideOverlay"
+            android:transcriptMode="alwaysScroll"
+            android:stackFromBottom="true"
+            android:paddingBottom="60dp"
+            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
-            android:background="@drawable/balloon_incoming_normal">
-
-            <TextView
-                android:id="@+id/textview_time"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:paddingRight="5dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="15dp"
-                android:text="11:15 PM"
-                style="@style/chat_timings"
-                android:textSize="10dp"
-                android:layout_gravity="bottom|right"/>
-
-            <TextView
-                android:id="@+id/textview_message"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:autoLink="web"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="20dp"
-                android:text="Ok, Kira-kira butuh berapa lama untuk mengganti ban?"
-                style="@style/chat_text_message_style"/>
-
-        </FrameLayout>
-
-    </LinearLayout>
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/bottomlayout" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
     <LinearLayout
@@ -124,17 +48,17 @@
             android:orientation="horizontal"
             android:layout_gravity="bottom"
             android:paddingBottom="15dp"
-            android:paddingLeft="12dp"
+            android:paddingLeft="10dp"
             android:paddingRight="20dp"
-            android:background="@drawable/input">
+            android:background="@drawable/chat_input">
 
             <EditText
-                android:id="@+id/chat_edit_text1"
+                android:id="@+id/chat_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginLeft="10dp"
-                android:hint="Type your Message"
+                android:layout_marginLeft="5dp"
+                android:hint="@string/type_your_message"
                 android:singleLine="false"
                 android:inputType="textMultiLine"
                 android:textSize="18sp"
@@ -144,12 +68,13 @@
         </LinearLayout>
 
         <ImageButton
-            android:id="@+id/enter_chat1"
+            android:id="@+id/enter_chat"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="bottom"
-            android:background="@drawable/input_circle_normal"
-            android:src="@drawable/input_send"/>
+            android:background="@drawable/chat_input_circle_normal"
+            android:src="@drawable/chat_input_send"/>
 
     </LinearLayout>
+
 </RelativeLayout>

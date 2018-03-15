@@ -127,12 +127,12 @@ public class RegisterDriver extends AppCompatActivity {
         newDriver.vendor = Utility.utility.getLoggedName(this);
         newDriver.password = password;
         Gson gson = new Gson();
-        String json = gson.toJson(newDriver);
+        final String json = gson.toJson(newDriver);
         Call<JSONObject> callRegisterDriver = api.registerDriver(newDriver);
         callRegisterDriver.enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+                if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
                     Toast.makeText(getApplicationContext(), "New driver has been registered", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
                     finish();

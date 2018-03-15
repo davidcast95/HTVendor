@@ -6,11 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
 import com.huang.android.logistic.Model.Location.Location;
-import com.huang.android.logistic.R;
 
 import java.util.List;
 
@@ -36,19 +36,41 @@ public class PendingOrderAdapter extends ArrayAdapter<JobOrderData> {
         }
 
         TextView principle = (TextView)view.findViewById(R.id.principle);
+        TextView stopLocationCounter = (TextView)view.findViewById(R.id.stop_location_count);
         TextView joid = (TextView)view.findViewById(R.id.joid);
         TextView origin = (TextView) view.findViewById(R.id.origin);
         TextView destination = (TextView)view.findViewById(R.id.destination);
         TextView ref = (TextView)view.findViewById(R.id.ref_id);
 
-        principle.setText(list.get(position).principle);
-        ref.setText("Ref No : " + list.get(position).ref);
-
-        joid.setText(list.get(position).joid);
         JobOrderData jobOrder = list.get(position);
-        origin.setText(Html.fromHtml(Utility.utility.formatLocation(new Location(jobOrder.origin_code,jobOrder.origin,jobOrder.origin_city,jobOrder.origin_address,jobOrder.origin_warehouse,"",""))));
-        destination.setText(Html.fromHtml(Utility.utility.formatLocation(new Location(jobOrder.destination_code,jobOrder.destination,jobOrder.destination_city,jobOrder.destination_address,jobOrder.destination_warehouse,"",""))));
+        Utility.utility.setTextView(principle,jobOrder.principle);
+        Utility.utility.setTextView(ref,"Ref No : " + jobOrder.ref.replace("\n",""));
 
+        int lastIndex = jobOrder.routes.size()-1;
+        Utility.utility.setTextView(origin,Utility.utility.simpleFormatLocation(new Location(jobOrder.routes.get(0).distributor_code,jobOrder.routes.get(0).location,jobOrder.routes.get(0).city,jobOrder.routes.get(0).address,jobOrder.routes.get(0).warehouse_name,"","")));
+        Utility.utility.setTextView(destination,Utility.utility.simpleFormatLocation(new Location(jobOrder.routes.get(lastIndex).distributor_code,jobOrder.routes.get(lastIndex).location,jobOrder.routes.get(lastIndex).city,jobOrder.routes.get(lastIndex).address,jobOrder.routes.get(lastIndex).warehouse_name,"","")));
+
+        ImageView pickUpOrigin = (ImageView)view.findViewById(R.id.pickup_origin_icon);
+        ImageView dropOrigin = (ImageView)view.findViewById(R.id.drop_origin_icon);
+        if (jobOrder.routes.get(0).type.equals("Pick Up")) {
+            pickUpOrigin.setVisibility(View.VISIBLE);
+        } else {
+            dropOrigin.setVisibility(View.VISIBLE);
+        }
+
+        ImageView pickUpDestination = (ImageView)view.findViewById(R.id.pickup_destination_icon);
+        ImageView dropDestination = (ImageView)view.findViewById(R.id.drop_destination_icon);
+        if (jobOrder.routes.get(lastIndex).type.equals("Pick Up")) {
+            pickUpDestination.setVisibility(View.VISIBLE);
+        } else {
+            dropDestination.setVisibility(View.VISIBLE);
+        }
+
+        if (jobOrder.routes.size() > 2)
+            Utility.utility.setTextView(stopLocationCounter, (jobOrder.routes.size() - 2) + " " + getContext().getString(R.string.stop_location));
+        else
+            Utility.utility.setTextView(stopLocationCounter, "");
+        Utility.utility.setTextView(joid,jobOrder.joid);
 
         return view;
     }

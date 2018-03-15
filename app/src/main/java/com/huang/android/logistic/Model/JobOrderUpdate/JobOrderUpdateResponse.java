@@ -9,6 +9,6 @@ import java.util.List;
  */
 
 public class JobOrderUpdateResponse {
-    @SerializedName("data")
+    @SerializedName("message")
     public List<JobOrderUpdateData> jobOrderUpdates;
 }

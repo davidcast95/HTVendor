@@ -1,5 +1,6 @@
 package com.huang.android.logistic.Lihat_Pesanan.Done;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -16,28 +17,34 @@ import android.widget.TextView;
 
 import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Lihat_Pesanan.ViewJobOrder;
+import com.huang.android.logistic.Model.JobOrder.GetJobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
 import com.huang.android.logistic.Model.JobOrder.JobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderStatus;
+import com.huang.android.logistic.Model.JobOrderRoute.JobOrderRouteResponse;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
+import com.paging.listview.PagingListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class OrderDone extends Fragment {
+public class OrderDone extends Fragment implements PagingListView.Pagingable {
     View v;
     OrderDoneAdapter onOrderDoneAdapter;
-    ListView lv;
+    PagingListView lv;
     ProgressBar loading;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TextView noData;
+    String lastQuery = "";
 
-    public static List<JobOrderData> jobOrders;
+    public static List<JobOrderData> jobOrders = new ArrayList<>();
+    int pager =0,limit=20;
 
     public OrderDone() {
         // Required empty public constructor
@@ -49,9 +56,10 @@ public class OrderDone extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_order_pending, container, false);
 
-        lv=(ListView)v.findViewById(R.id.layout);
+        lv=(PagingListView) v.findViewById(R.id.layout);
         loading=(ProgressBar)v.findViewById(R.id.loading);
         noData=(TextView) v.findViewById(R.id.nodata);
+        noData.setVisibility(View.GONE);
         noData.setVisibility(View.GONE);
 
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
@@ -62,7 +70,12 @@ public class OrderDone extends Fragment {
                 refreshItems();
             }
         });
-
+        onOrderDoneAdapter= new OrderDoneAdapter(v.getContext(), R.layout.fragment_order_pending_list, jobOrders);
+        lv.setOnItemClickListener(onListClick);
+        lv.setAdapter(onOrderDoneAdapter);
+        lv.setHasMoreItems(false);
+        lv.setPagingableListener(this);
+        getDoneOrder();
         return v;
     }
 
@@ -74,7 +87,7 @@ public class OrderDone extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100) {
+        if (resultCode == Activity.RESULT_OK) {
             refreshItems();
         }
     }
@@ -91,6 +104,8 @@ public class OrderDone extends Fragment {
     };
 
     void refreshItems() {
+        pager=0;
+        onOrderDoneAdapter.clear();
         getDoneOrder();
         ViewJobOrder viewJobOrder = (ViewJobOrder)getParentFragment();
         viewJobOrder.getCount();
@@ -103,28 +118,29 @@ public class OrderDone extends Fragment {
 
     void getDoneOrder() {
         loading.setVisibility(View.VISIBLE);
-        lv.setVisibility(View.GONE);
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this.getActivity());
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(getActivity());
-        String filters = "[[\"Job Order\",\"status\",\"=\",\""+ JobOrderStatus.DONE+"\"], [\"Job Order\",\"vendor\",\"=\",\"" + vendorName + "\"],[\"Job Order\",\"reference\",\"like\",\"%\"]]";
-        Call<JobOrderResponse> callJO = api.getJobOrder(filters);
-        callJO.enqueue(new Callback<JobOrderResponse>() {
+        Call<GetJobOrderResponse> callJO = api.getJobOrder(JobOrderStatus.DONE,vendorName, lastQuery + "%","" + (pager++ * limit));
+        callJO.enqueue(new Callback<GetJobOrderResponse>() {
             @Override
-            public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
-                Log.e("asd", response.message());
+            public void onResponse(Call<GetJobOrderResponse> call, Response<GetJobOrderResponse> response) {
                 loading.setVisibility(View.GONE);
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(),response)) {
-                    JobOrderResponse jobOrderResponse = response.body();
-                    jobOrders = jobOrderResponse.jobOrders;
+                if (Utility.utility.catchResponse(getActivity().getApplicationContext(),response, "")) {
+                    GetJobOrderResponse jobOrderResponse = response.body();
+                    if (jobOrderResponse.jobOrders != null) {
+                        onOrderDoneAdapter.addAll(jobOrderResponse.jobOrders);
+                        lv.onFinishLoading(true,jobOrderResponse.jobOrders);
+
+                        loading.setVisibility(View.GONE);
+                    } else {
+                        lv.onFinishLoading(false, null);
+                    }
                     if (jobOrders.size() == 0) {
                         noData.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else {
                         noData.setVisibility(View.GONE);
-                        OrderDoneAdapter onProgressOrderAdapter = new OrderDoneAdapter(v.getContext(), R.layout.fragment_order_pending_list, jobOrders);
-                        lv.setOnItemClickListener(onListClick);
-                        lv.setAdapter(onProgressOrderAdapter);
-                        lv.setVisibility(View.VISIBLE);
                     }
                     onItemsLoadComplete();
                 } else {
@@ -134,9 +150,23 @@ public class OrderDone extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<JobOrderResponse> call, Throwable t) {
+            public void onFailure(Call<GetJobOrderResponse> call, Throwable t) {
                 loading.setVisibility(View.GONE);
             }
         });
+    }
+
+
+    @Override
+    public void onLoadMoreItems() {
+        getDoneOrder();
+    }
+
+    public void searchJobOrder(String query) {
+        loading.setVisibility(View.VISIBLE);
+        lastQuery = query;
+        pager = 0;
+        onOrderDoneAdapter.clear();
+        getDoneOrder();
     }
 }

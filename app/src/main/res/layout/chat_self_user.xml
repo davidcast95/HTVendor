@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent">
+
+    <LinearLayout
+        android:id="@+id/incoming_layout_bubble"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:padding="3dp"
+        android:layout_alignParentLeft="true"
+        android:background="@color/colorPrimarySoft"
+        android:orientation="vertical"
+        android:elevation="1dp">
+
+        <TextView
+            android:id="@+id/sender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin"
+            android:textStyle="bold"
+            android:textSize="16dp"/>
+
+        <TextView
+            android:id="@+id/textview_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:autoLink="web"
+            android:text="Aplikasi Logistics untuk PT. Berkah Angkasa Samudra dengan berbasiskan Android "
+            style="@style/chat_text_message_style"/>
+
+        <TextView
+            android:id="@+id/textview_time"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:paddingRight="5dp"
+            android:text="11:15 PM"
+            style="@style/chat_timings"
+            android:textSize="10dp"
+            android:layout_gravity="bottom|right"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

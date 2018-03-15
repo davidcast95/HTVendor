@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.huang.android.logistic.Maps.LiveMaps;
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
@@ -39,12 +40,10 @@ public class DetailDriver extends AppCompatActivity {
         int index = intent.getIntExtra("index",0);
         driver = ViewDriver.drivers.get(index);
         if (driver != null) {
-            nama.setText(driver.nama+"");
-            phone.setText(driver.phone+"");
-            alamat.setText(driver.address+"");
+            Utility.utility.setTextView(nama,driver.nama+"");
+            Utility.utility.setTextView(phone,driver.phone+"");
+            Utility.utility.setTextView(alamat,driver.address+"");
         }
-
-
 
         loading.setVisibility(View.INVISIBLE);
         layout.setVisibility(View.VISIBLE);
@@ -53,14 +52,19 @@ public class DetailDriver extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.detail_sopir_titlebar, menu);
+        getMenuInflater().inflate(R.menu.activity_track_history, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            case R.id.action_maps:
+                Intent intent = new Intent(this, LiveMaps.class);
+                intent.putExtra("driver",driver.name);
+                intent.putExtra("driver_name",driver.nama);
+                startActivity(intent);
+                return true;
             case android.R.id.home:
                 // app icon in action bar clicked; goto parent activity.
                 this.finish();

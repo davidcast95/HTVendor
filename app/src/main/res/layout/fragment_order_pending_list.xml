@@ -2,105 +2,193 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.logisticsmarketplace.android.logistic_marketplace_principle.Lihat_Pesanan.OnProgress.OrderOnProgress">
+    tools:context="huang.android.logistic_principle.Lihat_Pesanan.OnProgress.OrderOnProgress">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-    android:layout_marginBottom="10dp"
-    android:orientation="vertical"
-    android:id="@+id/linear">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical"
+        android:id="@+id/linear">
         <TextView
-            android:id="@+id/principle"
+            android:id="@+id/rejected_jo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18dp"
-            android:text="Principle"
+            android:text="Rejected"
+            android:textSize="20dp"
             android:textStyle="bold"
-            android:layout_marginLeft="10dp"/>
-        <TextView
-            android:id="@+id/ref_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="17dp"
-            android:text="ref id"
-            android:textStyle="bold"
-            android:layout_marginLeft="18dp"/>
+            android:textColor="@color/Black"
+            android:textAlignment="center"
+            android:visibility="gone"
+            />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp">
+            android:orientation="horizontal">
+
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_marginTop="6dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:layout_marginLeft="5dp"
                 android:src="@drawable/order_box"
                 android:layout_gravity="top"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/principle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="Principle"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"/>
+                <TextView
+                    android:id="@+id/ref_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18dp"
+                    android:text="ref id"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="joid"
+                    android:textSize="16dp"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/joid"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp"
+                    android:id="@+id/truck_detail_view">
+                    <TextView
+                        android:layout_marginLeft="14dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/truck_detail"
+                        android:text="-"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:orientation="vertical">
+                android:layout_marginTop="5dp">
+
+
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:id="@+id/origin_indicator"
+                            android:visibility="visible"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp">
+                            <ImageView
+                                android:id="@+id/drop_origin_icon"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/drop"
+                                android:visibility="gone"/>
+
+                            <ImageView
+                                android:id="@+id/pickup_origin_icon"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/pickup"
+                                android:visibility="gone"/>
+                        </RelativeLayout>
+                        <TextView
+                            android:layout_marginLeft="4dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="origin"
+                            android:id="@+id/origin"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <RelativeLayout
+                            android:id="@+id/destination_indicator"
+                            android:visibility="visible"
+                            android:layout_marginTop="7dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp">
+                            <ImageView
+                                android:id="@+id/drop_destination_icon"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/drop"
+                                android:visibility="gone"/>
+
+                            <ImageView
+                                android:id="@+id/pickup_destination_icon"
+                                android:layout_width="22dp"
+                                android:layout_height="22dp"
+                                android:layout_centerInParent="true"
+                                android:background="@drawable/pickup"
+                                android:visibility="gone"/>
+                        </RelativeLayout>
+                        <TextView
+                            android:layout_marginTop="8dp"
+                            android:layout_marginLeft="4dp"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="destination"
+                            android:id="@+id/destination"/>
+                    </LinearLayout>
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="joid"
-                        android:textSize="16dp"
-                        android:layout_marginLeft="22dp"
-                        android:textStyle="bold"
-                        android:id="@+id/joid"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_marginTop="4dp"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="5dp"
-                        android:src="@drawable/locationblue" />
-                    <TextView
+                        android:id="@+id/stop_location_count"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="origin"
-                        android:id="@+id/origin"/>
+                        android:text=""
+                        android:textAlignment="textEnd"/>
                 </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_width="10dp"
-                        android:layout_height="10dp"
-                        android:layout_marginLeft="7dp"
-                        android:layout_gravity="center"
-                        android:visibility="invisible"
-                        android:src="@drawable/location_a"/>
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <ImageView
-                        android:layout_marginTop="4dp"
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="5dp"
-                        android:src="@drawable/locationorange"/>
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="destination"
-                        android:id="@+id/destination"/>
-                </LinearLayout>
+
             </LinearLayout>
+
+
         </LinearLayout>
+    </LinearLayout>
+
+
+    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:orientation="vertical">
+
+
+
     </LinearLayout>
 
 </FrameLayout>

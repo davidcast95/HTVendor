@@ -1,6 +1,9 @@
 package com.huang.android.logistic.Model.JobOrderUpdate;
 
 import com.google.gson.annotations.SerializedName;
+import com.huang.android.logistic.Model.JobOrderUpdateImage.JobOrderUpdateImageData;
+
+import java.util.List;
 
 /**
  * Created by davidwibisono on 9/10/17.
@@ -27,4 +30,12 @@ public class JobOrderUpdateData {
     public int docstatus;
     @SerializedName("status")
     public String status;
+    @SerializedName("location")
+    public String location;
+    @SerializedName("warehouse_name")
+    public String warehouse_name;
+    @SerializedName("city")
+    public String city;
+    @SerializedName("image_count")
+    public List<JobOrderUpdateImageData> images;
 }

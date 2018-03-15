@@ -8,7 +8,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="Not available drivers"
+        android:text="@string/warning_not_available_drivers"
         android:layout_marginTop="40dp"
         android:id="@+id/no_data"/>
     <android.support.v4.widget.SwipeRefreshLayout
@@ -16,11 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ListView
+        <com.paging.listview.PagingListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/layout">
-        </ListView>
+        </com.paging.listview.PagingListView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar

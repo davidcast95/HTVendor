@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.huang.android.logistic.Model.Truck.Truck;
 import com.huang.android.logistic.R;
+import com.huang.android.logistic.Utility;
 
 import java.util.List;
 
@@ -42,9 +43,8 @@ public class ChooseTruckAdapter extends ArrayAdapter<Truck> {
 
         Truck productList = list.get(position);
 //        ID.setText(list.get(position).id);
-        plat.setText(list.get(position).nopol + " (" +list.get(position).lambung+ ")");
-        tipe.setText(list.get(position).type);
-
+        Utility.utility.setTextView(plat,list.get(position).nopol + " (" +list.get(position).lambung+ ")");
+        Utility.utility.setTextView(tipe,list.get(position).type);
 
         if(list.get(position).status.equals("Operate"))
         {

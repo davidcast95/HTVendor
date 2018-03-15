@@ -6,10 +6,6 @@
     android:layout_height="match_parent">
 
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -56,16 +52,27 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <GridView
-                    android:id="@+id/gridView"
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:columnWidth="120dp"
-                    android:numColumns="auto_fit"/>
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/nodata"
+                    android:layout_gravity="center"
+                    android:visibility="gone"
+                    android:layout_marginTop="40dp"
+                    android:id="@+id/no_data"/>
+                <android.support.v4.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeRefreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <com.paging.listview.PagingListView
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </android.support.v4.widget.SwipeRefreshLayout>
 
             </LinearLayout>
         </LinearLayout>
-    </android.support.v4.widget.SwipeRefreshLayout>
 
     <ProgressBar
         android:layout_width="50dp"

@@ -23,4 +23,8 @@ public class Driver {
     public String password;
     @SerializedName("status")
     public String status;
+
+    public double lat = 0,lng = 0;
+    public String currentLocation;
+    public String last_update = "";
 }

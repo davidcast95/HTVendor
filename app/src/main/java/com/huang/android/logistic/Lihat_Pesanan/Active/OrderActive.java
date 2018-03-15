@@ -1,5 +1,6 @@
 package com.huang.android.logistic.Lihat_Pesanan.Active;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,28 +15,37 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.huang.android.logistic.API.API;
+import com.huang.android.logistic.Lihat_Pesanan.ViewJobOrder;
+import com.huang.android.logistic.Model.JobOrder.GetJobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
 import com.huang.android.logistic.Model.JobOrder.JobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderStatus;
+import com.huang.android.logistic.Model.JobOrderRoute.JobOrderRouteResponse;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
+import com.paging.listview.PagingListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.GET;
 
 
-public class OrderActive extends Fragment {
+public class OrderActive extends Fragment implements PagingListView.Pagingable {
     View v;
-    ListView lv;
+    PagingListView lv;
     ProgressBar loading;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TextView noData;
+    String lastQuery = "";
 
-    public static List<JobOrderData> jobOrders;
+    public static List<JobOrderData> jobOrders = new ArrayList<>();
+    int pager = 0, limit=20;
+    OrderActiveAdapter orderActiveAdapter;
 
     public OrderActive() {
         // Required empty public constructor
@@ -47,10 +57,10 @@ public class OrderActive extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_order_aktif, container, false);
 
-        lv=(ListView)v.findViewById(R.id.layout);
+        lv=(PagingListView) v.findViewById(R.id.layout);
         loading=(ProgressBar)v.findViewById(R.id.loading);
         noData = (TextView)v.findViewById(R.id.nodata);
-        getActiveOrder();
+        noData.setVisibility(View.GONE);
 
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
 
@@ -60,6 +70,13 @@ public class OrderActive extends Fragment {
                 refreshItems();
             }
         });
+
+        orderActiveAdapter = new OrderActiveAdapter(v.getContext(), R.layout.fragment_order_aktif_list, jobOrders);
+        lv.setOnItemClickListener(onListClick);
+        lv.setAdapter(orderActiveAdapter);
+        lv.setHasMoreItems(false);
+        lv.setPagingableListener(this);
+        getActiveOrder();
 
         return v;
     }
@@ -77,7 +94,11 @@ public class OrderActive extends Fragment {
     };
 
     void refreshItems() {
+        pager=0;
+        orderActiveAdapter.clear();
         getActiveOrder();
+        ViewJobOrder viewJobOrder = (ViewJobOrder)getParentFragment();
+        viewJobOrder.getCount();
     }
 
     void onItemsLoadComplete() {
@@ -89,22 +110,28 @@ public class OrderActive extends Fragment {
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this.getActivity());
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(getActivity());
-        Call<JobOrderResponse> callJO = api.getJobOrder("[[\"Job Order\",\"status\",\"=\",\""+ JobOrderStatus.ON_PROGRESS+"\"], [\"Job Order\",\"vendor\",\"=\",\"" + vendorName + "\"]]");
-        callJO.enqueue(new Callback<JobOrderResponse>() {
+        Call<GetJobOrderResponse> callJO = api.getJobOrder(JobOrderStatus.ON_PROGRESS, vendorName,lastQuery + "%", "" + (pager++ * limit));
+        callJO.enqueue(new Callback<GetJobOrderResponse>() {
             @Override
-            public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
+            public void onResponse(Call<GetJobOrderResponse> call, Response<GetJobOrderResponse> response) {
                 Log.e("asd",response.message());
                 if (response.message().equals("OK")) {
-                    JobOrderResponse jobOrderResponse = response.body();
-                    jobOrders = jobOrderResponse.jobOrders;
+                    GetJobOrderResponse jobOrderResponse = response.body();
+                    if (jobOrderResponse.jobOrders != null) {
+                        orderActiveAdapter.addAll(jobOrderResponse.jobOrders);
+                        lv.onFinishLoading(true, jobOrderResponse.jobOrders);
+
+                    } else {
+                        lv.onFinishLoading(false,null);
+                    }
+
                     if (jobOrders.size() == 0) {
                         noData.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else {
                         noData.setVisibility(View.GONE);
                     }
-                    OrderActiveAdapter onProgressOrderAdapter = new OrderActiveAdapter(v.getContext(), R.layout.fragment_order_aktif_list, jobOrders);
-                    lv.setOnItemClickListener(onListClick);
-                    lv.setAdapter(onProgressOrderAdapter);
+
                     loading.setVisibility(View.GONE);
                     lv.setVisibility(View.VISIBLE);
                     onItemsLoadComplete();
@@ -115,10 +142,29 @@ public class OrderActive extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<JobOrderResponse> call, Throwable t) {
+            public void onFailure(Call<GetJobOrderResponse> call, Throwable t) {
 
             }
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            refreshItems();
+        }
+    }
+
+    @Override
+    public void onLoadMoreItems() {
+        getActiveOrder();
+    }
+
+    public void searchJobOrder(String query) {
+        loading.setVisibility(View.VISIBLE);
+        lastQuery = query;
+        pager = 0;
+        orderActiveAdapter.clear();
+        getActiveOrder();
+    }
 }

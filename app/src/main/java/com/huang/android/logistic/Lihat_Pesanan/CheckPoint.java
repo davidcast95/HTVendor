@@ -47,6 +47,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.gson.Gson;
 import com.huang.android.logistic.API.API;
+import com.huang.android.logistic.Lihat_Pesanan.Base.DetailOrder;
 import com.huang.android.logistic.Maps.DirectionFinderListener;
 import com.huang.android.logistic.Maps.Route;
 import com.huang.android.logistic.Model.Driver.DriverStatus;
@@ -80,7 +81,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
     int REQUEST_CAMERA = 1;
     Double longi = 0.0,lat = 0.0;
 
-    private Spinner spinner;
+    private Spinner spinner, loc_spinner;
     private GoogleMap mMap;
     RelativeLayout loading;
     TextView loadingProcess;
@@ -125,8 +126,10 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
         principle = intent.getStringExtra("principle");
         vendor = intent.getStringExtra("vendor");
         driver = intent.getStringExtra("driver");
+        loc_spinner = (Spinner)findViewById(R.id.loc_spinner);
 
         getNextStage();
+        getLocation();
         bufferListImages = new ArrayList<>();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -295,21 +298,29 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
             jobOrderUpdateData.vendor = vendor;
             String status = spinner.getSelectedItem().toString();
             jobOrderUpdateData.status = status;
+            int locIndex = loc_spinner.getSelectedItemPosition() - 1;
+            if (locIndex >= 0) {
+                jobOrderUpdateData.location = DetailOrder.jobOrder.routes.get(locIndex).location;
+                jobOrderUpdateData.warehouse_name = DetailOrder.jobOrder.routes.get(locIndex).warehouse_name;
+                jobOrderUpdateData.city = DetailOrder.jobOrder.routes.get(locIndex).city;
+            }
 
             if (status.equals("6. Pekerjaan Selesai")) {
-                updateJOStatus();
+//                updateJOStatus();
             }
 
             loadingProcess.setText("Update status " + status + " untuk JOID : " + joid);
             loading.setVisibility(View.VISIBLE);
-            String a = new Gson().toJson(jobOrderUpdateData);
+            final String json = new Gson().toJson(jobOrderUpdateData);
             Call<JobOrderUpdateCreation> callInsertUpdateJO = api.insertUpdateJO(jobOrderUpdateData);
+            String url = callInsertUpdateJO.request().url().toString();
+
             callInsertUpdateJO.enqueue(new Callback<JobOrderUpdateCreation>() {
                 @Override
                 public void onResponse(Call<JobOrderUpdateCreation> call, Response<JobOrderUpdateCreation> response) {
                     loading.setVisibility(View.GONE);
                     klik.setEnabled(true);
-                    if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+                    if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
 
                         updateJOID = response.body().data.id;
                         if (bufferListImages.size() > 0)
@@ -378,47 +389,42 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
         }
     }
 
-    void updateJOStatus() {
-        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
-        API api = Utility.utility.getAPIWithCookie(cookieJar);
-        HashMap<String,String> statusJSON = new HashMap<>();
-        statusJSON.put("status","Selesai");
-        Call<JSONObject> callUpdateJO = api.updateJobOrder(joid, statusJSON);
-        callUpdateJO.enqueue(new Callback<JSONObject>() {
-            @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
-                    updateDriver();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
-                Utility.utility.showConnectivityUnstable(getApplicationContext());
-            }
-        });
-    }
-    void updateDriver() {
-        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
-        API api = Utility.utility.getAPIWithCookie(cookieJar);
-        HashMap<String,String> statusJSON = new HashMap<>();
-        statusJSON.put("status", DriverStatus.AVAILABLE);
-        String a = new Gson().toJson(statusJSON);
-        Call<JSONObject> callUpdateJO = api.updateDriver(driver, statusJSON);
-        callUpdateJO.enqueue(new Callback<JSONObject>() {
-            @Override
-            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<JSONObject> call, Throwable t) {
-                Utility.utility.showConnectivityUnstable(getApplicationContext());
-            }
-        });
-    }
+//    void updateJOStatus() {
+//        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
+//        API api = Utility.utility.getAPIWithCookie(cookieJar);
+//        HashMap<String,String> statusJSON = new HashMap<>();
+//        statusJSON.put("status","Selesai");
+//        final String json = new Gson().toJson(statusJSON);
+//        Call<JSONObject> callUpdateJO = api.updateJobOrder(joid, statusJSON);
+//        callUpdateJO.enqueue(new Callback<JSONObject>() {
+//            @Override
+//            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+//                updateDriver();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JSONObject> call, Throwable t) {
+//            }
+//        });
+//    }
+//    void updateDriver() {
+//        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
+//        API api = Utility.utility.getAPIWithCookie(cookieJar);
+//        HashMap<String,String> statusJSON = new HashMap<>();
+//        statusJSON.put("status", DriverStatus.AVAILABLE);
+//        final String json = new Gson().toJson(statusJSON);
+//        Call<JSONObject> callUpdateJO = api.updateDriver(driver, statusJSON);
+//        callUpdateJO.enqueue(new Callback<JSONObject>() {
+//            @Override
+//            public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<JSONObject> call, Throwable t) {
+//            }
+//        });
+//    }
 
 
     public void getNextStage() {
@@ -430,8 +436,16 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
         categories.add("6. Pekerjaan Selesai");
         spinner = (Spinner) findViewById(R.id.spinner);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.spinner_item, categories);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(dataAdapter);
+    }
+    void getLocation() {
+        List<String> locationList = new ArrayList<>();
+        locationList.add(getString(R.string.pick_location));
+        for (int i = 0; i< DetailOrder.jobOrder.routes.size(); i++)
+            locationList.add(DetailOrder.jobOrder.routes.get(i).warehouse_name);
+        ArrayAdapter<String> locAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.spinner_item, locationList);
+        loc_spinner.setAdapter(locAdapter);
     }
 
     @Override

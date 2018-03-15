@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.R;
+import com.huang.android.logistic.Utility;
 
 import org.w3c.dom.Text;
 
@@ -38,10 +39,17 @@ public class ViewDriverAdapter extends ArrayAdapter<Driver> {
 
         Driver productList = list.get(position);
 //        ID.setText(list.get(position).id);
-        Nama.setText(list.get(position).nama);
-        status.setText(list.get(position).status);
+        Utility.utility.setTextView(Nama,list.get(position).nama);
+        Utility.utility.setTextView(status,list.get(position).status);
 
 
         return view;
+    }
+
+    public boolean isExist(Driver driver) {
+        for (int i=0;i<list.size();i++) {
+            if (driver.name == list.get(i).name) return true;
+        }
+        return false;
     }
 }

@@ -19,18 +19,19 @@
         android:text="@string/nodata"
         android:id="@+id/nodata"
         android:textAlignment="center"
-        android:layout_marginTop="10dp"/>
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:hapticFeedbackEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <ListView
+        <com.paging.listview.PagingListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/layout">
-        </ListView>
+        </com.paging.listview.PagingListView>
     </android.support.v4.widget.SwipeRefreshLayout>
 
 

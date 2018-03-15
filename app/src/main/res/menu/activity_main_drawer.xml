@@ -16,7 +16,7 @@
             android:title="@string/view_profile" />
         <item
             android:id="@+id/nav_viewdriver"
-            android:icon="@drawable/menu_profile"
+            android:icon="@drawable/menu_driver"
             android:title="@string/view_driver" />
         <item
             android:id="@+id/nav_settings"

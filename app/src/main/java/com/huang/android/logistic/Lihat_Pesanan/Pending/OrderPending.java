@@ -9,19 +9,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Lihat_Pesanan.ViewJobOrder;
+import com.huang.android.logistic.Model.JobOrder.GetJobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
 import com.huang.android.logistic.Model.JobOrder.JobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderStatus;
+import com.huang.android.logistic.Model.JobOrderRoute.JobOrderRouteResponse;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
+import com.paging.listview.PagingListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,15 +33,18 @@ import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
-public class OrderPending extends Fragment {
+public class OrderPending extends Fragment implements PagingListView.Pagingable {
     View v;
-    OrderPendingAdapter onOrderPendingAdapter;
-    ListView lv;
+    PagingListView lv;
     ProgressBar loading;
     SwipeRefreshLayout mSwipeRefreshLayout;
     TextView noData;
+    String lastQuery = "";
 
-    public static List<JobOrderData> jobOrders;
+    int pager = 0,limit=20;
+    OrderPendingAdapter orderPendingAdapter;
+
+    public static List<JobOrderData> jobOrders = new ArrayList<>();
 
     public OrderPending() {
         // Required empty public constructor
@@ -50,9 +56,10 @@ public class OrderPending extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_order_pending, container, false);
 
-        lv=(ListView)v.findViewById(R.id.layout);
+        lv=(PagingListView) v.findViewById(R.id.layout);
         loading=(ProgressBar)v.findViewById(R.id.loading);
         noData=(TextView) v.findViewById(R.id.nodata);
+        noData.setVisibility(View.GONE);
         getPendingOrder();
 
         mSwipeRefreshLayout=(SwipeRefreshLayout)v.findViewById(R.id.swipeRefreshLayout);
@@ -64,6 +71,10 @@ public class OrderPending extends Fragment {
             }
         });
 
+        orderPendingAdapter = new OrderPendingAdapter(v.getContext(), R.layout.fragment_order_pending_list, jobOrders);
+        lv.setAdapter(orderPendingAdapter);
+        lv.setHasMoreItems(false);
+        lv.setPagingableListener(this);
         return v;
     }
 
@@ -81,12 +92,14 @@ public class OrderPending extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 100 && resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
             refreshItems();
         }
     }
 
     void refreshItems() {
+        pager=0;
+        orderPendingAdapter.clear();
         getPendingOrder();
         ViewJobOrder viewJobOrder = (ViewJobOrder)getParentFragment();
         viewJobOrder.getCount();
@@ -101,22 +114,28 @@ public class OrderPending extends Fragment {
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this.getActivity());
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(getActivity());
-        Call<JobOrderResponse> callJO = api.getJobOrder("[[\"Job Order\",\"status\",\"=\",\""+ JobOrderStatus.WAITING_FOR_APPROVAL+"\"], [\"Job Order\",\"vendor\",\"=\",\"" + vendorName + "\"]]");
-        callJO.enqueue(new Callback<JobOrderResponse>() {
+        Call<GetJobOrderResponse> callJO = api.getJobOrder(JobOrderStatus.WAITING_FOR_APPROVAL, vendorName ,lastQuery + "%","" + (pager++ * limit));
+        callJO.enqueue(new Callback<GetJobOrderResponse>() {
             @Override
-            public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
+            public void onResponse(Call<GetJobOrderResponse> call, Response<GetJobOrderResponse> response) {
                 Log.e("asd",response.message());
                 if (response.message().equals("OK")) {
-                    JobOrderResponse jobOrderResponse = response.body();
-                    jobOrders = jobOrderResponse.jobOrders;
+                    GetJobOrderResponse jobOrderResponse = response.body();
+                    if (jobOrderResponse.jobOrders != null) {
+                        orderPendingAdapter.addAll(jobOrderResponse.jobOrders);
+                        lv.onFinishLoading(true,jobOrderResponse.jobOrders);
+
+                    } else {
+                        lv.onFinishLoading(false, null);
+                    }
+
                     if (jobOrders.size() == 0) {
                         noData.setVisibility(View.VISIBLE);
-                    } else {
+                    }
+                    else {
                         noData.setVisibility(View.GONE);
                     }
-                    OrderPendingAdapter onProgressOrderAdapter = new OrderPendingAdapter(v.getContext(), R.layout.fragment_order_pending_list, jobOrders);
                     lv.setOnItemClickListener(onListClick);
-                    lv.setAdapter(onProgressOrderAdapter);
                     loading.setVisibility(View.GONE);
                     lv.setVisibility(View.VISIBLE);
                     onItemsLoadComplete();
@@ -127,9 +146,23 @@ public class OrderPending extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<JobOrderResponse> call, Throwable t) {
+            public void onFailure(Call<GetJobOrderResponse> call, Throwable t) {
 
             }
         });
+    }
+
+
+    @Override
+    public void onLoadMoreItems() {
+        getPendingOrder();
+    }
+
+    public void searchJobOrder(String query) {
+        loading.setVisibility(View.VISIBLE);
+        lastQuery = query;
+        pager = 0;
+        orderPendingAdapter.clear();
+        getPendingOrder();
     }
 }

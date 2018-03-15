@@ -6,17 +6,21 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.huang.android.logistic.API.API;
+import com.huang.android.logistic.Model.ErrorMessage;
 import com.huang.android.logistic.Model.Login.LoginUserPermission;
 import com.huang.android.logistic.Model.Login.LoginUserPermissionResponse;
 import com.huang.android.logistic.Model.Login.VendorLogin;
 import com.huang.android.logistic.Model.MyCookieJar;
 
+import java.io.Reader;
 import java.util.List;
 
 import retrofit2.Call;
@@ -66,6 +70,7 @@ public class Login extends AppCompatActivity {
                 if (response.code() == 200) {
                     VendorLogin vendorLogin = response.body();
                     Utility.utility.saveLoggedName(vendorLogin.full_name, activity);
+                    Utility.utility.saveUsername(user,activity);
                     Utility.utility.saveCookieJarToPreference(cookieJar, activity);
                     checkPermission();
                 } else {
@@ -91,7 +96,7 @@ public class Login extends AppCompatActivity {
         loginUserPermissionResponseCall.enqueue(new Callback<LoginUserPermissionResponse>() {
             @Override
             public void onResponse(Call<LoginUserPermissionResponse> call, Response<LoginUserPermissionResponse> response) {
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+                if (Utility.utility.catchResponse(getApplicationContext(), response, "")) {
                     List<LoginUserPermission> data = response.body().data;
                     if (data.size() > 0) {
                         Utility.utility.saveLoggedName(data.get(0).value,thisActivity);

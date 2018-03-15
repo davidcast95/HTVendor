@@ -22,6 +22,7 @@
     <string name="dashboard">Dashboard</string>
     <string name="dashboard_onprogress">On-Progress</string>
     <string name="dashboard_pending">Pending</string>
+    <string name="dashboard_incoming_jo">Incoming Job Orders</string>
     <string name="dashboard_active_jo">Active Job Orders</string>
 
     <!--SETTINGS-->
@@ -51,19 +52,21 @@
     <string name="dpd">Complete Detail Order</string>
 
     <string name="dp_vendorinfo">Vendor Information</string>
-    <string name="dp_vendorname">Vendor Name</string>
-    <string name="dp_vendorcpname">Vendor CP Name</string>
-    <string name="dp_vendorcpphone">Vendor CP Phone</string>
+    <string name="dp_vendorcpinfo">Vendor Contact Person Information</string>
+    <string name="dp_vendorname">Name</string>
+    <string name="dp_vendorcpname">CP Name</string>
+    <string name="dp_vendorcpphone">CP Phone</string>
 
     <string name="dp_principleinfo">Principle Information</string>
-    <string name="dp_principlename">Principle Name</string>
-    <string name="dp_principlecpname">Principle CP Name</string>
-    <string name="dp_principlecpphone">Principle CP Phone</string>
+    <string name="dp_principlename">Name</string>
+    <string name="dp_principlecpname">CP Name</string>
+    <string name="dp_principlecpphone">CP Phone</string>
 
     <string name="dp_cargoinfo">Cargo Information</string>
-    <string name="dp_estpick">Estimated Pick Date</string>
-    <string name="dp_estdelivered">Estimated Delivered Date</string>
+    <string name="dp_estpick">Pick Date</string>
+    <string name="dp_estdelivered">Delivered Date</string>
     <string name="dp_estvolume">Estimated Volume</string>
+    <string name="dp_exptrucktype">Expected Truck Type</string>
     <string name="dp_hullno">Hull No</string>
     <string name="dp_cargotruck">Truck</string>
     <string name="dp_cargotrucktype">Truck Type</string>
@@ -92,6 +95,7 @@
     <string name="dp_trucknumber">Truck Number</string>
     <string name="dp_trucktype">Truck Type</string>
     <string name="dp_update">Update</string>
+    <string name="dp_dropdown_add">Create a new</string>
 
     <!--POP UP-->
     <string name="popup_announcement">Confirmation</string>
@@ -168,14 +172,52 @@
     <string name="addphoto">Add Photo</string>
     <string name="confirm">Confirmation</string>
     <string name="confirmdeletfoto">Are you sure want to delete this image?</string>
+    <string name="warning_not_available_drivers">Not available drivers</string>
 
     <!--TITLE BAR-->
     <string name="updatecekpoint">Update Checkpoint</string>
     <string name="updateqr">Update Container</string>
     <string name="history">History</string>
     <string name="admin">Message Admin</string>
+    <string name="warning_no_location_available">Wait until there\'s an update location</string>
+    <string name="loading_text_first_update_location">Hold up for requesting an update location</string>
+    <string name="title_live_maps">Last Location</string>
 
     <!--VESION-->
-    <string name="version">Version 1.1.2 build 8</string>
+    <string name="version">Version 1.6</string>
+    <string name="warning_location">location is required</string>
+    <string name="warning_cp">contact person is required</string>
+    <string name="warning_item_info">item info is required</string>
+    <string name="add_stop_location">Add Stop Location</string>
+    <string name="status">Status</string>
+    <string name="location">Location</string>
+    <string name="new_stop_location">New Stop Location</string>
+    <string name="cp">Contact Person</string>
+    <string name="item_info">Item Info</string>
+    <string name="remark">Remark</string>
+    <string name="confirm_service">Confirmation Service</string>
+    <string name="confirm_delete">Are you sure want to delete this ?</string>
+    <string name="confirm_delete_stop_location">This location can\'t be undo after you delete this!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="stop_location">stop location</string>
+    <string name="type">Type</string>
 
+    <string name="title_rejected_jo">Rejected Job Order</string>
+    <string name="msg_vendor_rto">Vendor hasn\'t accepted this JO more than</string>
+    <string name="hour">hours</string>
+    <string name="title_pending_jo">Pending Job Order</string>
+    <string name="title_new_jo">New Job Order</string>
+    <string name="msg_new_jo">New incoming Job Order</string>
+    <string name="last_update">Last update on</string>
+    <string name="pick_location">Pick a location</string>
+    <string name="type_your_message">type your message</string>
+    <string name="messages">Messages</string>
+    <string name="sending">sending</string>
+    <string name="no_update_location">No Update Location</string>
+    <string name="last_update_on">Last update on</string>
+    <string name="unable_to_load_image">Unable to load image</string>
+    <string name="no_image">No Image Provided</string>
+    <string name="jo_update_image">Job Order Update Image</string>
+    <string name="last_position">Last Position</string>
 </resources>

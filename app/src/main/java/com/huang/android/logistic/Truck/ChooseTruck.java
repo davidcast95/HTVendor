@@ -1,16 +1,21 @@
 package com.huang.android.logistic.Truck;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.GridView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,9 +28,12 @@ import com.huang.android.logistic.Model.Truck.Truck;
 import com.huang.android.logistic.Model.Truck.TruckResponse;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
+import com.paging.gridview.PagingGridView;
+import com.paging.listview.PagingListView;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,16 +42,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ChooseTruck extends AppCompatActivity {
+public class ChooseTruck extends AppCompatActivity implements PagingListView.Pagingable {
+
+
+    protected MenuItem mSearchItem;
+    protected SearchView sv;
     ProgressBar loading;
     SwipeRefreshLayout mSwipeRefreshLayout;
     ChooseTruckAdapter chooseTruckAdapter;
-    GridView gridView;
+    PagingListView listView;
     String driver, driver_name, driver_phone, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp;
     int strict;
-    List<Truck> trucks;
+    List<Truck> trucks = new ArrayList<>();
     Truck chosenTruck;
-    TextView expectedTruck;
+    TextView expectedTruck, nodata;
+    int pager = 0, limit = 20;
+    String lastQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +66,10 @@ public class ChooseTruck extends AppCompatActivity {
         setContentView(R.layout.activity_choose_truck);
         setTitle("Choose Truck");
 
-        gridView = (GridView) findViewById(R.id.gridView);
+        listView = (PagingListView) findViewById(R.id.listView);
         expectedTruck = (TextView)findViewById(R.id.expected_truck);
-        gridView.setVisibility(View.INVISIBLE);
+        nodata = (TextView)findViewById(R.id.no_data);
+        listView.setVisibility(View.INVISIBLE);
         loading=(ProgressBar)findViewById(R.id.loading);
         mSwipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.swipeRefreshLayout);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -79,7 +94,38 @@ public class ChooseTruck extends AppCompatActivity {
         telp_vendor_cp = getIntent().getStringExtra("telp_vendor_cp");
 
         TextView nama=(TextView)findViewById(R.id.namasopir);
-        nama.setText(driver_name);
+        Utility.utility.setTextView(nama,driver_name);
+        listView.setHasMoreItems(false);
+        chooseTruckAdapter = new ChooseTruckAdapter(getApplicationContext(),R.layout.activity_pilih_truck_list,trucks);
+        listView.setAdapter(chooseTruckAdapter);
+        listView.setVisibility(View.VISIBLE);
+        listView.setOnItemClickListener(onListClick);
+        listView.setPagingableListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu); // Put your search menu in "menu_search" menu file.
+        mSearchItem = menu.findItem(R.id.search);
+        sv = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        sv.setIconified(true);
+
+        SearchManager searchManager = (SearchManager)  getSystemService(Context.SEARCH_SERVICE);
+        sv.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                sv.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                searchQuery(query);
+                return true;
+            }
+        });
+        return true;
     }
 
     @Override
@@ -102,24 +148,34 @@ public class ChooseTruck extends AppCompatActivity {
 
     //API
     public void getTruck() {
-        loading.setVisibility(View.VISIBLE);
 
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(this);
         String strictFilter = (strict == 1) ? ",[\"Truck\",\"type\",\"=\",\""+expected_truck+"\"]" : "";
-        Call<TruckResponse> truckResponseCall = api.getTruck("[[\"Truck\",\"status\",\"=\",\"Operate\"],[\"Truck\",\"vendor\",\"=\",\""+vendorName+"\"]"+strictFilter+"]");
+        Call<TruckResponse> truckResponseCall = api.getTruck("[[\"Truck\",\"nopol\",\"like\",\""+lastQuery+"%\"],[\"Truck\",\"status\",\"=\",\"Operate\"],[\"Truck\",\"vendor\",\"=\",\""+vendorName+"\"]"+strictFilter+"]", "" + (pager++ * limit));
         truckResponseCall.enqueue(new Callback<TruckResponse>() {
             @Override
             public void onResponse(Call<TruckResponse> call, Response<TruckResponse> response) {
                 loading.setVisibility(View.GONE);
                 onItemsLoadComplete();
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
-                    trucks = response.body().trucks;
-                    chooseTruckAdapter = new ChooseTruckAdapter(getApplicationContext(),R.layout.activity_pilih_truck_list,trucks);
-                    gridView.setAdapter(chooseTruckAdapter);
-                    gridView.setVisibility(View.VISIBLE);
-                    gridView.setOnItemClickListener(onListClick);
+                if (Utility.utility.catchResponse(getApplicationContext(), response, "")) {
+                    TruckResponse truckResponse = response.body();
+                    if (truckResponse != null) {
+                        chooseTruckAdapter.addAll(truckResponse.trucks);
+                        if (truckResponse.trucks.size() == 0) {
+                            listView.onFinishLoading(false,null);
+                        } else {
+                            listView.onFinishLoading(true, null);
+                        }
+
+                    }
+                    if (trucks.size() == 0) {
+                        nodata.setVisibility(View.VISIBLE);
+                    } else {
+                        nodata.setVisibility(View.GONE);
+                    }
+
                 }
             }
 
@@ -169,7 +225,9 @@ public class ChooseTruck extends AppCompatActivity {
 
     void refreshItems() {
         // Load items
-        //loading.setVisibility(View.VISIBLE);
+        loading.setVisibility(View.VISIBLE);
+        chooseTruckAdapter.clear();
+        pager=0;
         getTruck();
 
         // Load complete
@@ -205,13 +263,13 @@ public class ChooseTruck extends AppCompatActivity {
         statusJSON.put("truck_volume",chosenTruck.volume);
         statusJSON.put("truck_lambung",chosenTruck.lambung);
 
-        String a = new Gson().toJson(statusJSON);
+        final String json = new Gson().toJson(statusJSON);
         Call<JSONObject> callUpdateJO = api.updateJobOrder(joid, statusJSON);
         callUpdateJO.enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 loading.setVisibility(View.GONE);
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+                if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
                     Toast.makeText(getApplicationContext(), "Job order : " +joid + " has been assigned to " + driver + " with Truck : " + chosenTruck.nopol, Toast.LENGTH_LONG).show();
                     assignDriver();
                     setResult(RESULT_OK);
@@ -232,12 +290,12 @@ public class ChooseTruck extends AppCompatActivity {
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         HashMap<String,String> statusJSON = new HashMap<>();
         statusJSON.put("status", DriverStatus.UNAVAILABLE);
-        String a = new Gson().toJson(statusJSON);
+        final String json = new Gson().toJson(statusJSON);
         Call<JSONObject> callUpdateJO = api.updateDriver(driver, statusJSON);
         callUpdateJO.enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
-                if (Utility.utility.catchResponse(getApplicationContext(), response)) {
+                if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
 
                 }
             }
@@ -249,4 +307,15 @@ public class ChooseTruck extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onLoadMoreItems() {
+        getTruck();
+    }
+
+    void searchQuery(String query) {
+        lastQuery = query;
+        pager = 0;
+        chooseTruckAdapter.clear();
+        getTruck();
+    }
 }

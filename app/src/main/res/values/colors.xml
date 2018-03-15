@@ -4,6 +4,7 @@
     <color name="colorPrimary2">#3F51B5</color>
     <color name="colorPrimaryDark">#517323</color>
     <color name="colorPrimaryDark2">#303F9F</color>
+    <color name="colorPrimarySoft">#C0D77D</color>
     <color name="colorAccent">#777777</color>
     <color name="colorAccent2">#555555</color>
     <color name="SuccessColor">#009788</color>
@@ -14,4 +15,5 @@
     <color name="LightGrey">#f3f3f3</color>
     <color name="White">#ffffff</color>
     <color name="transparent">#00FFFFFF</color>
+    <color name="dim">#e7e7e7</color>
 </resources>

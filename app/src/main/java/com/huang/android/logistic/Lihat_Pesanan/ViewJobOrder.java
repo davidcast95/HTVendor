@@ -1,12 +1,18 @@
 package com.huang.android.logistic.Lihat_Pesanan;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TabHost;
@@ -16,8 +22,7 @@ import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Lihat_Pesanan.Active.OrderActive;
 import com.huang.android.logistic.Lihat_Pesanan.Done.OrderDone;
 import com.huang.android.logistic.Lihat_Pesanan.Pending.OrderPending;
-import com.huang.android.logistic.Model.JobOrder.JobOrderResponse;
-import com.huang.android.logistic.Model.JobOrder.JobOrderStatus;
+import com.huang.android.logistic.Model.JobOrder.JobOrderMetaDataResponse;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
@@ -30,9 +35,19 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeListener, TabHost.OnTabChangeListener{
+
+
+    private MenuItem mSearchItem;
+    private SearchView sv;
     ViewPager viewPager;
     TabHost tabHost;
     int onprogress = 0,done = 0, pending = 0;
+    int p_onprogress = 0, p_done = 0, p_pending = 0, limit = 20;
+
+
+    public OrderActive orderActive = new OrderActive();
+    public OrderPending orderPending = new OrderPending();
+    public OrderDone orderDone = new OrderDone();
     View v;
     public ViewJobOrder() {
         // Required empty public constructor
@@ -46,6 +61,7 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
 
         initViewPager();
         initTabHost();
+        setHasOptionsMenu(true);
 
         return v;
     }
@@ -56,12 +72,46 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
         getCount();
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search_menu, menu);
+        mSearchItem = menu.findItem(R.id.search);
+        sv = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        sv.setIconified(true);
+
+        SearchManager searchManager = (SearchManager)  getActivity().getSystemService(Context.SEARCH_SERVICE);
+        sv.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                sv.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                Log.e("search",query);
+                int selectedItem = tabHost.getCurrentTab();
+                if (selectedItem == 0) {
+                    orderPending.searchJobOrder(query);
+                } else if (selectedItem == 1) {
+                    orderActive.searchJobOrder(query);
+                } else {
+                    orderDone.searchJobOrder(query);
+                }
+                return true;
+            }
+        });
+        super.onCreateOptionsMenu(menu,inflater);
+
+    }
+
     private void initTabHost() {
         tabHost=(TabHost)v.findViewById(R.id.tabhost);
         tabHost.setup();
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-        String language = prefs.getString("language","English");
+        String language = prefs.getString("language","Basaha Indonesia");
         String[] tabs = new String[3];
         if(language.contentEquals("English")){
             tabs[0]="Pending";
@@ -102,9 +152,9 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
     private void initViewPager() {
         viewPager = (ViewPager)v.findViewById(R.id.view_pager);
         List<Fragment> listFragments =  new ArrayList<Fragment>();
-        listFragments.add(new OrderPending());
-        listFragments.add(new OrderActive());
-        listFragments.add(new OrderDone());
+        listFragments.add(orderPending);
+        listFragments.add(orderActive);
+        listFragments.add(orderDone);
 
         ViewJobOrderPagerAdapter viewJobOrderAdapter = new ViewJobOrderPagerAdapter(getChildFragmentManager(), listFragments);
         viewPager.setAdapter(viewJobOrderAdapter);
@@ -133,95 +183,62 @@ public class ViewJobOrder extends Fragment implements ViewPager.OnPageChangeList
         viewPager.setCurrentItem(selectedItem);
     }
 
-    void getPendingOrder() {
+    void getJOMetaData() {
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this.getActivity());
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(getActivity());
-        String filters = "[[\"Job Order\",\"status\",\"=\",\""+ JobOrderStatus.WAITING_FOR_APPROVAL+"\"], [\"Job Order\",\"vendor\",\"=\",\"" + vendorName + "\"],[\"Job Order\",\"reference\",\"like\",\"%\"]]";
-        Call<JobOrderResponse> callJO = api.getJobOrder(filters);
-        callJO.enqueue(new Callback<JobOrderResponse>() {
+        Call<JobOrderMetaDataResponse> callJO = api.getJobOrderCount(vendorName);
+        callJO.enqueue(new Callback<JobOrderMetaDataResponse>() {
             @Override
-            public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
-                    pending = response.body().jobOrders.size();
-                    SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-                    String language = prefs.getString("language","English");
-                    TextView label = (TextView)tabHost.getTabWidget().getChildTabViewAt(0).findViewById(android.R.id.title);
-                    if(language.contentEquals("English")) {
-                        label.setText("Pending (" + pending + ")");
-                    } else {
-                        label.setText("Pending (" + pending + ")");
+            public void onResponse(Call<JobOrderMetaDataResponse> call, Response<JobOrderMetaDataResponse> response) {
+                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response, "")) {
+                    JobOrderMetaDataResponse metaData = response.body();
+                    if (metaData != null) {
+
+                        pending = metaData.message.pending.count;
+                        onprogress = metaData.message.onprogress.count;
+                        done = metaData.message.done.count;
+
+                        SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
+                        String language = prefs.getString("language", "Basaha Indonesia");
+                        TextView label = (TextView) tabHost.getTabWidget().getChildTabViewAt(0).findViewById(android.R.id.title);
+                        if (language.contentEquals("English")) {
+                            label.setText("Pending (" + pending + ")");
+                        } else {
+                            label.setText("Pending (" + pending + ")");
+                        }
+                        label = (TextView) tabHost.getTabWidget().getChildTabViewAt(1).findViewById(android.R.id.title);
+                        if (language.contentEquals("English")) {
+                            label.setText("Active (" + onprogress + ")");
+                        } else {
+                            label.setText("Pending (" + pending + ")");
+                            label.setText("Aktif (" + onprogress + ")");
+                        }
+                        label = (TextView) tabHost.getTabWidget().getChildTabViewAt(2).findViewById(android.R.id.title);
+                        if (language.contentEquals("English")) {
+                            label.setText("Complete (" + done + ")");
+                        } else {
+                            label.setText("Selesai (" + done + ")");
+                        }
                     }
                 }
 
             }
 
             @Override
-            public void onFailure(Call<JobOrderResponse> call, Throwable t) {
-            }
-        });
-    }
-    void getActiveOrder() {
-        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this.getActivity());
-        API api = Utility.utility.getAPIWithCookie(cookieJar);
-        String vendorName = Utility.utility.getLoggedName(getActivity());
-        String filters = "[[\"Job Order\",\"status\",\"=\",\""+ JobOrderStatus.ON_PROGRESS+"\"], [\"Job Order\",\"vendor\",\"=\",\"" + vendorName + "\"],[\"Job Order\",\"reference\",\"like\",\"%\"]]";
-        Call<JobOrderResponse> callJO = api.getJobOrder(filters);
-        callJO.enqueue(new Callback<JobOrderResponse>() {
-            @Override
-            public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
-                    onprogress = response.body().jobOrders.size();
-                    SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-                    String language = prefs.getString("language","English");
-                    TextView label = (TextView)tabHost.getTabWidget().getChildTabViewAt(1).findViewById(android.R.id.title);
-                    if(language.contentEquals("English")) {
-                        label.setText("On Progress (" + onprogress + ")");
-                    } else {
-                        label.setText("Dalam Proses (" + onprogress + ")");
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<JobOrderResponse> call, Throwable t) {
-            }
-        });
-    }
-    void getDoneOrder() {
-        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this.getActivity());
-        API api = Utility.utility.getAPIWithCookie(cookieJar);
-        String vendorName = Utility.utility.getLoggedName(getActivity());
-        String filters = "[[\"Job Order\",\"status\",\"=\",\""+ JobOrderStatus.DONE+"\"], [\"Job Order\",\"vendor\",\"=\",\"" + vendorName + "\"],[\"Job Order\",\"reference\",\"like\",\"%\"]]";
-        Call<JobOrderResponse> callJO = api.getJobOrder(filters);
-        callJO.enqueue(new Callback<JobOrderResponse>() {
-            @Override
-            public void onResponse(Call<JobOrderResponse> call, Response<JobOrderResponse> response) {
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
-                    done = response.body().jobOrders.size();
-                    SharedPreferences prefs = getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-                    String language = prefs.getString("language","English");
-                    TextView label = (TextView)tabHost.getTabWidget().getChildTabViewAt(2).findViewById(android.R.id.title);
-                    if(language.contentEquals("English")) {
-                        label.setText("Complete (" + done + ")");
-                    } else {
-                        label.setText("Selesai (" + done + ")");
-                    }
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<JobOrderResponse> call, Throwable t) {
+            public void onFailure(Call<JobOrderMetaDataResponse> call, Throwable t) {
             }
         });
     }
 
     public void getCount() {
-        getPendingOrder();
-        getActiveOrder();
-        getDoneOrder();
+        p_onprogress = 0;
+        p_done = 0;
+        p_pending = 0;
+        onprogress = 0;
+        done = 0;
+        pending = 0;
+        getJOMetaData();
     }
 
 }

@@ -38,20 +38,19 @@ public class Settings extends Fragment {
         List<String> categories = new ArrayList<String>();
 
         SharedPreferences prefs = this.getActivity().getSharedPreferences("LanguageSwitch", Context.MODE_PRIVATE);
-        String language = prefs.getString("language","English");
-        categories.add("English");
-//        if(language.contentEquals("English")){
-//            categories.add("Bahasa Indonesia");
-//        }
-//        else {
-//            categories.add("Bahasa Indonesia");
-//            categories.add("English");
-//        }
+        String language = prefs.getString("language","Basaha Indonesia");
+        if(language.contentEquals("English")){
+            categories.add("Bahasa Indonesia");
+        }
+        else {
+            categories.add("Bahasa Indonesia");
+            categories.add("English");
+        }
 
         spinner = (Spinner) v.findViewById(R.id.spinner);
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this.getActivity(),
                 R.layout.spinner_item, categories);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        dataAdapter.setDropDownViewResource(R.layout.spinner_item);
         spinner.setAdapter(dataAdapter);
 
         List<String> categories2 = new ArrayList<String>();
@@ -62,7 +61,7 @@ public class Settings extends Fragment {
         spinner2 = (Spinner) v.findViewById(R.id.spinner2);
         ArrayAdapter<String> dataAdapter2 = new ArrayAdapter<String>(this.getActivity(),
                 R.layout.spinner_item, categories2);
-        dataAdapter2.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+        dataAdapter2.setDropDownViewResource(R.layout.spinner_item);
         spinner2.setAdapter(dataAdapter2);
 
         return v;

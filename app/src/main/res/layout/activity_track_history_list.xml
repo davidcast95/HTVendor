@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="huang.android.logistic_principle.JobOrder.TrackHistory">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,27 +29,44 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="14 Agustus 2017"
+                        android:text=""
                         android:id="@+id/tanggal2"
                         android:textColor="@color/Grey"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textStyle="bold"
-                        android:text="ON THE WAY"
+                        android:text=""
                         android:textColor="@color/Grey"
                         android:id="@+id/statehistory"/>
                     <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:text=""
+                        android:textColor="@color/Grey"
+                        android:id="@+id/loc_history"/>
+                    <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Harap tunggu proses antri"
+                        android:text=""
                         android:id="@+id/notes"
                         android:textColor="@color/Grey"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="end">
+                    android:gravity="end"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:background="@drawable/jo_update_gallery"
+                        android:layout_gravity="center"
+                        android:id="@+id/historygallery"/>
+                    <View
+                        android:layout_width="12dp"
+                        android:layout_height="wrap_content"/>
                     <ImageView
                         android:layout_width="50dp"
                         android:layout_height="50dp"

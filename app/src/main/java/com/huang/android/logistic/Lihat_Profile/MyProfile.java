@@ -56,15 +56,15 @@ public class MyProfile extends Fragment {
         profilResponseCall.enqueue(new Callback<ProfilResponse>() {
             @Override
             public void onResponse(Call<ProfilResponse> call, Response<ProfilResponse> response) {
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response)) {
+                if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response, "")) {
                     ProfilResponse profilResponse = response.body();
                     List<Profil> profils = profilResponse.data;
                     if (profils.size() > 0) {
                         Profil profil = profils.get(0);
-                        nameTextEdit.setText(profil.name);
-                        phoneTextEdit.setText(profil.phone);
-                        emailTextEdit.setText(profil.email);
-                        addressTextEdit.setText(profil.address);
+                        Utility.utility.setTextView(nameTextEdit,profil.name);
+                        Utility.utility.setTextView(phoneTextEdit,profil.phone);
+                        Utility.utility.setTextView(emailTextEdit,profil.email);
+                        Utility.utility.setTextView(addressTextEdit,profil.address);
                     }
                 }
             }

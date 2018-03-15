@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.R;
+import com.huang.android.logistic.Utility;
 
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class ChooseDriverAdapter extends ArrayAdapter<Driver> {
 
         Driver productList = list.get(position);
 //        ID.setText(list.get(position).id);
-        Nama.setText(list.get(position).name);
+        Utility.utility.setTextView(Nama,list.get(position).nama);
 
 
         return view;

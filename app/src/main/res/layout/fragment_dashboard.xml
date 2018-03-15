@@ -13,7 +13,7 @@
             android:layout_height="wrap_content"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:text="Incoming Job Orders"
+            android:text="@string/dashboard_incoming_jo"
             android:layout_margin="12dp"/>
         <TextView
             android:layout_width="match_parent"
@@ -30,11 +30,11 @@
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <ListView
+            <com.paging.listview.PagingListView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/pendingListView">
-            </ListView>
+            </com.paging.listview.PagingListView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
     </LinearLayout>
