@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 
 import com.huang.android.logistic.API.API;
@@ -21,16 +19,11 @@ import com.huang.android.logistic.Model.Driver.DriverResponse;
 import com.huang.android.logistic.Model.Driver.DriverStatus;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
-import com.huang.android.logistic.SearchActivity;
 import com.huang.android.logistic.Truck.ChooseTruck;
 import com.huang.android.logistic.Utility;
 import com.paging.listview.PagingListView;
 
-import org.json.JSONObject;
-
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -109,7 +102,7 @@ public class ChooseDriver extends AppCompatActivity implements PagingListView.Pa
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(this);
         final Activity thisActivity = this;
-        Call<DriverResponse> callDriver = api.getDriver("[[\"Driver\",\"vendor\",\"=\",\"" + vendorName + "\"],[\"Driver\",\"nama\",\"like\",\"%"+keyword+"%\"],[\"Driver\",\"status\",\"=\",\""+ DriverStatus.AVAILABLE+"\"]]", "" + (pager++ * limit));
+        Call<DriverResponse> callDriver = api.getActiveDriver(vendorName ,keyword, "" + (pager++ * limit));
         callDriver.enqueue(new Callback<DriverResponse>() {
             @Override
             public void onResponse(Call<DriverResponse> call, Response<DriverResponse> response) {
@@ -187,6 +180,8 @@ public class ChooseDriver extends AppCompatActivity implements PagingListView.Pa
         intent.putExtra("nama_vendor_cp",nama_vendor_cp);
         intent.putExtra("telp_vendor_cp",telp_vendor_cp);
         intent.putExtra("strict",strict);
+        if (choosenDriver.profile_image.size() > 0)
+            intent.putExtra("profile_image",choosenDriver.profile_image.get(0));
         startActivityForResult(intent, 300);
     }
 

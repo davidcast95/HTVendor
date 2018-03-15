@@ -1,6 +1,8 @@
 package com.huang.android.logistic;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,17 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
 import com.huang.android.logistic.Model.Location.Location;
+import com.huang.android.logistic.Model.MyCookieJar;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by David Wibisono on 8/24/2017.
@@ -44,6 +53,33 @@ public class PendingOrderAdapter extends ArrayAdapter<JobOrderData> {
 
         JobOrderData jobOrder = list.get(position);
         Utility.utility.setTextView(principle,jobOrder.principle);
+
+        final ImageView profileImage = (ImageView)view.findViewById(R.id.profile_image);
+
+        if (jobOrder.principle_image.size() > 0) {
+            String imageUrl = jobOrder.principle_image.get(0);
+            MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(context);
+            API api = Utility.utility.getAPIWithCookie(cookieJar);
+            Call<ResponseBody> callImage = api.getImage(imageUrl);
+            callImage.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        ResponseBody responseBody = response.body();
+                        if (responseBody != null) {
+                            Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
+                            profileImage.setImageBitmap(bm);
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
+
         Utility.utility.setTextView(ref,"Ref No : " + jobOrder.ref.replace("\n",""));
 
         int lastIndex = jobOrder.routes.size()-1;

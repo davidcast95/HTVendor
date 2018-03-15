@@ -4,6 +4,8 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -28,6 +30,7 @@ import com.huang.android.logistic.Model.Truck.Truck;
 import com.huang.android.logistic.Model.Truck.TruckResponse;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
+import com.makeramen.roundedimageview.RoundedImageView;
 import com.paging.gridview.PagingGridView;
 import com.paging.listview.PagingListView;
 
@@ -38,6 +41,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -51,7 +55,7 @@ public class ChooseTruck extends AppCompatActivity implements PagingListView.Pag
     SwipeRefreshLayout mSwipeRefreshLayout;
     ChooseTruckAdapter chooseTruckAdapter;
     PagingListView listView;
-    String driver, driver_name, driver_phone, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp;
+    String driver, driver_name, driver_phone, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp, profile_image;
     int strict;
     List<Truck> trucks = new ArrayList<>();
     Truck chosenTruck;
@@ -92,6 +96,35 @@ public class ChooseTruck extends AppCompatActivity implements PagingListView.Pag
         status = getIntent().getStringExtra("status");
         nama_vendor_cp = getIntent().getStringExtra("nama_vendor_cp");
         telp_vendor_cp = getIntent().getStringExtra("telp_vendor_cp");
+
+        profile_image = getIntent().getStringExtra("profile_image");
+
+
+        final RoundedImageView profileImage = (RoundedImageView) findViewById(R.id.profile_image);
+        if (profile_image != null) {
+            String imageUrl = profile_image;
+            MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(getApplicationContext());
+            API api = Utility.utility.getAPIWithCookie(cookieJar);
+            Call<ResponseBody> callImage = api.getImage(imageUrl);
+            callImage.enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                    if (response.isSuccessful()) {
+                        ResponseBody responseBody = response.body();
+                        if (responseBody != null) {
+                            Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
+                            profileImage.setImageBitmap(bm);
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                }
+            });
+        }
 
         TextView nama=(TextView)findViewById(R.id.namasopir);
         Utility.utility.setTextView(nama,driver_name);

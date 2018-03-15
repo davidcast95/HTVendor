@@ -4,6 +4,7 @@ import com.huang.android.logistic.Model.APILogData;
 import com.huang.android.logistic.Model.Communication.CommunicationCreation;
 import com.huang.android.logistic.Model.Communication.CommunicationData;
 import com.huang.android.logistic.Model.Communication.CommunicationResponse;
+import com.huang.android.logistic.Model.Driver.AllDriverResponse;
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.Model.Driver.DriverBackgroundUpdateResponse;
 import com.huang.android.logistic.Model.Driver.DriverResponse;
@@ -63,8 +64,13 @@ public interface API {
 
 
     //DRIVER
-    @GET("/api/resource/Driver?fields=[\"name\",\"nama\",\"email\",\"address\",\"phone\",\"status\"]")
-    Call<DriverResponse> getDriver(@Query("filters") String filters, @Query("limit_start") String start);
+    @GET("/api/method/logistic_marketplace.api.get_driver")
+    Call<DriverResponse> getDriver(@Query("vendor") String vendor,@Query("ref") String ref , @Query("start") String start);
+
+    @GET("/api/method/logistic_marketplace.api.get_driver?status=Tersedia")
+    Call<DriverResponse> getActiveDriver(@Query("vendor") String vendor,@Query("ref") String ref , @Query("start") String start);
+    @GET("/api/resource/Driver?fields=[\"name\",\"nama\",\"email\",\"address\",\"phone\",\"status\"]&limit_page_length=100000")
+    Call<AllDriverResponse> getAllDriver(@Query("filters") String filters);
     @POST("/api/resource/Driver")
     Call<JSONObject> registerDriver(@Body Driver newDriver);
     @PUT("/api/resource/Driver/{id}")
@@ -110,9 +116,8 @@ public interface API {
     @GET("/api/resource/Vendor Contact Person?fields=[\"vendor\",\"nama\",\"telp\"]")
     Call<VendorContactPersonResponse> getPrincipleCP(@Query("filters") String filters);
 
-    //old
-    @GET("/api/resource/Vendor?fields=[\"nama\",\"telp\",\"alamat\",\"email\"]")
-    Call<ProfilResponse> getProfile(@Query("filters") String filter);
+    @GET("/api/method/logistic_marketplace.api.get_user")
+    Call<ProfilResponse> getProfile(@Query("vendor") String vendor);
 
 
     @GET("/api/method/logistic.job_order.history")

@@ -4,7 +4,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.huang.android.logistic.API.API;
+import com.huang.android.logistic.Model.Driver.AllDriverResponse;
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.Model.Driver.DriverBackgroundUpdateData;
 import com.huang.android.logistic.Model.Driver.DriverBackgroundUpdateResponse;
@@ -205,20 +205,22 @@ public class LiveAllDriversMaps extends AppCompatActivity implements OnMapReadyC
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(this);
-        Call<DriverResponse> callDriver = api.getDriver("[[\"Driver\",\"vendor\",\"=\",\""+vendorName+"\"]]","" + (pager++ * limit));
-        callDriver.enqueue(new Callback<DriverResponse>() {
+        Call<AllDriverResponse> callDriver = api.getAllDriver("[[\"Driver\",\"vendor\",\"=\",\""+vendorName+"\"]]");
+        callDriver.enqueue(new Callback<AllDriverResponse>() {
             @Override
-            public void onResponse(Call<DriverResponse> call, Response<DriverResponse> response) {
+            public void onResponse(Call<AllDriverResponse> call, Response<AllDriverResponse> response) {
                 if (Utility.utility.catchResponse(getApplicationContext(), response, "")) {
-                    DriverResponse driverResponses = response.body();
-                    allDrivers.addAll(driverResponses.drivers);
+                    AllDriverResponse driverResponses = response.body();
+                    if (driverResponses != null) {
+                        allDrivers.addAll(driverResponses.drivers);
 
-                    mappingDrivers();
+                        mappingDrivers();
+                    }
                 }
             }
 
             @Override
-            public void onFailure(Call<DriverResponse> call, Throwable throwable) {
+            public void onFailure(Call<AllDriverResponse> call, Throwable throwable) {
                 Utility.utility.showConnectivityUnstable(getApplicationContext());
                 loading.setVisibility(View.INVISIBLE);
             }

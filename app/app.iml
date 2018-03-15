@@ -131,6 +131,7 @@
     <orderEntry type="library" exported="" name="com.google.firebase:firebase-auth-11.2.2" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-base-11.2.2" level="project" />
     <orderEntry type="library" exported="" name="com.github.nicolasjafelle:paginggridview-1.0" level="project" />
+    <orderEntry type="library" exported="" name="com.makeramen:roundedimageview-2.3.0" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="junit:junit:4.12@jar" level="project" />
     <orderEntry type="library" exported="" scope="TEST" name="javax.inject:javax.inject:1@jar" level="project" />
     <orderEntry type="library" exported="" name="com.google.android.gms:play-services-basement-11.2.2" level="project" />

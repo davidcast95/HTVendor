@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -167,23 +166,25 @@ public class ViewDriver extends Fragment implements PagingListView.Pagingable {
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(getActivity());
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         String vendorName = Utility.utility.getLoggedName(getActivity());
-        Call<DriverResponse> callDriver = api.getDriver("[[\"Driver\",\"nama\",\"like\",\""+lastQuery+"%\"],[\"Driver\",\"vendor\",\"=\",\""+vendorName+"\"]]","" + (pager++ * limit));
+        Call<DriverResponse> callDriver = api.getDriver(vendorName,lastQuery,"" + (pager++ * limit));
         callDriver.enqueue(new Callback<DriverResponse>() {
             @Override
             public void onResponse(Call<DriverResponse> call, Response<DriverResponse> response) {
                 if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response, "")) {
                     DriverResponse driverResponses = response.body();
-                    viewDriverAdapter.addAll(driverResponses.drivers);
-                    if (drivers.size() == 0) noData.setVisibility(View.VISIBLE);
-                    else {
-                        lv.setVisibility(View.VISIBLE);
-                        noData.setVisibility(View.GONE);
-                    }
+                    if (driverResponses != null) {
+                        viewDriverAdapter.addAll(driverResponses.drivers);
+                        if (drivers.size() == 0) noData.setVisibility(View.VISIBLE);
+                        else {
+                            lv.setVisibility(View.VISIBLE);
+                            noData.setVisibility(View.GONE);
+                        }
 
-                    if (driverResponses.drivers.size() == 0) lv.onFinishLoading(false,null);
-                    else lv.onFinishLoading(true,driverResponses.drivers);
-                    loading.setVisibility(View.INVISIBLE);
-                    onItemsLoadComplete();
+                        if (driverResponses.drivers.size() == 0) lv.onFinishLoading(false, null);
+                        else lv.onFinishLoading(true, driverResponses.drivers);
+                        loading.setVisibility(View.INVISIBLE);
+                        onItemsLoadComplete();
+                    }
                 }
             }
 

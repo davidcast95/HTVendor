@@ -3,6 +3,8 @@ package com.huang.android.logistic.Lihat_Pesanan.Pending;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -47,6 +50,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -126,7 +130,36 @@ public class DetailOrderPending extends AppCompatActivity {
                 TextView truck_type = (TextView) findViewById(R.id.expected_truck_type);
                 TextView cargoNote = (TextView) findViewById(R.id.cargo_notes);
 
+
+
                 principle.setText(jobOrder.principle);
+
+                final ImageView profileImage = (ImageView)findViewById(R.id.profile_image);
+
+                if (jobOrder.principle_image.size() > 0) {
+                    String imageUrl = jobOrder.principle_image.get(0);
+                    MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(getApplicationContext());
+                    API api = Utility.utility.getAPIWithCookie(cookieJar);
+                    Call<ResponseBody> callImage = api.getImage(imageUrl);
+                    callImage.enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            if (response.isSuccessful()) {
+                                ResponseBody responseBody = response.body();
+                                if (responseBody != null) {
+                                    Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
+                                    profileImage.setImageBitmap(bm);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                        }
+                    });
+                }
+
                 if (jobOrder.ref == null) jobOrder.ref = "";
                 ref.setText("Ref No : " + jobOrder.ref.replace("\n", ""));
                 joid.setText(jobOrder.joid);
@@ -443,6 +476,33 @@ public class DetailOrderPending extends AppCompatActivity {
                         TextView cargoNote = (TextView) findViewById(R.id.cargo_notes);
 
                         principle.setText(jobOrder.principle);
+
+                        final ImageView profileImage = (ImageView)findViewById(R.id.profile_image);
+
+                        if (jobOrder.principle_image.size() > 0) {
+                            String imageUrl = jobOrder.principle_image.get(0);
+                            MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(getApplicationContext());
+                            API api = Utility.utility.getAPIWithCookie(cookieJar);
+                            Call<ResponseBody> callImage = api.getImage(imageUrl);
+                            callImage.enqueue(new Callback<ResponseBody>() {
+                                @Override
+                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                    if (response.isSuccessful()) {
+                                        ResponseBody responseBody = response.body();
+                                        if (responseBody != null) {
+                                            Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
+                                            profileImage.setImageBitmap(bm);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                                }
+                            });
+                        }
+
                         if (jobOrder.ref == null) jobOrder.ref = "";
                         ref.setText("Ref No : " + jobOrder.ref.replace("\n",""));
                         joid.setText(jobOrder.joid);

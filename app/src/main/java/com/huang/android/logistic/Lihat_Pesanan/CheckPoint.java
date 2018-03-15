@@ -71,6 +71,7 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Converter;
 import retrofit2.Response;
 
 public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener,
@@ -320,6 +321,8 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
                 public void onResponse(Call<JobOrderUpdateCreation> call, Response<JobOrderUpdateCreation> response) {
                     loading.setVisibility(View.GONE);
                     klik.setEnabled(true);
+
+
                     if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
 
                         updateJOID = response.body().data.id;
@@ -328,6 +331,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
                         uploadImage(updateJOID);
 
                     }
+                    isLoading = false;
                 }
 
                 @Override

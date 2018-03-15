@@ -9,6 +9,6 @@ import java.util.List;
  */
 
 public class ProfilResponse {
-    @SerializedName("data")
+    @SerializedName("message")
     public List<Profil> data;
 }

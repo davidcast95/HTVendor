@@ -2,6 +2,7 @@ package com.huang.android.logistic.Model.Driver;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,6 +10,6 @@ import java.util.List;
  */
 
 public class DriverResponse {
-    @SerializedName("data")
-    public List<Driver> drivers;
+    @SerializedName("message")
+    public List<Driver> drivers = new ArrayList<>();
 }
