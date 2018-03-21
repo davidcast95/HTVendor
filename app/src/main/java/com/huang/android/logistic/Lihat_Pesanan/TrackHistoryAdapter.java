@@ -94,6 +94,9 @@ public class TrackHistoryAdapter extends ArrayAdapter<JobOrderUpdateData> {
         });
 
         ImageView button = (ImageView) view.findViewById(R.id.historymaps);
+        if (DetailOrder.jobOrderUpdates.get(position).longitude.equals("0.0") || DetailOrder.jobOrderUpdates.get(position).latitude.equals("0.0")) {
+            button.setVisibility(View.GONE);
+        }
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +107,6 @@ public class TrackHistoryAdapter extends ArrayAdapter<JobOrderUpdateData> {
 //                    maps.putExtra("latitude", Double.valueOf(list.get(position).latitude));
 //                    maps.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //                    getContext().startActivity(maps);
-
                     Double lat = Double.valueOf(DetailOrder.jobOrderUpdates.get(position).latitude), longi = Double.valueOf(DetailOrder.jobOrderUpdates.get(position).longitude);
                     LatLng loc = new LatLng(lat, longi);
                     CameraUpdate location = CameraUpdateFactory.newLatLngZoom(

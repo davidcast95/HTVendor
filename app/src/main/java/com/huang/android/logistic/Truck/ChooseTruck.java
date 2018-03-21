@@ -25,6 +25,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Model.Driver.DriverStatus;
+import com.huang.android.logistic.Model.JobOrder.JobOrderStatus;
 import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.Model.Truck.Truck;
 import com.huang.android.logistic.Model.Truck.TruckResponse;
@@ -282,7 +283,7 @@ public class ChooseTruck extends AppCompatActivity implements PagingListView.Pag
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         HashMap<String,String> statusJSON = new HashMap<>();
         String name = Utility.utility.getLoggedName(this);
-        statusJSON.put("status",status);
+        statusJSON.put("status", JobOrderStatus.ON_PROGRESS);
         statusJSON.put("vendor_contact_person", nama_vendor_cp + " ("+name+")");
         statusJSON.put("nama_vendor_cp", nama_vendor_cp);
         statusJSON.put("telp_vendor_cp",telp_vendor_cp);

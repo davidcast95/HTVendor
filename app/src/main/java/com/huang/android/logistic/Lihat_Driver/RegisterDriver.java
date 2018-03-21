@@ -8,16 +8,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.Model.MyCookieJar;
+import com.huang.android.logistic.Model.User.UserResponse;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
 import com.google.gson.Gson;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,7 +33,7 @@ import retrofit2.Response;
 
 public class RegisterDriver extends AppCompatActivity {
 
-    ProgressBar loading;
+    RelativeLayout loading;
     EditText nameET, emailET, phoneET, addressET, passwordET;
     Button registerButton;
 
@@ -41,7 +45,7 @@ public class RegisterDriver extends AppCompatActivity {
         setContentView(R.layout.activity_register_driver);
 
         //binding to layout
-        loading=(ProgressBar)findViewById(R.id.loading);
+        loading=(RelativeLayout) findViewById(R.id.loading);
         nameET=(EditText)findViewById(R.id.reg_driver_name);
         emailET=(EditText)findViewById(R.id.reg_driver_email);
         phoneET=(EditText)findViewById(R.id.reg_driver_phone);
@@ -82,7 +86,7 @@ public class RegisterDriver extends AppCompatActivity {
 
     void updateStateUI() {
         loading.setVisibility(View.GONE);
-        String name = nameET.getText().toString(),
+        final String name = nameET.getText().toString(),
                 phone = phoneET.getText().toString(),
                 address = addressET.getText().toString(),
                 email = emailET.getText().toString(),
@@ -92,31 +96,62 @@ public class RegisterDriver extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"name is required",Toast.LENGTH_SHORT).show();
             valid=false;
         }
-        if (phone.equals("")) {
+        else if (phone.equals("")) {
             Toast.makeText(getApplicationContext(),"phone is required",Toast.LENGTH_SHORT).show();
             valid=false;
         }
-        if (address.equals("")) {
+        else if (address.equals("")) {
             Toast.makeText(getApplicationContext(),"address is required",Toast.LENGTH_SHORT).show();
             valid=false;
         }
-        if (email.equals("")) {
+        else if (email.equals("")) {
             Toast.makeText(getApplicationContext(),"email is required",Toast.LENGTH_SHORT).show();
             valid=false;
         }
-        if (password.equals("")) {
+        else if (password.equals("")) {
             Toast.makeText(getApplicationContext(),"password is required",Toast.LENGTH_SHORT).show();
             valid=false;
         }
+
+
         if (valid) {
-            registerDriver(name,phone,address,email,password);
+            //validate email
+            loading.setVisibility(View.VISIBLE);
+            MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
+            API api = Utility.utility.getAPIWithCookie(cookieJar);
+            Call<UserResponse> callUser = api.validateEmail(email);
+            callUser.enqueue(new Callback<UserResponse>() {
+                @Override
+                public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
+                    if (Utility.utility.catchResponse(getApplicationContext(),response,"")) {
+                        UserResponse userResponse = response.body();
+                        if (userResponse != null) {
+                            if (userResponse.users.size() > 0) {
+                                Utility.utility.showResponseError(getApplicationContext(),getString(R.string.email_already_in_use));
+                                loading.setVisibility(View.GONE);
+                            } else {
+                                registerDriver(name, phone, address, email, password);
+                            }
+                        }
+                    } else {
+                        loading.setVisibility(View.GONE);
+                        Utility.utility.showResponseError(getApplicationContext(),getString(R.string.cannot_validate_email));
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<UserResponse> call, Throwable t) {
+                    loading.setVisibility(View.GONE);
+                    Utility.utility.showConnectivityUnstable(getApplicationContext());
+                }
+            });
+
         }
     }
 
-
-
     //API
     void registerDriver(String name, String phone, String address, String email, String password) {
+        loading.setVisibility(View.VISIBLE);
         MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
         API api = Utility.utility.getAPIWithCookie(cookieJar);
         Driver newDriver = new Driver();
@@ -132,6 +167,8 @@ public class RegisterDriver extends AppCompatActivity {
         callRegisterDriver.enqueue(new Callback<JSONObject>() {
             @Override
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
+                loading.setVisibility(View.GONE);
+                String message = response.message();
                 if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
                     Toast.makeText(getApplicationContext(), "New driver has been registered", Toast.LENGTH_SHORT).show();
                     setResult(RESULT_OK);
@@ -141,6 +178,7 @@ public class RegisterDriver extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JSONObject> call, Throwable t) {
+                loading.setVisibility(View.GONE);
                 Utility.utility.showConnectivityUnstable(getApplicationContext());
             }
         });

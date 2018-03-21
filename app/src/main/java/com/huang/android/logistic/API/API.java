@@ -13,6 +13,7 @@ import com.huang.android.logistic.Model.JobOrder.GetJobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
 import com.huang.android.logistic.Model.JobOrder.JobOrderMetaDataResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderResponse;
+import com.huang.android.logistic.Model.JobOrder.JobOrderSingleResponse;
 import com.huang.android.logistic.Model.JobOrderRoute.JobOrderRouteResponse;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateCreation;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateData;
@@ -22,6 +23,7 @@ import com.huang.android.logistic.Model.Login.LoginUserPermissionResponse;
 import com.huang.android.logistic.Model.Login.VendorLogin;
 import com.huang.android.logistic.Model.ProfilVendor.ProfilResponse;
 import com.huang.android.logistic.Model.Truck.TruckResponse;
+import com.huang.android.logistic.Model.User.UserResponse;
 import com.huang.android.logistic.Model.Vendor.VendorContactPersonData;
 import com.huang.android.logistic.Model.Vendor.VendorContactPersonResponse;
 
@@ -49,6 +51,10 @@ public interface API {
     @POST("/api/resource/API Log")
     Call<JSONObject> sendAPILog(@Body APILogData apiLogData);
 
+    //USER
+    @GET("/api/method/logistic_marketplace.api.validate_email")
+    Call<UserResponse> validateEmail(@Query("email") String email);
+
     //TRUCK
     @GET("/api/resource/Truck?fields=[\"name\",\"nopol\",\"status\",\"type\",\"tahun\",\"volume\",\"merek\",\"note\",\"vendor\",\"lambung\"]")
     Call<TruckResponse> getTruck(@Query("filters") String filters, @Query("limit_start") String start);
@@ -56,6 +62,8 @@ public interface API {
     //JOB ORDER UPDATE
     @GET("/api/method/logistic_marketplace.api.get_job_order_update")
     Call<JobOrderUpdateResponse> getJOUpdate(@Query("job_order") String job_order);
+    @GET("/api/resource/Job Order/{path}")
+    Call<JobOrderSingleResponse> getSpecifiedJO(@Path("path") String name);
     @POST("/api/resource/Job Order Update")
     Call<JobOrderUpdateCreation> insertUpdateJO(@Body JobOrderUpdateData jobOrderUpdateData);
 

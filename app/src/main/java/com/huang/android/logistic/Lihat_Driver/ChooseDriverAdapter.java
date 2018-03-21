@@ -52,8 +52,9 @@ public class ChooseDriverAdapter extends ArrayAdapter<Driver> {
         Utility.utility.setTextView(Nama,driver.nama);
 
         final RoundedImageView profileImage = (RoundedImageView) view.findViewById(R.id.profile_image);
-        if (driver.profile_image.size() > 0) {
-            String imageUrl = driver.profile_image.get(0);
+
+        String imageUrl = driver.profile_image.get(0);
+        if (imageUrl != null) {
             MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(context);
             API api = Utility.utility.getAPIWithCookie(cookieJar);
             Call<ResponseBody> callImage = api.getImage(imageUrl);
@@ -65,7 +66,6 @@ public class ChooseDriverAdapter extends ArrayAdapter<Driver> {
                         if (responseBody != null) {
                             Bitmap bm = BitmapFactory.decodeStream(response.body().byteStream());
                             profileImage.setImageBitmap(bm);
-
                         }
                     }
                 }

@@ -273,6 +273,10 @@ public class Utility {
         if (context == null) return;
         Toast.makeText(context,t.getLocalizedMessage(),Toast.LENGTH_SHORT).show();
     }
+    public void showResponseError(Context context,String msg) {
+        if (context == null) return;
+        Toast.makeText(context,msg,Toast.LENGTH_SHORT).show();
+    }
 
     public String dateToFormatDatabase(Date date) {
         String myFormat = "yyyy-MM-dd HH:mm:ss.SSS";

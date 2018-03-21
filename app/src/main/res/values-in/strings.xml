@@ -185,7 +185,7 @@
     <string name="title_live_maps">Lokasi terakhir</string>
 
     <!--VESION-->
-    <string name="version">Versi 1.6</string>
+    <string name="version">Versi 1.6.2</string>
 
     <string name="warning_location">lokasi wajib diisi</string>
     <string name="warning_cp">contact person wajib diisi</string>
@@ -221,6 +221,11 @@
     <string name="no_image">Tidak ada gambar yang tersedia</string>
     <string name="jo_update_image">Gambar Job Order Update</string>
     <string name="last_position">Posisi Terakhir</string>
+    <string name="job_order_is_already_rejected">Job Order telah ditolak</string>
+    <string name="job_order_has_done">Job Order telah selesai</string>
+    <string name="cannot_update_status">Tidak bisa mengubah status</string>
+    <string name="email_already_in_use">Email telah digunakan</string>
+    <string name="cannot_validate_email">Tidak dapat memvalidasi email</string>
 
 
 </resources>

@@ -51,6 +51,7 @@ import com.huang.android.logistic.Lihat_Pesanan.Base.DetailOrder;
 import com.huang.android.logistic.Maps.DirectionFinderListener;
 import com.huang.android.logistic.Maps.Route;
 import com.huang.android.logistic.Model.Driver.DriverStatus;
+import com.huang.android.logistic.Model.JobOrder.JobOrderSingleResponse;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateCreation;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateData;
 import com.huang.android.logistic.Model.MyCookieJar;
@@ -274,7 +275,41 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 //        } else {
 //
 //        }
-        updateStatus();
+        validate();
+    }
+
+
+    void validate() {
+        klik.setEnabled(false);
+        isLoading = true;
+        loadingProcess.setText("Validate status untuk JOID : " + joid);
+        loading.setVisibility(View.VISIBLE);
+        MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(this);
+        API api = Utility.utility.getAPIWithCookie(cookieJar);
+        Call<JobOrderSingleResponse> callJO = api.getSpecifiedJO(joid);
+        callJO.enqueue(new Callback<JobOrderSingleResponse>() {
+            @Override
+            public void onResponse(Call<JobOrderSingleResponse> call, Response<JobOrderSingleResponse> response) {
+                JobOrderSingleResponse jobOrderSingleResponse = response.body();
+                if (jobOrderSingleResponse != null) {
+                    String currentStatus = jobOrderSingleResponse.jobOrder.status;
+                    if (currentStatus.equals("Di Tolak")) {
+                        Toast.makeText(getApplicationContext(),getString(R.string.cannot_update_status) + " : " + getString(R.string.job_order_is_already_rejected),Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else if (currentStatus.equals("Selesai")){
+                        Toast.makeText(getApplicationContext(),getString(R.string.cannot_update_status) + " : " + getString(R.string.job_order_has_done),Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        updateStatus();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JobOrderSingleResponse> call, Throwable t) {
+
+            }
+        });
     }
     //API
     void updateStatus() {

@@ -223,67 +223,75 @@ public class TrackHistory extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     void drawJOUpdateMarker() {
-
+        boolean isPinned = false;
         double minLat = -1, maxLat = -1, minLong = -1, maxLong = -1;
-        for (int i = 0; i < DetailOrder.jobOrderUpdates.size(); i++) {
-            if (DetailOrder.jobOrderUpdates.get(i).longitude == null || DetailOrder.jobOrderUpdates.get(i).latitude == null) {
-                Toast.makeText(getApplicationContext(), getString(R.string.no_update_location), Toast.LENGTH_SHORT).show();
-            } else {
-                if (DetailOrder.jobOrderUpdates.get(i).latitude.equals("0.0") || DetailOrder.jobOrderUpdates.get(i).equals("0.0")) {
+        if (DetailOrder.jobOrderUpdates != null) {
+            for (int i = 0; i < DetailOrder.jobOrderUpdates.size(); i++) {
+                if (DetailOrder.jobOrderUpdates.get(i).longitude == null || DetailOrder.jobOrderUpdates.get(i).latitude == null) {
                     Toast.makeText(getApplicationContext(), getString(R.string.no_update_location), Toast.LENGTH_SHORT).show();
                 } else {
-                    Double lat = Double.valueOf(DetailOrder.jobOrderUpdates.get(i).latitude), longi = Double.valueOf(DetailOrder.jobOrderUpdates.get(i).longitude);
-                    LatLng currentLocation = new LatLng(lat, longi);
+                    if (DetailOrder.jobOrderUpdates.get(i).latitude.equals("0.0") || DetailOrder.jobOrderUpdates.get(i).equals("0.0")) {
 
-                    int icon = R.drawable.loc;
-                    String statusIndex = DetailOrder.jobOrderUpdates.get(i).status.substring(0, 1);
-                    switch (statusIndex) {
-                        case "1":
-                            icon = R.drawable.loc_1;
-                            break;
-                        case "2":
-                            icon = R.drawable.loc_2;
-                            break;
-                        case "3":
-                            icon = R.drawable.loc_3;
-                            break;
-                        case "4":
-                            icon = R.drawable.loc_4;
-                            break;
-                        case "5":
-                            icon = R.drawable.loc_5;
-                            break;
-                        case "6":
-                            icon = R.drawable.loc_6;
-                            break;
-                    }
-
-                    MarkerOptions marker = new MarkerOptions()
-                            .position(currentLocation)
-                            .title(DetailOrder.jobOrderUpdates.get(i).status)
-                            .snippet(getString(R.string.last_update_on) + " " + Utility.formatDateFromstring(Utility.dateDBLongFormat, Utility.LONG_DATE_TIME_FORMAT, DetailOrder.jobOrderUpdates.get(i).time))
-                            .icon(BitmapDescriptorFactory.fromResource(icon));
-                    markers.add(mMap.addMarker(marker));
-                    if (i == 0) {
-                        minLat = lat;
-                        maxLat = lat;
-                        minLong = longi;
-                        maxLong = longi;
                     } else {
-                        if (lat < minLat) minLat = lat;
-                        else if (lat > maxLat) maxLat = lat;
-                        if (longi < minLong) minLong = longi;
-                        else if (longi > maxLong) maxLong = longi;
+                        Double lat = Double.valueOf(DetailOrder.jobOrderUpdates.get(i).latitude), longi = Double.valueOf(DetailOrder.jobOrderUpdates.get(i).longitude);
+                        LatLng currentLocation = new LatLng(lat, longi);
+
+                        int icon = R.drawable.loc;
+                        String statusIndex = DetailOrder.jobOrderUpdates.get(i).status.substring(0, 1);
+                        switch (statusIndex) {
+                            case "1":
+                                icon = R.drawable.loc_1;
+                                break;
+                            case "2":
+                                icon = R.drawable.loc_2;
+                                break;
+                            case "3":
+                                icon = R.drawable.loc_3;
+                                break;
+                            case "4":
+                                icon = R.drawable.loc_4;
+                                break;
+                            case "5":
+                                icon = R.drawable.loc_5;
+                                break;
+                            case "6":
+                                icon = R.drawable.loc_6;
+                                break;
+                        }
+
+                        MarkerOptions marker = new MarkerOptions()
+                                .position(currentLocation)
+                                .title(DetailOrder.jobOrderUpdates.get(i).status)
+                                .snippet(getString(R.string.last_update_on) + " " + Utility.formatDateFromstring(Utility.dateDBLongFormat, Utility.LONG_DATE_TIME_FORMAT, DetailOrder.jobOrderUpdates.get(i).time))
+                                .icon(BitmapDescriptorFactory.fromResource(icon));
+                        markers.add(mMap.addMarker(marker));
+                        isPinned = true;
+                        if (i == 0) {
+                            minLat = lat;
+                            maxLat = lat;
+                            minLong = longi;
+                            maxLong = longi;
+                        } else {
+                            if (lat < minLat) minLat = lat;
+                            else if (lat > maxLat) maxLat = lat;
+                            if (longi < minLong) minLong = longi;
+                            else if (longi > maxLong) maxLong = longi;
+                        }
+
+                        if (i >= 1) {
+                            Double originLat = Double.valueOf(DetailOrder.jobOrderUpdates.get(i - 1).latitude), originLong = Double.valueOf(DetailOrder.jobOrderUpdates.get(i - 1).longitude);
+                            drawDirection(originLat, originLong, lat, longi);
+                        }
                     }
 
-                    if (i >= 1) {
-                        Double originLat = Double.valueOf(DetailOrder.jobOrderUpdates.get(i - 1).latitude), originLong = Double.valueOf(DetailOrder.jobOrderUpdates.get(i - 1).longitude);
-                        drawDirection(originLat, originLong, lat, longi);
-                    }
                 }
-
             }
         }
+        if (!isPinned) {
+            RelativeLayout mapHolder = (RelativeLayout)findViewById(R.id.mapholder);
+            mapHolder.setVisibility(View.GONE);
+        }
+
         //update driver mark road
         if (lastUpdateDriver != null) {
             Double lat = Double.valueOf(lastUpdateDriver.lat), longi = Double.valueOf(lastUpdateDriver.lo);
@@ -314,6 +322,8 @@ public class TrackHistory extends AppCompatActivity implements OnMapReadyCallbac
         mMap.setMinZoomPreference(9.5f);
 
         focusOnDriver();
+
+
 
     }
 

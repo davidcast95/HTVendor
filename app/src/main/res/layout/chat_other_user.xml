@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             android:text="Admin"
             android:textStyle="bold"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            android:textColor="@color/Black"/>
 
         <TextView
             android:id="@+id/textview_message"
@@ -31,7 +32,8 @@
             android:paddingLeft="15dp"
             android:autoLink="web"
             android:text="Aplikasi Logistics untuk PT. Berkah Angkasa Samudra dengan berbasiskan Android "
-            style="@style/chat_text_message_style"/>
+            style="@style/chat_text_message_style"
+            android:textColor="@color/Black"/>
 
         <TextView
             android:id="@+id/textview_time"
@@ -41,7 +43,8 @@
             android:text="11:15 PM"
             style="@style/chat_timings"
             android:textSize="10dp"
-            android:layout_gravity="bottom|right"/>
+            android:layout_gravity="bottom|right"
+            android:textColor="@color/Grey"/>
 
     </LinearLayout>
 

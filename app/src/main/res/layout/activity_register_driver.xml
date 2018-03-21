@@ -52,6 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/reg_driver_name"
+                    android:singleLine="true"
                     />
             </LinearLayout>
             <LinearLayout
@@ -70,6 +71,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/reg_driver_email"
+                    android:singleLine="true"
                     />
             </LinearLayout>
             <LinearLayout
@@ -88,6 +90,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/reg_driver_phone"
+                    android:singleLine="true"
+                    android:inputType="number"
                     />
             </LinearLayout>
             <LinearLayout
@@ -106,6 +110,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/reg_driver_address"
+                    android:singleLine="true"
                     />
             </LinearLayout>
             <LinearLayout
@@ -138,9 +143,18 @@
                 android:id="@+id/reg_driver_button"/>
         </LinearLayout>
     </LinearLayout>
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/loading"/>
+    <RelativeLayout
+        android:id="@+id/loading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/White">
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
+
+    </RelativeLayout>
+
 </RelativeLayout>
