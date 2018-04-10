@@ -67,6 +67,7 @@ public class ViewDriver extends Fragment implements PagingListView.Pagingable {
         v = inflater.inflate(R.layout.fragment_view_driver, container, false);
         setHasOptionsMenu(true);
 
+        drivers.clear();
         lv=(PagingListView) v.findViewById(R.id.layout);
         noData = (TextView)v.findViewById(R.id.no_data);
         noData.setVisibility(View.GONE);

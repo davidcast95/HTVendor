@@ -184,7 +184,7 @@
     <string name="title_live_maps">Last Location</string>
 
     <!--VESION-->
-    <string name="version">Version 1.6.2</string>
+    <string name="version">Version 1.6.3</string>
     <string name="warning_location">location is required</string>
     <string name="warning_cp">contact person is required</string>
     <string name="warning_item_info">item info is required</string>

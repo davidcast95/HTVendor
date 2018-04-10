@@ -121,7 +121,7 @@ public interface API {
     //VENDOR
     @POST("/api/resource/Vendor Contact Person")
     Call<org.json.JSONObject> insertVendorCP(@Body VendorContactPersonData data);
-    @GET("/api/resource/Vendor Contact Person?fields=[\"vendor\",\"nama\",\"telp\"]")
+    @GET("/api/resource/Vendor Contact Person?fields=[\"name\",\"vendor\",\"nama\",\"telp\"]")
     Call<VendorContactPersonResponse> getPrincipleCP(@Query("filters") String filters);
 
     @GET("/api/method/logistic_marketplace.api.get_user")

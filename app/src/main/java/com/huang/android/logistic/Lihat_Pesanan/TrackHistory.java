@@ -319,7 +319,7 @@ public class TrackHistory extends AppCompatActivity implements OnMapReadyCallbac
 
         LatLng minLoc = new LatLng(minLat,minLong), maxLoc = new LatLng(maxLat, maxLong);
         mMap.setLatLngBoundsForCameraTarget(new LatLngBounds(minLoc, maxLoc));
-        mMap.setMinZoomPreference(9.5f);
+        mMap.setMinZoomPreference(5f);
 
         focusOnDriver();
 

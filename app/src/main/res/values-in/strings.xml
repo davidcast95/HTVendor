@@ -185,7 +185,7 @@
     <string name="title_live_maps">Lokasi terakhir</string>
 
     <!--VESION-->
-    <string name="version">Versi 1.6.2</string>
+    <string name="version">Versi 1.6.3</string>
 
     <string name="warning_location">lokasi wajib diisi</string>
     <string name="warning_cp">contact person wajib diisi</string>

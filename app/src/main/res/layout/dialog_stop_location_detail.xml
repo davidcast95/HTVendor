@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="afterDescendants">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,37 +18,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="@string/type"
-                android:textSize="17dp"
-                android:textStyle="bold"
+                android:textSize="12dp"
                 android:textColor="@color/Grey"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:id="@+id/type"
+                android:textStyle="bold"
+                android:textSize="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:textColor="@color/Grey"/>
+                android:textColor="@color/Black"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="@string/location"
-                android:textSize="17dp"
-                android:textStyle="bold"
+                android:textSize="14dp"
                 android:textColor="@color/Grey"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:id="@+id/stop_location"
+                android:textStyle="bold"
+                android:textSize="12dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:editable="false"
-                android:textColor="@color/Grey"
+                android:textColor="@color/Black"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="@string/cp"
-                android:textSize="17dp"
+                android:textSize="14dp"
                 android:textStyle="bold"
                 android:textColor="@color/Grey"/>
 
@@ -53,59 +58,69 @@
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:text="@string/view_profile_name"
-                android:textStyle="bold"
-                android:layout_marginTop="20dp"
+                android:textSize="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginLeft="8dp"
                 android:textColor="@color/Grey"/>
 
             <TextView
                 android:text=""
+                android:textStyle="bold"
+                android:textSize="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/name"
                 android:singleLine="true"
-                android:textColor="@color/Grey"/>
+                android:textColor="@color/Black"
+                android:layout_marginLeft="8dp"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
-                android:text="@string/view_profile_name"
-                android:textStyle="bold"
+                android:text="@string/view_profile_phone"
+                android:textSize="12dp"
+                android:layout_marginLeft="8dp"
                 android:textColor="@color/Grey"/>
             <TextView
                 android:text=""
+                android:textStyle="bold"
+                android:textSize="16dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
+                android:clickable="true"
                 android:id="@+id/cp"
                 android:singleLine="true"
-                android:textColor="@color/Grey"/>
+                android:textColor="@color/colorPrimaryDark2"
+                android:layout_marginLeft="8dp"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:text="@string/item_info"
-                android:textSize="17dp"
-                android:textStyle="bold"
+                android:textSize="12dp"
                 android:textColor="@color/Grey"/>
             <TextView
                 android:layout_marginTop="4dp"
                 android:id="@+id/item"
+                android:textSize="16dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:textColor="@color/Grey"
+                android:textColor="@color/Black"
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/remark"
-                android:textSize="17dp"
-                android:textStyle="bold"
+                android:textSize="12dp"
                 android:textColor="@color/Grey"/>
             <TextView
+                android:textStyle="bold"
+                android:textSize="16dp"
                 android:layout_marginTop="4dp"
                 android:id="@+id/remark"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
-                android:textColor="@color/Grey"
+                android:textColor="@color/Black"
                 />
 
         </LinearLayout>

@@ -56,7 +56,7 @@ public class ChooseTruck extends AppCompatActivity implements PagingListView.Pag
     SwipeRefreshLayout mSwipeRefreshLayout;
     ChooseTruckAdapter chooseTruckAdapter;
     PagingListView listView;
-    String driver, driver_name, driver_phone, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp, profile_image;
+    String driver, driver_name, driver_phone, joid, from, expected_truck, status, nama_vendor_cp, telp_vendor_cp, vendor_cp, profile_image;
     int strict;
     List<Truck> trucks = new ArrayList<>();
     Truck chosenTruck;
@@ -97,6 +97,7 @@ public class ChooseTruck extends AppCompatActivity implements PagingListView.Pag
         status = getIntent().getStringExtra("status");
         nama_vendor_cp = getIntent().getStringExtra("nama_vendor_cp");
         telp_vendor_cp = getIntent().getStringExtra("telp_vendor_cp");
+        vendor_cp = getIntent().getStringExtra("vendor_cp");
 
         profile_image = getIntent().getStringExtra("profile_image");
 
@@ -284,7 +285,7 @@ public class ChooseTruck extends AppCompatActivity implements PagingListView.Pag
         HashMap<String,String> statusJSON = new HashMap<>();
         String name = Utility.utility.getLoggedName(this);
         statusJSON.put("status", JobOrderStatus.ON_PROGRESS);
-        statusJSON.put("vendor_contact_person", nama_vendor_cp + " ("+name+")");
+        statusJSON.put("vendor_contact_person", vendor_cp);
         statusJSON.put("nama_vendor_cp", nama_vendor_cp);
         statusJSON.put("telp_vendor_cp",telp_vendor_cp);
         Date today = new Date();

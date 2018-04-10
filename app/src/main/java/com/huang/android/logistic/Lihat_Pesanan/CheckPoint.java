@@ -467,6 +467,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 
 
     public void getNextStage() {
+        categories.add("-");
         categories.add("1. Menuju ke Lokasi Muat");
         categories.add("2. Tiba di Lokasi Muat");
         categories.add("3. Proses Muat Selesai");

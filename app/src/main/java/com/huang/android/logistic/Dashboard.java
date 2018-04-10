@@ -119,7 +119,7 @@ public class Dashboard extends Fragment implements PagingListView.Pagingable {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getPendingOrder();
+        refreshItems();
     }
 
     //API

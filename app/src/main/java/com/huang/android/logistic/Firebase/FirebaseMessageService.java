@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.Html;
 import android.util.Log;
@@ -55,6 +56,12 @@ public class FirebaseMessageService extends FirebaseMessagingService {
                 .setContentTitle(title)
                 .setContentText(content)
                 .setContentInfo("Info");
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notificationBuilder.setSmallIcon(R.drawable.notification_icon);
+            notificationBuilder.setColor(getResources().getColor(R.color.colorPrimary));
+        }
+
         String action = data.get("action");
         String job_order = data.get("job_order");
         String vendorToken = Utility.utility.getLoggedName(this).replace(" ","_");

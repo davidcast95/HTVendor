@@ -36,7 +36,7 @@ public class ChooseDriver extends AppCompatActivity implements PagingListView.Pa
     ViewDriverAdapter viewDriverAdapter;
     PagingListView lv;
     TextView noData;
-    String joid,from, expected_truck, status, nama_vendor_cp, telp_vendor_cp;
+    String joid,from, expected_truck, status, nama_vendor_cp, telp_vendor_cp, vendor_cp;
     int strict;
 
     public static List<Driver> drivers = new ArrayList<>();
@@ -49,12 +49,14 @@ public class ChooseDriver extends AppCompatActivity implements PagingListView.Pa
         setContentView(R.layout.activity_pilih_sopir);
         setTitle("Assign Driver");
 
+        drivers.clear();
         joid = getIntent().getStringExtra("joid");
         from = getIntent().getStringExtra("from");
         expected_truck = getIntent().getStringExtra("expected_truck");
         status = getIntent().getStringExtra("status");
         nama_vendor_cp = getIntent().getStringExtra("nama_vendor_cp");
         telp_vendor_cp = getIntent().getStringExtra("telp_vendor_cp");
+        vendor_cp = getIntent().getStringExtra("vendor_cp");
         strict = getIntent().getIntExtra("strict",0);
 
 
@@ -179,6 +181,7 @@ public class ChooseDriver extends AppCompatActivity implements PagingListView.Pa
         intent.putExtra("status",status);
         intent.putExtra("nama_vendor_cp",nama_vendor_cp);
         intent.putExtra("telp_vendor_cp",telp_vendor_cp);
+        intent.putExtra("vendor_cp",vendor_cp);
         intent.putExtra("strict",strict);
         if (choosenDriver.profile_image.size() > 0)
             intent.putExtra("profile_image",choosenDriver.profile_image.get(0));

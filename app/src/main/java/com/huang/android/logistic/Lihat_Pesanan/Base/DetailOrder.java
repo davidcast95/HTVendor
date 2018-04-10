@@ -218,6 +218,7 @@ public class DetailOrder extends AppCompatActivity {
         Utility.utility.setTextView(stopLocationTV,Utility.utility.longformatLocation(new Location(route.distributor_code,route.location,route.city,route.address,route.warehouse_name,"","")));
         Utility.utility.setTextView(nameTV,route.nama);
         Utility.utility.setTextView(cpTV,route.phone);
+        Utility.utility.setDialContactPhone(cpTV, route.phone, this);
         Utility.utility.setTextView(itemTV,route.item_info);
         Utility.utility.setTextView(remarkTV,route.remark);
 
@@ -230,7 +231,7 @@ public class DetailOrder extends AppCompatActivity {
                 .setNegativeButton("Ok",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
+                                dialog.dismiss();
                             }
                         });
 

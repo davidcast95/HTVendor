@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -70,6 +69,7 @@ public class DetailOrderPending extends AppCompatActivity {
     String[] principleCPs;
     Boolean insertedCP = false;
     String from;
+    String chooseVendorCP = "";
     public int listHeight = 0;
 
     @Override
@@ -220,6 +220,7 @@ public class DetailOrderPending extends AppCompatActivity {
         Utility.utility.setTextView(stopLocationTV,Utility.utility.longformatLocation(new Location(route.distributor_code,route.location,route.city,route.address,route.warehouse_name,"","")));
         Utility.utility.setTextView(nameTV,route.nama);
         Utility.utility.setTextView(cpTV,route.phone);
+        Utility.utility.setDialContactPhone(cpTV, route.phone, this);
         Utility.utility.setTextView(itemTV,route.item_info);
         Utility.utility.setTextView(remarkTV,route.remark);
 
@@ -284,6 +285,7 @@ public class DetailOrderPending extends AppCompatActivity {
                 intent.putExtra("status",JobOrderStatus.ON_PROGRESS);
                 intent.putExtra("nama_vendor_cp",nameCP);
                 intent.putExtra("telp_vendor_cp",phoneCP);
+                intent.putExtra("vendor_cp",chooseVendorCP);
                 startActivityForResult(intent,100);
             }
 
@@ -384,7 +386,7 @@ public class DetailOrderPending extends AppCompatActivity {
                     cps = cpResponse.cps;
                     principleCPs = new String[cps.size() + 1];
                     for (int i = 0; i < cps.size(); i++) {
-                        principleCPs[i] = cps.get(i).name + " (" + cps.get(i).phone + ")";
+                        principleCPs[i] = cps.get(i).id;
                     }
                     principleCPs[cps.size()] = getString(R.string.dp_dropdown_add);
                     dropdownCP = (Spinner) findViewById(R.id.vendor_dropdown);
@@ -393,15 +395,18 @@ public class DetailOrderPending extends AppCompatActivity {
                     dropdownCP.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            chooseVendorCP = "";
                             if (cps == null) {
                                 return;
                             }
                             if (i >= cps.size()) {
+                                chooseVendorCP = "";
                                 vendorCP.setEnabled(true);
                                 vendorName.setEnabled(true);
                                 vendorName.setText("");
                                 vendorCP.setText("");
                             } else {
+                                chooseVendorCP = cps.get(i).id;
                                 vendorCP.setEnabled(false);
                                 vendorName.setEnabled(false);
                                 vendorName.setText(cps.get(i).name);
@@ -426,7 +431,7 @@ public class DetailOrderPending extends AppCompatActivity {
     }
 
     void insertCP(String name, String phone) {
-        VendorContactPersonData cpData = new VendorContactPersonData();
+        final VendorContactPersonData cpData = new VendorContactPersonData();
         cpData.name = name;
         cpData.phone = phone;
         cpData.principle = Utility.utility.getLoggedName(this);
@@ -441,6 +446,7 @@ public class DetailOrderPending extends AppCompatActivity {
             public void onResponse(Call<JSONObject> call, Response<JSONObject> response) {
                 if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
                     insertedCP = true;
+                    chooseVendorCP = cpData.name + " (" + cpData.principle + ")";
                     updateStateUI();
                 }
             }
@@ -464,6 +470,7 @@ public class DetailOrderPending extends AppCompatActivity {
                     GetJobOrderResponse jobOrderResponse = response.body();
                     if (jobOrderResponse.jobOrders != null) {
                         jobOrder = jobOrderResponse.jobOrders.get(0);
+
                         TextView principle = (TextView) findViewById(R.id.principle);
                         TextView ref = (TextView) findViewById(R.id.ref_id);
                         TextView joid = (TextView) findViewById(R.id.joid);
@@ -477,12 +484,13 @@ public class DetailOrderPending extends AppCompatActivity {
                         TextView truck_type = (TextView) findViewById(R.id.expected_truck_type);
                         TextView cargoNote = (TextView) findViewById(R.id.cargo_notes);
 
+
                         principle.setText(jobOrder.principle);
 
                         final ImageView profileImage = (ImageView)findViewById(R.id.profile_image);
 
-                        if (jobOrder.principle_image.size() > 0) {
-                            String imageUrl = jobOrder.principle_image.get(0);
+                        String imageUrl = jobOrder.principle_image.get(0);
+                        if (imageUrl != null) {
                             MyCookieJar cookieJar = Utility.utility.getCookieFromPreference(getApplicationContext());
                             API api = Utility.utility.getAPIWithCookie(cookieJar);
                             Call<ResponseBody> callImage = api.getImage(imageUrl);
@@ -503,32 +511,34 @@ public class DetailOrderPending extends AppCompatActivity {
 
                                 }
                             });
+                        } else {
+                            profileImage.setImageDrawable(getResources().getDrawable(R.drawable.order_box));
                         }
 
                         if (jobOrder.ref == null) jobOrder.ref = "";
-                        ref.setText("Ref No : " + jobOrder.ref.replace("\n",""));
+                        ref.setText("Ref No : " + jobOrder.ref.replace("\n", ""));
                         joid.setText(jobOrder.joid);
 
-                        if (jobOrder.routes.size() > 2) {
-                            StopLocationViewerAdapter stopLocationAdapter = new StopLocationViewerAdapter(getApplicationContext(),jobOrder.routes.subList(2,jobOrder.routes.size()),activity);
-                            stopLocationList.setAdapter(stopLocationAdapter);
-                            ViewTreeObserver observer = stopLocationList .getViewTreeObserver();
 
-                            observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                        StopLocationViewerAdapter stopLocationAdapter = new StopLocationViewerAdapter(getApplicationContext(), jobOrder.routes,activity);
+                        stopLocationList.setAdapter(stopLocationAdapter);
+                        ViewTreeObserver observer = stopLocationList.getViewTreeObserver();
 
-                                @Override
-                                public void onGlobalLayout() {
-                                    listHeight = Utility.utility.setAndGetListViewHeightBasedOnChildren(stopLocationList);
-                                }
-                            });
+                        observer.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
 
-                            stopLocationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    dialogStopLocation(jobOrder.routes.subList(2,jobOrder.routes.size()).get(i));
-                                }
-                            });
-                        }
+                            @Override
+                            public void onGlobalLayout() {
+                                listHeight = Utility.utility.setAndGetListViewHeightBasedOnChildren(stopLocationList);
+                            }
+                        });
+
+                        stopLocationList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                dialogStopLocation(jobOrder.routes.get(i));
+                            }
+                        });
+
                         principle_name.setText(jobOrder.principle);
                         principle_cp_name.setText(jobOrder.principle_cp_name);
                         principle_cp_phone.setText(jobOrder.principle_cp_phone);
