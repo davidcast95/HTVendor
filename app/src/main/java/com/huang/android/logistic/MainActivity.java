@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity
 
         GoogleApiAvailability.getInstance().makeGooglePlayServicesAvailable(this);
 
-        String vendor = Utility.utility.getLoggedName(this).replace(" ","_");
+        String vendor = Utility.utility.normalizeStringForFirebaseTopic(Utility.utility.getLoggedName(this));
         FirebaseMessaging.getInstance().subscribeToTopic(vendor);
     }
 

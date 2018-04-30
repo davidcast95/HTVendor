@@ -106,8 +106,8 @@ public class TrackOrderMaps extends AppCompatActivity implements OnMapReadyCallb
 
         for (Route route : routes) {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(route.startLocation, 16));
-            //((TextView) findViewById(R.id.tvDuration)).setText(route.duration.text);
-            //((TextView) findViewById(R.id.tvDistance)).setText(route.distance.text);
+            //((TextView) findViewById(R.name.tvDuration)).setText(route.duration.text);
+            //((TextView) findViewById(R.name.tvDistance)).setText(route.distance.text);
 
             originMarkers.add(mMap.addMarker(new MarkerOptions()
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.order_location_a))

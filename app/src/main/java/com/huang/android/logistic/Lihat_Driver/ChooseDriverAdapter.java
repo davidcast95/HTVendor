@@ -44,11 +44,11 @@ public class ChooseDriverAdapter extends ArrayAdapter<Driver> {
             view=inflater.inflate(R.layout.activity_pilih_sopir_list,parent,false);
         }
 
-//        TextView ID = (TextView)view.findViewById(R.id.id_supir);
+//        TextView ID = (TextView)view.findViewById(R.name.id_supir);
         TextView Nama = (TextView)view.findViewById(R.id.nama);
 
         Driver driver = list.get(position);
-//        ID.setText(list.get(position).id);
+//        ID.setText(list.get(position).name);
         Utility.utility.setTextView(Nama,driver.nama);
 
         final RoundedImageView profileImage = (RoundedImageView) view.findViewById(R.id.profile_image);

@@ -41,7 +41,7 @@
     <!--android:layout_marginLeft="10dp"-->
     <!--android:layout_marginRight="10dp"-->
     <!--android:layout_marginBottom="10dp"-->
-    <!--android:id="@+id/sopir1">-->
+    <!--andrnamed:idname@+id/sopir1">-->
     <!--<ImageView-->
     <!--android:layout_width="50dp"-->
     <!--android:layout_height="50dp"-->

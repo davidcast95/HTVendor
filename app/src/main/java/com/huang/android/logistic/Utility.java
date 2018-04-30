@@ -186,6 +186,9 @@ public class Utility {
         ed.commit();
     }
 
+    public String normalizeStringForFirebaseTopic(String name) {
+        return name.replace(" ","_").replace("-","_").replace("(","").replace(")","").replace(".", "_").replace("@", "_");
+    }
 
     public API getAPIWithCookie(MyCookieJar cookieJar) {
         //create client to get cookies from OkHttp

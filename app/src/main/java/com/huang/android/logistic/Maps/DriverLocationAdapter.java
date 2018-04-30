@@ -30,12 +30,12 @@ public class DriverLocationAdapter extends ArrayAdapter<Driver> {
             view=inflater.inflate(R.layout.fragment_view_driver_location_list,parent,false);
         }
 
-//        TextView ID = (TextView)view.findViewById(R.id.id_supir);
+//        TextView ID = (TextView)view.findViewById(R.name.id_supir);
         TextView Nama = (TextView)view.findViewById(R.id.nama);
         TextView address = (TextView)view.findViewById(R.id.address);
 
         Driver productList = list.get(position);
-//        ID.setText(list.get(position).id);
+//        ID.setText(list.get(position).name);
         Utility.utility.setTextView(Nama,list.get(position).nama);
         Utility.utility.setTextView(address,list.get(position).currentLocation);
 

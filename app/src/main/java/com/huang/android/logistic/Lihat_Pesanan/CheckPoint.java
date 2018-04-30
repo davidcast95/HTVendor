@@ -28,7 +28,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -50,7 +49,6 @@ import com.huang.android.logistic.API.API;
 import com.huang.android.logistic.Lihat_Pesanan.Base.DetailOrder;
 import com.huang.android.logistic.Maps.DirectionFinderListener;
 import com.huang.android.logistic.Maps.Route;
-import com.huang.android.logistic.Model.Driver.DriverStatus;
 import com.huang.android.logistic.Model.JobOrder.JobOrderSingleResponse;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateCreation;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateData;
@@ -58,12 +56,9 @@ import com.huang.android.logistic.Model.MyCookieJar;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
 
-import org.json.JSONObject;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -72,7 +67,6 @@ import java.util.List;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Converter;
 import retrofit2.Response;
 
 public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback, DirectionFinderListener,
@@ -360,7 +354,7 @@ public class CheckPoint extends AppCompatActivity implements OnMapReadyCallback,
 
                     if (Utility.utility.catchResponse(getApplicationContext(), response, json)) {
 
-                        updateJOID = response.body().data.id;
+                        updateJOID = response.body().data.name;
                         if (bufferListImages.size() > 0)
                             loadingProcess.setText("Uploading images...");
                         uploadImage(updateJOID);

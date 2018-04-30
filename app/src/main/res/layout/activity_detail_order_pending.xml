@@ -90,7 +90,7 @@
                             <!--android:layout_width="match_parent"-->
                             <!--android:layout_height="wrap_content"-->
                             <!--android:text="origin"-->
-                            <!--android:id="@+id/origin"-->
+                            <!--andrnamed:idname@+id/origin"-->
                             <!--android:clickable="true"/>-->
                             <!--</LinearLayout>-->
 
@@ -119,7 +119,7 @@
                             <!--android:layout_width="match_parent"-->
                             <!--android:layout_height="wrap_content"-->
                             <!--android:text="destination"-->
-                            <!--android:id="@+id/destination"-->
+                            <!--andrnamed:idname@+id/destination"-->
                             <!--android:clickable="true"/>-->
                             <!--</LinearLayout>-->
                             <include layout="@layout/reuse_stop_location_viewer"/>

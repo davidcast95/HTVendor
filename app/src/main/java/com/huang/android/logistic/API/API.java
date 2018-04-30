@@ -8,6 +8,8 @@ import com.huang.android.logistic.Model.Driver.AllDriverResponse;
 import com.huang.android.logistic.Model.Driver.Driver;
 import com.huang.android.logistic.Model.Driver.DriverBackgroundUpdateResponse;
 import com.huang.android.logistic.Model.Driver.DriverResponse;
+import com.huang.android.logistic.Model.Driver.RouteResponse;
+import com.huang.android.logistic.Model.FirebaseID.FirebaseIDResponse;
 import com.huang.android.logistic.Model.History.HistoryResponse;
 import com.huang.android.logistic.Model.JobOrder.GetJobOrderResponse;
 import com.huang.android.logistic.Model.JobOrder.JobOrderData;
@@ -54,6 +56,8 @@ public interface API {
     //USER
     @GET("/api/method/logistic_marketplace.api.validate_email")
     Call<UserResponse> validateEmail(@Query("email") String email);
+    @GET("/api/method/logistic_marketplace.api.get_firebase_id")
+    Call<FirebaseIDResponse> getFirebaseID(@Query("role") String role);
 
     //TRUCK
     @GET("/api/resource/Truck?fields=[\"name\",\"nopol\",\"status\",\"type\",\"tahun\",\"volume\",\"merek\",\"note\",\"vendor\",\"lambung\"]")
@@ -74,15 +78,18 @@ public interface API {
     //DRIVER
     @GET("/api/method/logistic_marketplace.api.get_driver")
     Call<DriverResponse> getDriver(@Query("vendor") String vendor,@Query("ref") String ref , @Query("start") String start);
-
+    @GET("/api/method/logistic_marketplace.api.get_route")
+    Call<RouteResponse> getRoute(@Query("startjou") String startjou, @Query("endjou") String endjou, @Query("driver") String driver);
+    @GET("/api/method/logistic_marketplace.api.get_last_route")
+    Call<RouteResponse> getLastRoute(@Query("lastjou") String lastjou,@Query("driver") String driver);
     @GET("/api/method/logistic_marketplace.api.get_driver?status=Tersedia")
     Call<DriverResponse> getActiveDriver(@Query("vendor") String vendor,@Query("ref") String ref , @Query("start") String start);
     @GET("/api/resource/Driver?fields=[\"name\",\"nama\",\"email\",\"address\",\"phone\",\"status\"]&limit_page_length=100000")
     Call<AllDriverResponse> getAllDriver(@Query("filters") String filters);
     @POST("/api/resource/Driver")
     Call<JSONObject> registerDriver(@Body Driver newDriver);
-    @PUT("/api/resource/Driver/{id}")
-    Call<JSONObject> updateDriver(@Path("id") String id, @Body HashMap<String , String> change);
+    @PUT("/api/resource/Driver/{name}")
+    Call<JSONObject> updateDriver(@Path("name") String id, @Body HashMap<String , String> change);
     @GET("/api/resource/Driver Background Update?fields=[\"lo\",\"lat\",\"last_update\"]&limit_page_length=1")
     Call<DriverBackgroundUpdateResponse> getBackgroundUpdate(@Query("filters") String filters);
 
@@ -100,8 +107,8 @@ public interface API {
     Call<JobOrderUpdateImageResponse> getJOUpdateImage(@Query("jod_name") String jod_name);
 
     //JOB ORDER
-    @PUT("/api/resource/Job Order/{id}")
-    Call<org.json.JSONObject> updateJobOrder(@Path("id") String id, @Body HashMap<String , String> change);
+    @PUT("/api/resource/Job Order/{name}")
+    Call<org.json.JSONObject> updateJobOrder(@Path("name") String id, @Body HashMap<String , String> change);
 //    @GET("/api/resource/Job Order?fields=[\"modified\",\"reference\",\"status\",\"name\",\"driver_nama\",\"driver_phone\", \"principle\",\"vendor\",\"pick_location\",\"delivery_location\",\"nama_principle_cp\",\"telp_principle_cp\",\"nama_vendor_cp\",\"telp_vendor_cp\",\"pick_date\",\"expected_delivery\",\"goods_information\",\"notes\",\"accept_date\",\"suggest_truck_type\",\"strict\",\"estimate_volume\",\"truck\",\"truck_lambung\",\"truck_type\",\"truck_volume\",\"driver\",\"kota_pengambilan\",\"alamat_pengambilan\",\"kode_distributor_pengambilan\",\"nama_gudang_pengambilan\",\"kota_pengiriman\",\"alamat_pengiriman\",\"kode_distributor_pengiriman\",\"nama_gudang_pengiriman\"]")
 //    Call<JobOrderResponse> getJobOrder(@Query("filters") String filters,@Query("limit_start") String start);
     @GET("/api/method/logistic_marketplace.api.get_job_order")

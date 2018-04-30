@@ -37,12 +37,12 @@ public class ChooseTruckAdapter extends ArrayAdapter<Truck> {
             view=inflater.inflate(R.layout.activity_pilih_truck_list,parent,false);
         }
 
-//        TextView ID = (TextView)view.findViewById(R.id.id_supir);
+//        TextView ID = (TextView)view.findViewById(R.name.id_supir);
         TextView plat = (TextView)view.findViewById(R.id.platnomer);
         TextView tipe = (TextView)view.findViewById(R.id.tipetruck);
 
         Truck productList = list.get(position);
-//        ID.setText(list.get(position).id);
+//        ID.setText(list.get(position).name);
         Utility.utility.setTextView(plat,list.get(position).nopol + " (" +list.get(position).lambung+ ")");
         Utility.utility.setTextView(tipe,list.get(position).type);
 

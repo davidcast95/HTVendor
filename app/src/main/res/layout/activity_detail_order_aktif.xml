@@ -451,7 +451,7 @@
                     <!--android:layout_width="wrap_content"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:text="(Jakarta - Surabaya)"-->
-                    <!--android:id="@+id/rute"-->
+                    <!--andrnamed:idname@+id/rute"-->
                     <!--android:textSize="10dp"/>-->
                     <!--</LinearLayout>-->
                     <!--<LinearLayout-->
@@ -543,7 +543,7 @@
                     <!--android:text="Estimated Time Departure"/>-->
 
                     <!--<TextView-->
-                    <!--android:id="@+id/etd"-->
+                    <!--andrnamed:idname@+id/etd"-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:textAlignment="textEnd"-->
@@ -559,7 +559,7 @@
                     <!--android:layout_marginLeft="7dp"-->
                     <!--android:text="Estimated Time Arrival"/>-->
                     <!--<TextView-->
-                    <!--android:id="@+id/eta"-->
+                    <!--andrnamed:idname@+id/eta"-->
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:textAlignment="textEnd"-->

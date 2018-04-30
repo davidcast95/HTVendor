@@ -11,7 +11,7 @@ import java.util.List;
 
 public class JobOrderUpdateData {
     @SerializedName("name")
-    public String id;
+    public String name;
     @SerializedName("waktu")
     public String time;
     @SerializedName("job_order")

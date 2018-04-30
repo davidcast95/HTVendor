@@ -83,7 +83,7 @@ public class ViewDriver extends Fragment implements PagingListView.Pagingable {
             }
         });
 
-//        LinearLayout button = (LinearLayout) v.findViewById(R.id.sopir1);
+//        LinearLayout button = (LinearLayout) v.findViewById(R.name.sopir1);
 //        button.setOnClickListener(new View.OnClickListener()
 //        {
 //            @Override

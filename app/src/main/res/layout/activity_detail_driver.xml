@@ -125,7 +125,7 @@
                     <!--android:layout_width="match_parent"-->
                     <!--android:layout_height="wrap_content"-->
                     <!--android:textAlignment="textEnd"-->
-                    <!--android:id="@+id/note"-->
+                    <!--andrnamed:idname@+id/note"-->
                     <!--android:text="Dalam Perjalanan"/>-->
             <!--</LinearLayout>-->
             <!--<View-->

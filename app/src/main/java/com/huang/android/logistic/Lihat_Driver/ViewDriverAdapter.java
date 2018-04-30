@@ -44,12 +44,12 @@ public class ViewDriverAdapter extends ArrayAdapter<Driver> {
             view=inflater.inflate(R.layout.fragment_view_driver_list,parent,false);
         }
 
-//        TextView ID = (TextView)view.findViewById(R.id.id_supir);
+//        TextView ID = (TextView)view.findViewById(R.name.id_supir);
         TextView Nama = (TextView)view.findViewById(R.id.nama);
         TextView status = (TextView)view.findViewById(R.id.driver_status);
 
         Driver driver = list.get(position);
-//        ID.setText(list.get(position).id);
+//        ID.setText(list.get(position).name);
         Utility.utility.setTextView(Nama,driver.nama);
         Utility.utility.setTextView(status,driver.status);
 

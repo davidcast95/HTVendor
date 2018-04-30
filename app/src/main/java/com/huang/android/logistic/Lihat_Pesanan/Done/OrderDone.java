@@ -126,25 +126,26 @@ public class OrderDone extends Fragment implements PagingListView.Pagingable {
             @Override
             public void onResponse(Call<GetJobOrderResponse> call, Response<GetJobOrderResponse> response) {
                 loading.setVisibility(View.GONE);
-                if (Utility.utility.catchResponse(getActivity().getApplicationContext(),response, "")) {
-                    GetJobOrderResponse jobOrderResponse = response.body();
-                    if (jobOrderResponse.jobOrders != null) {
-                        onOrderDoneAdapter.addAll(jobOrderResponse.jobOrders);
-                        lv.onFinishLoading(true,jobOrderResponse.jobOrders);
+                if (getActivity().getApplicationContext() != null) {
+                    if (Utility.utility.catchResponse(getActivity().getApplicationContext(), response, "")) {
+                        GetJobOrderResponse jobOrderResponse = response.body();
+                        if (jobOrderResponse.jobOrders != null) {
+                            onOrderDoneAdapter.addAll(jobOrderResponse.jobOrders);
+                            lv.onFinishLoading(true, jobOrderResponse.jobOrders);
 
-                        loading.setVisibility(View.GONE);
+                            loading.setVisibility(View.GONE);
+                        } else {
+                            lv.onFinishLoading(false, null);
+                        }
+                        if (jobOrders.size() == 0) {
+                            noData.setVisibility(View.VISIBLE);
+                        } else {
+                            noData.setVisibility(View.GONE);
+                        }
+                        onItemsLoadComplete();
                     } else {
-                        lv.onFinishLoading(false, null);
+                        Utility.utility.showConnectivityUnstable(getActivity().getApplicationContext());
                     }
-                    if (jobOrders.size() == 0) {
-                        noData.setVisibility(View.VISIBLE);
-                    }
-                    else {
-                        noData.setVisibility(View.GONE);
-                    }
-                    onItemsLoadComplete();
-                } else {
-                    Utility.utility.showConnectivityUnstable(getActivity().getApplicationContext());
                 }
 
             }

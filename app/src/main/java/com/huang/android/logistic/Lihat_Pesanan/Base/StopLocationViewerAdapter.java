@@ -55,7 +55,7 @@ public class StopLocationViewerAdapter extends ArrayAdapter<JobOrderRouteData> {
         TextView wareHouseTitle = (TextView) view.findViewById(R.id.warehouse_name);
         ImageView dropIV = (ImageView)view.findViewById(R.id.drop_icon);
         ImageView pickupIV = (ImageView)view.findViewById(R.id.pickup_icon);
-//        TextView locationDetails = (TextView)view.findViewById(R.id.list_location_details);
+//        TextView locationDetails = (TextView)view.findViewById(R.name.list_location_details);
 
         if (list.get(position) == null) return view;
         if (list.get(position).distributor_code == null)

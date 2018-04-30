@@ -2,7 +2,6 @@ package com.huang.android.logistic.Lihat_Pesanan;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.huang.android.logistic.Lihat_Pesanan.Base.DetailOrder;
 import com.huang.android.logistic.Lihat_Pesanan.Gallery.GalleryActivity;
-import com.huang.android.logistic.Maps.TrackOrderMaps;
 import com.huang.android.logistic.Model.JobOrderUpdate.JobOrderUpdateData;
 import com.huang.android.logistic.R;
 import com.huang.android.logistic.Utility;
@@ -87,7 +85,7 @@ public class TrackHistoryAdapter extends ArrayAdapter<JobOrderUpdateData> {
             @Override
             public void onClick(View view) {
                 Intent gallery = new Intent(getContext(), GalleryActivity.class);
-                gallery.putExtra("jod_name", list.get(position).id);
+                gallery.putExtra("jod_name", list.get(position).name);
                 gallery.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 getContext().startActivity(gallery);
             }
